@@ -667,6 +667,9 @@ msgstr "CID HEX (Cellmapper)"
 msgid "Cell ID Information"
 msgstr "Informacje o identyfikatorze komórki"
 
+msgid "Modem"
+msgstr "Modem"
+
 msgid "Detailed Cell ID information with formats for different tools and applications."
 msgstr "Szczegółowe informacje o identyfikatorze komórki w formatach dla różnych narzędzi i aplikacji."
 

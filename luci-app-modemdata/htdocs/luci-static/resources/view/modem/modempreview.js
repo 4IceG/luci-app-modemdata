@@ -32,6 +32,142 @@ let _sigModalTimer = null;
 let _sigInflight = false;
 let _sigModalIndex = null;
 
+function addDarkModeStyles() {
+  const style = document.createElement('style');
+  style.type = 'text/css';
+  style.textContent = `
+    :root {
+      /* normal */
+      --connection-connected-bg: #34c759;
+      --connection-disconnected-bg: #7f8c8d;
+      --connection-text: #ffffff;
+      --signal-excellent-bg: #34c759;
+      --signal-good-bg: #FFFF00;
+      --signal-fair-bg: #FFA500;
+      --signal-poor-bg: #e74c3c;
+      --signal-nodata-bg: #7f8c8d;
+      --signal-text-light: #000000;
+      --signal-text-dark: #ffffff;
+      --signal-shadow: 3px 3px 8px rgba(0, 0, 0, 0.7);
+      --signal-yellow-shadow: 2px 2px 5px rgba(128, 128, 128, 0.5);
+    }
+    
+    :root[data-darkmode="true"] {
+      --connection-connected-bg: rgba(46, 204, 113, 0.28);
+      --connection-disconnected-bg: rgba(255, 255, 255, 0.12);
+      --connection-text: #e5e7eb;
+      --signal-excellent-bg: rgba(52, 199, 89, 0.25);
+      --signal-good-bg: rgba(255, 255, 0, 0.22);
+      --signal-fair-bg: rgba(255, 165, 0, 0.25);
+      --signal-poor-bg: rgba(231, 76, 60, 0.25);
+      --signal-nodata-bg: rgba(255, 255, 255, 0.1);
+      --signal-text-light: #e5e7eb;
+      --signal-text-dark: #e5e7eb;
+      --signal-shadow: 0 1px 2px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.22);
+      --signal-yellow-shadow: 0 1px 2px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.22);
+    }
+
+    .connection-status {
+      background-color: var(--connection-disconnected-bg);
+      color: var(--connection-text);
+      text-shadow: 0 1px 2px rgba(0,0,0,.4), 0 2px 6px rgba(0,0,0,.25);
+      padding: 2px 5px;
+      border-radius: 4px;
+      min-width: 92px;
+      max-width: 92px;
+      text-align: center;
+      white-space: nowrap;
+      font-weight: 500;
+      font-size: 12px;
+      display: inline-block;
+      border: 1px solid transparent;
+    }
+    
+    :root[data-darkmode="true"] .connection-status--connected {
+      background-color: var(--connection-connected-bg);
+      border: 1px solid rgba(46, 204, 113, 0.6);
+    }
+    
+    :root[data-darkmode="true"] .connection-status--disconnected {
+      background-color: var(--connection-disconnected-bg);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .connection-status--connected {
+      background-color: var(--connection-connected-bg);
+    }
+    
+    .connection-status--disconnected {
+      background-color: var(--connection-disconnected-bg);
+    }
+
+    .signal-badge {
+      padding: 3px 10px;
+      border-radius: 12px;
+      min-width: 80px;
+      width: 80px;
+      text-align: center;
+      white-space: nowrap;
+      font-weight: 500;
+      font-size: 12px;
+      display: inline-block;
+      border: 1px solid transparent;
+    }
+    
+    .signal-badge--excellent {
+      background-color: var(--signal-excellent-bg);
+      color: var(--signal-text-dark);
+      text-shadow: var(--signal-shadow);
+    }
+    
+    .signal-badge--good {
+      background-color: var(--signal-good-bg);
+      color: var(--signal-text-light);
+      text-shadow: var(--signal-yellow-shadow);
+    }
+    
+    .signal-badge--fair {
+      background-color: var(--signal-fair-bg);
+      color: var(--signal-text-dark);
+      text-shadow: var(--signal-shadow);
+    }
+    
+    .signal-badge--poor {
+      background-color: var(--signal-poor-bg);
+      color: var(--signal-text-dark);
+      text-shadow: var(--signal-shadow);
+    }
+    
+    .signal-badge--nodata {
+      background-color: var(--signal-nodata-bg);
+      color: var(--signal-text-dark);
+      text-shadow: var(--signal-shadow);
+    }
+    
+    /* obwódki dla sygnałów tylko w ciemnym motywie */
+    :root[data-darkmode="true"] .signal-badge--excellent {
+      border: 1px solid rgba(52, 199, 89, 0.6);
+    }
+    
+    :root[data-darkmode="true"] .signal-badge--good {
+      border: 1px solid rgba(255, 255, 0, 0.5);
+    }
+    
+    :root[data-darkmode="true"] .signal-badge--fair {
+      border: 1px solid rgba(255, 165, 0, 0.6);
+    }
+    
+    :root[data-darkmode="true"] .signal-badge--poor {
+      border: 1px solid rgba(231, 76, 60, 0.6);
+    }
+    
+    :root[data-darkmode="true"] .signal-badge--nodata {
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+  `;
+  document.head.appendChild(style);
+}
+
 function setUpdateMessage(el, sec) {
   if (!el) return;
 
@@ -103,7 +239,6 @@ function updateDataTick(runFetchFn) {
   if (interval && sec === 0 && typeof runFetchFn === 'function') {
     return runFetchFn();
   }
-
   return Promise.resolve();
 }
 
@@ -546,7 +681,7 @@ async function openBasicSignalsModal(modemIndex) {
     _progressValueDiv('bs_sxx',  'SINR/SNR', '(Signal to Interference+Noise / Signal to Noise)', 'bs_bar_sxx', true),
     _progressValueDiv('bs_w_rssi', 'RSSI', '(Received Signal Strength Indicator)', 'bs_bar_w_rssi', false),
     _progressValueDiv('bs_rscp',   'RSCP', '(Received Signal Code Power)', 'bs_bar_rscp', false),
-    _progressValueDiv('bs_ecio',   'EC/IO', '(Energy per Chip / Interference)', 'bs_bar_ecio', false)
+    _progressValueDiv('bs_ecio',   'ECIO', '(Energy per Chip / Interference)', 'bs_bar_ecio', false)
   ]);
 
   ui.showModal(_('Primary band signal levels') + ' - ' + _('Modem') + ' #' + (modemIndex+1), [
@@ -689,7 +824,6 @@ async function handleDownloadAction(evOrBtn) {
 }
 
 function handleAction(evOrBtn) {
-  // wyciągnij index modemu bez helpera
   let modemIndex = null;
   const t = (evOrBtn && evOrBtn.target) ? evOrBtn.target : evOrBtn;
 
@@ -770,7 +904,6 @@ function handleAction(evOrBtn) {
     }
   });
 }
-
 
 function updateTableToValues(ev, modemIndex) {
   let table = document.getElementById('lteTable_' + modemIndex);
@@ -870,40 +1003,39 @@ function getSignalLabel(value, type) {
 }
 
 function signalCell(value, label, statusColor) {
-  let colors = {
-    green: '#34c759',
-    orange: '#FFA500',
-    yellow: '#FFFF00',
-    red: '#e74c3c',
-    gray: '#7f8c8d'
-  };
-  let color = colors[statusColor] || '#7f8c8d';
-  let textColor = (statusColor === 'green' || statusColor === 'red' || statusColor === 'orange') ? '#ffffff' : '#000000';
-  let textShadow = (statusColor === 'yellow')
-    ? '2px 2px 5px rgba(128, 128, 128, 0.5)'
-    : (textColor === '#ffffff' ? '3px 3px 8px rgba(0, 0, 0, 0.7)' : 'none');
+  let cssClass = 'signal-badge';
+  
+  switch (statusColor) {
+    case 'green':  cssClass += ' signal-badge--excellent'; break;
+    case 'yellow': cssClass += ' signal-badge--good'; break;
+    case 'orange': cssClass += ' signal-badge--fair'; break;
+    case 'red':    cssClass += ' signal-badge--poor'; break;
+    default:       cssClass += ' signal-badge--nodata'; break;
+  }
 
   return E('div', { style: 'display:flex;align-items:center;gap:6px;font-size:12px;' }, [
-    E('span', {
-      style: 'background-color:'+color+';color:'+textColor+';padding:3px 10px;border-radius:12px;min-width:80px;width:80px;text-align:center;white-space:nowrap;font-weight:500;text-shadow:'+textShadow+';'
-    }, value),
+    E('span', { 'class': cssClass }, value),
     E('span', { style: 'font-size:12px;font-weight:light;white-space:nowrap;' }, label)
   ]);
 }
 
 function createDataConnectionStateElement(stateId, status) {
-  let statusInfo = {
-    CONNECTED:    { label: _('Connected'),    color: '#34c759', textColor: '#ffffff' },
-    DISCONNECTED: { label: _('Disconnected'), color: '#7f8c8d', textColor: '#ffffff' }
-  };
-  let info = statusInfo[status] || statusInfo.DISCONNECTED;
-  let textShadow = '0 1px 2px rgba(0,0,0,.4),0 2px 6px rgba(0,0,0,.25)';
+  let cssClass = 'connection-status';
+  let label = '';
+  
+  if (status === 'CONNECTED') {
+    cssClass += ' connection-status--connected';
+    label = _('Connected');
+  } else {
+    cssClass += ' connection-status--disconnected';  
+    label = _('Disconnected');
+  }
 
   return E('div', { style: 'display:flex;font-size:12px;' }, [
     E('span', {
       id: stateId,
-      style: 'background-color:'+info.color+';color:'+info.textColor+';padding:2px 5px;border-radius:4px;min-width:92px;max-width:92px;text-align:center;white-space:nowrap;font-weight:500;text-shadow:'+textShadow+';'
-    }, info.label)
+      'class': cssClass
+    }, label)
   ]);
 }
 
@@ -1433,6 +1565,8 @@ return view.extend({
   },
 
   render: function (data) {
+    addDarkModeStyles();
+    
     let sections   = uci.sections('defmodems', 'defmodems') || [];
     let sectionsxt = uci.sections('modemdata', 'modemdata') || [];
 
