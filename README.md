@@ -284,6 +284,8 @@ LuCI JS interface for [modemdata](https://github.com/obsy/modemdata) package. In
 
 ![](https://github.com/4IceG/Personal_data/blob/master/zrzuty/modemdata/mdlast3a.png?raw=true)
 
+<img width="1045" height="779" alt="dark" src="https://github.com/user-attachments/assets/6730506d-0103-4e0e-a63d-a6b6d4698f53" />
+
 ![](https://github.com/4IceG/Personal_data/blob/master/zrzuty/modemdata/mdlast3b.png?raw=true)
 
 ![](https://github.com/4IceG/Personal_data/blob/master/zrzuty/modemdata/mdlast3c.png?raw=true)
