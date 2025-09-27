@@ -643,26 +643,29 @@ msgstr "Urządzenia nie znaleziono"
 msgid "Click to view Cell ID details"
 msgstr "Kliknij, aby wyświetlić szczegóły identyfikatora komórki"
 
-msgid "Cell ID (Decimal)"
-msgstr "Identyfikator komórki (dziesiętny)"
+msgid "Cell ID (dec)"
+msgstr "Identyfikator komórki (dec)"
 
-msgid "Cell ID (Hexadecimal)"
-msgstr "Identyfikator komórki (szesnastkowy)"
+msgid "Cell ID (hex)"
+msgstr "Identyfikator komórki (hex)"
 
-msgid "eNB ID (Hex)"
-msgstr "Identyfikator eNB (szesnastkowy)"
+msgid "eNB ID (hex)"
+msgstr "Identyfikator eNB (hex)"
 
-msgid "Sector ID (Hex)"
-msgstr "Identyfikator sektora (szesnastkowy)"
+msgid "Sector ID (hex)"
+msgstr "Identyfikator sektora (hex)"
 
-msgid "eNB ID (Decimal)"
-msgstr "Identyfikator eNB (dziesiętny)"
+msgid "eNB ID (dec)"
+msgstr "Identyfikator eNB (dec)"
 
-msgid "Sector ID (Decimal)"
-msgstr "Identyfikator sektora (dziesiętny)"
+msgid "Sector ID (dec)"
+msgstr "Identyfikator sektora (dec)"
 
-msgid "CID HEX (Cellmapper)"
-msgstr "CID HEX (Cellmapper)"
+msgid "Cell ID (hex) for CellMapper"
+msgstr "Identyfikator komórki (hex) dla strony CellMapper"
+
+msgid "Cell ID (dec) for CellMapper"
+msgstr "Identyfikator komórki (dec) dla strony CellMapper"
 
 msgid "Cell ID Information"
 msgstr "Informacje o identyfikatorze komórki"

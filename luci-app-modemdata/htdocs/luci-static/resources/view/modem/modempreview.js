@@ -579,49 +579,49 @@ async function openCellIdModal(modemIndex) {
 
     const fields = [
       E('div', { 'class': 'cbi-value' }, [
-        E('label', { 'class': 'cbi-value-title' }, [ _('Cell ID (Decimal)') ]),
+        E('label', { 'class': 'cbi-value-title' }, [ _('Cell ID (dec)') ]),
         E('div', { 'class': 'cbi-value-field' },
           E('input', { 'class': 'cbi-input-text', 'readonly': 'readonly', 'value': cidDec || '-' }, null)
         )
       ]),
       E('div', { 'class': 'cbi-value' }, [
-        E('label', { 'class': 'cbi-value-title' }, [ _('Cell ID (Hexadecimal)') ]),
+        E('label', { 'class': 'cbi-value-title' }, [ _('Cell ID (hex)') ]),
         E('div', { 'class': 'cbi-value-field' },
           E('input', { 'class': 'cbi-input-text', 'readonly': 'readonly', 'value': cidHex || '-' }, null)
         )
       ]),
       E('div', { 'class': 'cbi-value' }, [
-        E('label', { 'class': 'cbi-value-title' }, [ _('eNB ID (Hex)') ]),
+        E('label', { 'class': 'cbi-value-title' }, [ _('eNB ID (hex)') ]),
         E('div', { 'class': 'cbi-value-field' },
           E('input', { 'class': 'cbi-input-text', 'readonly': 'readonly', 'value': enbh || '-' }, null)
         )
       ]),
       E('div', { 'class': 'cbi-value' }, [
-        E('label', { 'class': 'cbi-value-title' }, [ _('Sector ID (Hex)') ]),
+        E('label', { 'class': 'cbi-value-title' }, [ _('Sector ID (hex)') ]),
         E('div', { 'class': 'cbi-value-field' },
           E('input', { 'class': 'cbi-input-text', 'readonly': 'readonly', 'value': sech || '-' }, null)
         )
       ]),
       E('div', { 'class': 'cbi-value' }, [
-        E('label', { 'class': 'cbi-value-title' }, [ _('eNB ID (Decimal)') ]),
+        E('label', { 'class': 'cbi-value-title' }, [ _('eNB ID (dec)') ]),
         E('div', { 'class': 'cbi-value-field' },
           E('input', { 'class': 'cbi-input-text', 'readonly': 'readonly', 'value': enb.toString() || '-' }, null)
         )
       ]),
       E('div', { 'class': 'cbi-value' }, [
-        E('label', { 'class': 'cbi-value-title' }, [ _('Sector ID (Decimal)') ]),
+        E('label', { 'class': 'cbi-value-title' }, [ _('Sector ID (dec)') ]),
         E('div', { 'class': 'cbi-value-field' },
           E('input', { 'class': 'cbi-input-text', 'readonly': 'readonly', 'value': sec.toString() || '-' }, null)
         )
       ]),
       E('div', { 'class': 'cbi-value' }, [
-        E('label', { 'class': 'cbi-value-title' }, [ _('CID HEX (Cellmapper)') ]),
+        E('label', { 'class': 'cbi-value-title' }, [ _('Cell ID (hex) for CellMapper') ]),
         E('div', { 'class': 'cbi-value-field' },
           E('input', { 'class': 'cbi-input-text', 'readonly': 'readonly', 'value': cidHexCellmapper || '-' }, null)
         )
       ]),
       E('div', { 'class': 'cbi-value' }, [
-        E('label', { 'class': 'cbi-value-title' }, [ _('CID DEC (Cellmapper)') ]),
+        E('label', { 'class': 'cbi-value-title' }, [ _('Cell ID (dec) for CellMapper') ]),
         E('div', { 'class': 'cbi-value-field' },
           E('input', { 'class': 'cbi-input-text', 'readonly': 'readonly', 'value': cidDecCellmapper || '-' }, null)
         )
@@ -1170,62 +1170,62 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
             return unitMatch ? (first + ' ' + unitMatch[1]) : first;
           };
 
-          const makeBwCell = (ul, dl, fallback) => {
-              const haveUL = (ul && String(ul).trim() !== '-' && String(ul).trim() !== '');
-              const haveDL = (dl && String(dl).trim() !== '-' && String(dl).trim() !== '');
+            const makeBwCell = (ul, dl, fallback) => {
+            const haveUL = (ul && String(ul).trim() !== '-' && String(ul).trim() !== '');
+            const haveDL = (dl && String(dl).trim() !== '-' && String(dl).trim() !== '');
 
-              if (haveUL && haveDL) {
+            if (haveUL && haveDL) {
                 return E('div', {}, [
-                  _('UL: ' + ul),
-                  E('br', {}),
-                  _('DL: ' + dl)
-                ]);
-              }
-              if (haveUL) {
-                return E('div', {}, [_('UL: ' + ul)]);
-              }
-              if (haveDL) {
-                return E('div', {}, [_('DL: ' + dl)]);
-              }
-
-              return typeof fallback === 'string'
-                ? E('div', {}, _(fallback))
-                : (fallback ?? E('div', {}, _('-')));
-          };
-
-          for (let i = 0; i < bands.length; i++) {
-            const bandKey = bands[i]['key'];
-
-            let bandLabel = '';
-            if (bandKey === 'Primary band') {
-              bandLabel = 'PCC';
-            } else {
-              const bandIndexM = bandKey.match(/\d+/);
-              if (bandIndexM) bandLabel = 'SCC' + bandIndexM[0];
-            }
-
-            const rawBandVal = bands[i]['value'] || '-';
-            const parsedBand = cutBeforeAt(rawBandVal);
-            const parsedBW   = (String(rawBandVal).split('@')[1] || '').trim() || '-';
-
-            let bandValueForRow = parsedBand;
-            let bandwidthForRow = parsedBW;
-
-            if (bandKey === 'Primary band' && !hasSCC) {
-              const haveUL = !!bwULFromAddon;
-              const haveDL = !!bwDLFromAddon;
-              const haveBothBW = haveUL && haveDL;
-
-              if (haveBothBW) {
-                const src = primaryBandFromAddon || rawBandVal || '';
-                bandValueForRow = cutBeforeAt(src);
-                bandwidthForRow = makeBwCell(bwULFromAddon, bwDLFromAddon, '-');
-              } else {
-                if (primaryBandFromAddon) {
-                  bandValueForRow = cutBeforeAt(primaryBandFromAddon);
+                            _('UL: ' + ul),
+                       E('br', {}),
+                            _('DL: ' + dl)
+                    ]);
                 }
-                bandwidthForRow = makeBwCell(bwULFromAddon, bwDLFromAddon, parsedBW || '-');
-              }
+            if (haveUL) {
+                return E('div', {}, [_('UL: ' + ul)]);
+            }
+            if (haveDL) {
+                return E('div', {}, [_('DL: ' + dl)]);
+            }
+                return typeof fallback === 'string'
+                    ? E('div', {}, _(fallback))
+                    : (fallback ?? E('div', {}, _('-')));
+            };
+
+              for (let i = 0; i < bands.length; i++) {
+                const bandKey = bands[i]['key'];
+
+                let bandLabel = '';
+                if (bandKey === 'Primary band') {
+                  bandLabel = 'PCC';
+                } else {
+                  const bandIndexM = bandKey.match(/\d+/);
+                  if (bandIndexM) bandLabel = 'SCC' + bandIndexM[0];
+                }
+
+                const rawBandVal = bands[i]['value'] || '-';
+                const parsedBand = cutBeforeAt(rawBandVal);
+                const parsedBW   = (String(rawBandVal).split('@')[1] || '').trim() || '-';
+
+                let bandValueForRow = parsedBand;
+                let bandwidthForRow = parsedBW;
+
+                if (bandKey === 'Primary band' && !hasSCC) {
+                  const haveUL = !!bwULFromAddon;
+                  const haveDL = !!bwDLFromAddon;
+                  const haveAnyBW = haveUL || haveDL;
+
+                  if (haveAnyBW) {
+                    // BW (UL and/or DL)
+                    const src = primaryBandFromAddon || rawBandVal || '';
+                    bandValueForRow = cutBeforeAt(src);
+                    bandwidthForRow = makeBwCell(bwULFromAddon, bwDLFromAddon, '-');
+                  } else {
+                    if (primaryBandFromAddon) {
+                      bandValueForRow = cutBeforeAt(primaryBandFromAddon);
+                    }
+                    bandwidthForRow = makeBwCell(bwULFromAddon, bwDLFromAddon, parsedBW || '-');
+                  }
             }
             bandValueForRow = cutBeforeAt(bandValueForRow);
 
