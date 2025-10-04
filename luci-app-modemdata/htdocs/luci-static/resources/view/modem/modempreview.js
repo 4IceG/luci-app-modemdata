@@ -1110,19 +1110,34 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
         let modeRaw   = json?.[2]?.mode || '';
         let modeLower = modeRaw.toLowerCase();
 
+        const isPrimaryBand = (key) => {
+          return key && String(key).toLowerCase().includes('primary');
+        };
+
         const bandsFiltered = addonArr.filter(item =>
-          item && (item['key'] === 'Primary band' || /^\(S\d+\) band$/.test(item['key']))
+          item && (isPrimaryBand(item['key']) || /^\(S\d+\) band$/.test(item['key']))
         );
-
-        const primaryBandFromAddon = getAddon('Primary band');
-        const bwULFromAddon        = getAddon('Bandwidth UL');
-        const bwDLFromAddon        = getAddon('Bandwidth DL');
-
-        const hasSCC = bandsFiltered.some(b => b && /^\(S\d+\) band$/.test(b['key']));
 
         const cutBeforeAt = (str) => {
           const s = String(str ?? '');
           return s.split('@')[0].trim() || '-';
+        };
+
+        const extractBwFromAt = (str) => {
+          const s = String(str ?? '');
+          const parts = s.split('@');
+          if (parts.length > 1) {
+            return parts[1].trim();
+          }
+          return '';
+        };
+
+        const isValidBw = (bw) => {
+          if (!bw) return false;
+          const s = String(bw).trim();
+          if (s === '' || s === '-') return false;
+          if (/^\s*MHz\s*$/.test(s)) return false;
+          return true;
         };
 
         if (!modeLower.match(/lte|5g/) && bandsFiltered.length === 0) {
@@ -1154,8 +1169,11 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
           if (wcdmaTable) wcdmaTable.style.display = 'none';
 
           let bands = bandsFiltered.slice();
-          if (bands.length === 0 && primaryBandFromAddon) {
-            bands.push({ 'key': 'Primary band', 'value': primaryBandFromAddon });
+          const primaryBandFromAddon = addonArr.find(item => item && isPrimaryBand(item['key']));
+          const primaryBandValue = primaryBandFromAddon ? primaryBandFromAddon['value'] : null;
+          
+          if (bands.length === 0 && primaryBandValue) {
+            bands.push({ 'key': 'Primary band', 'value': primaryBandValue });
           }
           if (bands.length === 0) {
             bands.push({ 'key': 'Primary band', 'value': _('(no data)') });
@@ -1170,64 +1188,80 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
             return unitMatch ? (first + ' ' + unitMatch[1]) : first;
           };
 
-            const makeBwCell = (ul, dl, fallback) => {
-            const haveUL = (ul && String(ul).trim() !== '-' && String(ul).trim() !== '');
-            const haveDL = (dl && String(dl).trim() !== '-' && String(dl).trim() !== '');
+          const makeBwCell = (ul, dl, fallback) => {
+            const haveUL = isValidBw(ul);
+            const haveDL = isValidBw(dl);
 
             if (haveUL && haveDL) {
-                return E('div', {}, [
-                            _('UL: ' + ul),
-                       E('br', {}),
-                            _('DL: ' + dl)
-                    ]);
-                }
+              return E('div', {}, [
+                _('UL: ' + ul),
+                E('br', {}),
+                _('DL: ' + dl)
+              ]);
+            }
             if (haveUL) {
-                return E('div', {}, [_('UL: ' + ul)]);
+              return E('div', {}, [_('UL: ' + ul)]);
             }
             if (haveDL) {
-                return E('div', {}, [_('DL: ' + dl)]);
+              return E('div', {}, [_('DL: ' + dl)]);
             }
-                return typeof fallback === 'string'
-                    ? E('div', {}, _(fallback))
-                    : (fallback ?? E('div', {}, _('-')));
-            };
+            return typeof fallback === 'string'
+              ? E('div', {}, _(fallback))
+              : (fallback ?? E('div', {}, _('-')));
+          };
 
-              for (let i = 0; i < bands.length; i++) {
-                const bandKey = bands[i]['key'];
-
-                let bandLabel = '';
-                if (bandKey === 'Primary band') {
-                  bandLabel = 'PCC';
-                } else {
-                  const bandIndexM = bandKey.match(/\d+/);
-                  if (bandIndexM) bandLabel = 'SCC' + bandIndexM[0];
-                }
-
-                const rawBandVal = bands[i]['value'] || '-';
-                const parsedBand = cutBeforeAt(rawBandVal);
-                const parsedBW   = (String(rawBandVal).split('@')[1] || '').trim() || '-';
-
-                let bandValueForRow = parsedBand;
-                let bandwidthForRow = parsedBW;
-
-                if (bandKey === 'Primary band' && !hasSCC) {
-                  const haveUL = !!bwULFromAddon;
-                  const haveDL = !!bwDLFromAddon;
-                  const haveAnyBW = haveUL || haveDL;
-
-                  if (haveAnyBW) {
-                    // BW (UL and/or DL)
-                    const src = primaryBandFromAddon || rawBandVal || '';
-                    bandValueForRow = cutBeforeAt(src);
-                    bandwidthForRow = makeBwCell(bwULFromAddon, bwDLFromAddon, '-');
-                  } else {
-                    if (primaryBandFromAddon) {
-                      bandValueForRow = cutBeforeAt(primaryBandFromAddon);
-                    }
-                    bandwidthForRow = makeBwCell(bwULFromAddon, bwDLFromAddon, parsedBW || '-');
-                  }
+          const getBandwidthForBand = (bandKey, rawBandValue) => {
+            let bwUL, bwDL;
+            
+            if (isPrimaryBand(bandKey)) {
+              // PCC - Bandwidth UL/DL
+              bwUL = getAddon('Bandwidth UL');
+              bwDL = getAddon('Bandwidth DL');
+            } else {
+              // SCC - (Sn) Bandwidth UL/DL
+              const sccIndexM = bandKey.match(/\d+/);
+              if (sccIndexM) {
+                const n = sccIndexM[0];
+                bwUL = getAddon('(S' + n + ') Bandwidth UL');
+                bwDL = getAddon('(S' + n + ') Bandwidth DL');
+              }
             }
-            bandValueForRow = cutBeforeAt(bandValueForRow);
+
+            const haveULExplicit = isValidBw(bwUL);
+            const haveDLExplicit = isValidBw(bwDL);
+            
+            if (haveULExplicit || haveDLExplicit) {
+              return makeBwCell(bwUL, bwDL, '-');
+            } else {
+              const bwFromAt = extractBwFromAt(rawBandValue);
+              if (bwFromAt) {
+                return E('div', {}, _(bwFromAt));
+              } else {
+                return E('div', {}, _('-'));
+              }
+            }
+          };
+
+          for (let i = 0; i < bands.length; i++) {
+            const bandKey = bands[i]['key'];
+
+            let bandLabel = '';
+            if (isPrimaryBand(bandKey)) {
+              bandLabel = 'PCC';
+            } else {
+              const bandIndexM = bandKey.match(/\d+/);
+              if (bandIndexM) bandLabel = 'SCC' + bandIndexM[0];
+            }
+
+            const rawBandVal = bands[i]['value'] || '-';
+            const parsedBand = cutBeforeAt(rawBandVal);
+
+            const bandwidthForRow = getBandwidthForBand(bandKey, rawBandVal);
+            const bandValueForRow = cutBeforeAt(
+              isPrimaryBand(bandKey) && primaryBandValue 
+                ? primaryBandValue 
+                : rawBandVal
+            );
 
             let row = [ bandLabel + ' ' + bandValueForRow, bandwidthForRow ];
 
