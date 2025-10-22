@@ -143,8 +143,7 @@ function addDarkModeStyles() {
       color: var(--signal-text-dark);
       text-shadow: var(--signal-shadow);
     }
-    
-    /* obwódki dla sygnałów tylko w ciemnym motywie */
+
     :root[data-darkmode="true"] .signal-badge--excellent {
       border: 1px solid rgba(52, 199, 89, 0.6);
     }
@@ -755,7 +754,6 @@ async function handleDownloadAction(evOrBtn) {
   }
 
   try {
-    //await fs.exec_direct('/usr/bin/wget', ['-O', '/tmp/bts' + modemIndex + '_file', searchsite]);
     await fs.exec_direct('/bin/uclient-fetch', ['-O', '/tmp/bts' + modemIndex + '_file', searchsite]);
     let exists = await fs.stat('/tmp/bts' + modemIndex + '_file');
 
@@ -1211,28 +1209,35 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
           };
 
           const getBandwidthForBand = (bandKey, rawBandValue) => {
-            let bwUL, bwDL;
+            let bwUL, bwDL, bwGeneric;
             
             if (isPrimaryBand(bandKey)) {
-              // PCC - Bandwidth UL/DL
+              // PCC
               bwUL = getAddon('Bandwidth UL');
               bwDL = getAddon('Bandwidth DL');
+              bwGeneric = getAddon('Bandwidth');
             } else {
-              // SCC - (Sn) Bandwidth UL/DL
+              // SCC
               const sccIndexM = bandKey.match(/\d+/);
               if (sccIndexM) {
                 const n = sccIndexM[0];
                 bwUL = getAddon('(S' + n + ') Bandwidth UL');
                 bwDL = getAddon('(S' + n + ') Bandwidth DL');
+                bwGeneric = getAddon('(S' + n + ') Bandwidth');
               }
             }
 
             const haveULExplicit = isValidBw(bwUL);
             const haveDLExplicit = isValidBw(bwDL);
+            const haveGeneric = isValidBw(bwGeneric);
             
             if (haveULExplicit || haveDLExplicit) {
               return makeBwCell(bwUL, bwDL, '-');
-            } else {
+            } 
+            else if (haveGeneric) {
+              return E('div', {}, _(bwGeneric));
+            } 
+            else {
               const bwFromAt = extractBwFromAt(rawBandValue);
               if (bwFromAt) {
                 return E('div', {}, _(bwFromAt));
