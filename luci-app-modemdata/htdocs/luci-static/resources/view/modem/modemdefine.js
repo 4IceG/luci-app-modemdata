@@ -35,7 +35,8 @@ return view.extend({
       L.resolveDefault(fs.list('/dev'), null),
       L.resolveDefault(fs.read_direct('/sys/kernel/debug/usb/devices', ['-r'])),
       L.resolveDefault(fs.exec_direct('/usr/bin/mmcli', ['-L', '-J']), null),
-      this.checkPackages()
+      this.checkPackages(),
+      uci.load('defmodems')
     ]);
   },
 
@@ -291,6 +292,21 @@ packageDialog: baseclass.extend({
 
     let installedList = Array.isArray(data[3]) ? data[3] : [];
     let showPackageDialog = new this.packageDialog(installedList, this.pkg);
+
+    // Modemz config info
+    let dfmodems = uci.sections('defmodems', 'defmodems');
+    if (!dfmodems || dfmodems.length === 0) {
+      ui.addNotification(null, E('p', {}, [
+        _('Proper Modem Configuration.'),
+        E('br'), E('br'),
+        E('b', _('User should remember:')),
+        E('ul', {}, [
+          E('li', _('1. For a specific modem, only one protocol should be set for communication with modem.')),
+          E('li', _('2. Only one package can read data from modem (at the same time).')),
+          E('li', _('3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time).'))
+        ])
+      ]), 'info');
+    }
 
     fs.write('/etc/modem/modemlist.json', '');
 

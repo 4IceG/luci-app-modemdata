@@ -25,104 +25,6 @@ function handleOpen(ev) {
 	if (ev === 'opentopic')        { window.open('https://eko.one.pl/forum/viewtopic.php?id=24829'); return; }
 }
 
-let ModemDataInfo = form.DummyValue.extend({
-	load: function() {
-		let author = _('%sCezary Jackiewicz (obsy)%s.')
-			.format('<a href="https://github.com/obsy" target="_blank">', '</a>');
-
-		let luci_author = _('%sRafał Wabik (IceG)%s.')
-			.format('<a href="https://github.com/4IceG" target="_blank">', '</a>');
-
-		let btnRow = { 'class': 'btn-row', 'style': 'display:flex; flex-wrap:wrap; gap:8px; align-items:center;' };
-
-		return E([
-			E('div', { 'class': 'cbi-section' }, [
-				E('style', {}, `
-
-					.cbi-section .btn-row .cbi-button { margin: 0; }
-				`),
-
-				E('h3', _('Modemdata Info')),
-
-				E('div', { 'class': 'cbi-value' }, [
-					E('label', { 'class': 'cbi-value-title', 'style': 'padding-top:0rem' },
-						_('Author (package maintainer)')),
-					E('div', { 'class': 'cbi-value-field', 'id': 'author-obsy', 'style': 'color:#37c' }, author)
-				]),
-
-				E('div', { 'class': 'cbi-value' }, [
-					E('label', { 'class': 'cbi-value-title', 'style': 'padding-top:0rem' }, _('Available options')),
-					E('div', { 'class': 'cbi-value-field', 'id': 'actions-obsy' }, [
-						E('div', btnRow, [
-							E('button', {
-								'class': 'cbi-button cbi-button-action important',
-								'id': 'btn-coffee-obsy',
-								'data-tooltip': _('Buy a coffee if you want to support the development of the project and the author'),
-								'click': ui.createHandlerFn(this, function () { return handleOpen('copencoffee'); })
-							}, [_('Buy a coffee')]),
-							E('button', {
-								'class': 'cbi-button cbi-button-remove',
-								'id': 'btn-bug-obsy',
-								'data-tooltip': _('Report a bug on the package Github page'),
-								'click': ui.createHandlerFn(this, function () { return handleOpen('copenissues'); })
-							}, [_('Report a bug')])
-						])
-					])
-				]),
-
-				E('hr'),
-				E('h3', _('Luci-app-modemdata Info')),
-
-				E('div', { 'class': 'cbi-value' }, [
-					E('label', { 'class': 'cbi-value-title', 'style': 'padding-top:0rem' },
-						_('Author (package maintainer)')),
-					E('div', { 'class': 'cbi-value-field', 'id': 'author-iceg', 'style': 'color:#37c' },
-						luci_author)
-				]),
-
-				E('div', { 'class': 'cbi-value' }, [
-					E('label', { 'class': 'cbi-value-title', 'style': 'padding-top:0rem' }, _('Available options')),
-					E('div', { 'class': 'cbi-value-field', 'id': 'actions-iceg' }, [
-						E('div', btnRow, [
-							E('button', {
-								'class': 'cbi-button cbi-button-action important',
-								'id': 'btn-coffee-iceg',
-								'data-tooltip': _('Buy a coffee if you want to support the development of the project and the author'),
-								'click': ui.createHandlerFn(this, function () { return handleOpen('ropencoffee'); })
-							}, [_('Buy a coffee')]),
-							E('button', {
-								'class': 'cbi-button cbi-button-action',
-								'id': 'btn-sponsor-iceg',
-								'data-tooltip': _('Become a sponsor if you want to support the development of the project and the author'),
-								'click': ui.createHandlerFn(this, function () { return handleOpen('opensupport'); })
-							}, [_('Become a sponsor')]),
-							E('button', {
-								'class': 'cbi-button cbi-button-add',
-								'id': 'btn-forum-iceg',
-								'data-tooltip': _('Write in the topic of the package on the forum eko.one.pl'),
-								'click': ui.createHandlerFn(this, function () { return handleOpen('opentopic'); })
-							}, [_('Write on forum')]),
-							E('button', {
-								'class': 'cbi-button cbi-button-neutral',
-								'id': 'btn-discuss-iceg',
-								'data-tooltip': _('Open a package discussion on Github'),
-								'click': ui.createHandlerFn(this, function () { return handleOpen('opendiscussion'); })
-							}, [_('Open discussion')]),
-							E('button', {
-								'class': 'cbi-button cbi-button-remove',
-								'id': 'btn-bug-iceg',
-								'data-tooltip': _('Report a bug on the package Github page'),
-								'click': ui.createHandlerFn(this, function () { return handleOpen('ropenissues'); })
-							}, [_('Report a bug')])
-						])
-					])
-				]),
-				E('hr'),
-			])
-		]);
-	}
-});
-
 let Troubleshooting = form.DummyValue.extend({
 	load: function() {
 		let help1 = '<em>'+_('Go to the Diagnostics tab and run a script check. Most often, the error is caused by a strange operator name. To fix this, select the Force PLMN from file option if it is available in the modem configuration options.')+'</em>';
@@ -140,7 +42,7 @@ let Troubleshooting = form.DummyValue.extend({
 
 return view.extend({
 	load: function () {
-		uci.load('modemdata');
+		return uci.load('modemdata');
 	},
 
 	render: function (data) {
@@ -154,14 +56,9 @@ return view.extend({
 		s = m.section(form.NamedSection, 'global');
 		s.render = L.bind(function (view, section_id) {
 			return E('div', { 'class': 'cbi-section' }, [
-				E('div', {
-					'class': 'ifacebox',
-					'style': 'display:flex; flex-wrap:wrap; align-items:center; gap:8px; max-width:100%;'
-				}, [
-					E('strong', { 'style': 'flex:0 0 auto;' }, _('Info')),
-					E('span', {
-						'style': 'flex:1 1 0; min-width:0; white-space:normal; overflow-wrap:anywhere;'
-					}, _('Option will appear after apk implementation.')),
+			E('div', { 'class': 'ifacebox', 'style': 'display:flex' }, [
+			E('strong', _('Info')),
+					E('label', {}, _('Option will appear after apk implementation.')),
 				]),
 				E('br'),
 			]);
@@ -171,11 +68,133 @@ return view.extend({
 		s.anonymous = true;
 
 		s.tab('info', _('Modemdata Info'));
-		o = s.taboption('info', ModemDataInfo);
+		
+		let packages = [
+			{
+				package: _('Modemdata'),
+				author: 'Cezary Jackiewicz (obsy)',
+				authorLink: 'https://github.com/obsy',
+				buttons: [
+					{
+						class: 'cbi-button-action important',
+						label: _('Buy a coffee'),
+						tooltip: _('Buy a coffee if you want to support the development of the project and the author'),
+						action: 'copencoffee',
+						disabled: false
+					},
+					{
+						class: 'cbi-button-remove',
+						label: _('Report a bug'),
+						tooltip: _('Report a bug on the package Github page'),
+						action: 'copenissues',
+						disabled: false
+					}
+				]
+			},
+			{
+				package: _('Luci-app-modemdata'),
+				author: 'Rafał Wabik (IceG)',
+				authorLink: 'https://github.com/4IceG',
+				buttons: [
+					{
+						class: 'cbi-button-action important',
+						label: _('Buy a coffee'),
+						tooltip: _('Buy a coffee if you want to support the development of the project and the author'),
+						action: 'ropencoffee',
+						disabled: false
+					},
+					{
+						class: 'cbi-button-action',
+						label: _('Become a sponsor'),
+						tooltip: _('Become a sponsor if you want to support the development of the project and the author'),
+						action: 'opensupport',
+						disabled: false
+					},
+					{
+						class: 'cbi-button-add',
+						label: _('Write on forum'),
+						tooltip: _('Write in the topic of the package on the forum eko.one.pl'),
+						action: 'opentopic',
+						disabled: false
+					},
+					{
+						class: 'cbi-button-neutral',
+						label: _('Open discussion'),
+						tooltip: _('Open a package discussion on Github'),
+						action: 'opendiscussion',
+						disabled: false
+					},
+					{
+						class: 'cbi-button-remove',
+						label: _('Report a bug'),
+						tooltip: _('Report a bug on the package Github page'),
+						action: 'ropenissues',
+						disabled: false
+					}
+				]
+			}
+		];
+
+		let rows = [];
+		let table = E('table', { 
+		    'class': 'table', 
+            'style': 'border:1px solid var(--border-color-medium)!important; table-layout:fixed; border-collapse:collapse; width:100%;'
+            }, [
+			E('tr', { 'class': 'tr table-titles' }, [
+				E('th', { 'class': 'th' }, _('Package name')),
+				E('th', { 'class': 'th' }, _('Author (package maintainer)')),
+				E('th', { 'class': 'th nowrap cbi-section-actions' })
+			])
+		]);
+
+		for (let i = 0; i < packages.length; i++) {
+			let pkg = packages[i];
+			let buttonElements = [];
+
+			for (let j = 0; j < pkg.buttons.length; j++) {
+				let btn = pkg.buttons[j];
+				let buttonAttrs = {
+					'class': 'btn ' + btn.class,
+					'data-tooltip': btn.tooltip
+				};
+				
+				if (btn.disabled) {
+					buttonAttrs.disabled = true;
+				} else if (btn.action) {
+					buttonAttrs.click = function() { return handleOpen(btn.action); };
+				}
+				
+				buttonElements.push(E('button', buttonAttrs, btn.label));
+			}
+
+			let authorCell = pkg.author ? 
+				E('a', { 'href': pkg.authorLink, 'target': '_blank', 'style': 'color:#37c' }, pkg.author) : 
+				'';
+
+			rows.push([
+				pkg.package,
+				authorCell,
+				E('div', { 'style': 'display: flex; flex-wrap: wrap; gap: 0.5em;' }, buttonElements)
+			]);
+		}
+
+		cbi_update_table(table, rows);
+
+		o = s.taboption('info', form.DummyValue, '_packages_info');
+		o.render = function() {
+			return E('div', { 'class': 'cbi-section' }, [
+				E('p', {}, _('Information about package authors and available support options.')),
+				table
+			]);
+		};
 
 		s.tab('troubleshooting', _('Troubleshooting'));
 		o = s.taboption('troubleshooting', Troubleshooting);
 
 		return m.render();
-	}
+	},
+
+	handleSaveApply: null,
+	handleSave: null,
+	handleReset: null
 });

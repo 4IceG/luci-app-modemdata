@@ -531,6 +531,7 @@ async function _updateBasicSignalsModal(){
     _sigInflight = false;
   }
 }
+
 async function openCellIdModal(modemIndex) {
   if (typeof modemIndex !== 'number') return;
 
@@ -1103,7 +1104,11 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
         let lteTable = document.getElementById(modem.lteTableId);
 
         const addonArr = Array.isArray(json?.[2]?.addon) ? json[2].addon : [];
-        const getAddon = (key) => (addonArr.find(i => i && i['key'] === key) || {})['value'];
+        const getAddon = (key) => {
+          const searchKeyLower = String(key).toLowerCase();
+          const found = addonArr.find(i => i && String(i['key']).toLowerCase() === searchKeyLower);
+          return found ? found['value'] : null;
+        };
 
         let modeRaw = json?.[2]?.mode || '';
         let modeLower = modeRaw.toLowerCase();
@@ -1111,17 +1116,38 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
         const isPrimaryBand = (key) => key && String(key).toLowerCase().includes('primary');
 
         const bandsFiltered = addonArr.filter(item =>
-          item && (isPrimaryBand(item['key']) || /^\(S\d+\) band$/.test(item['key']))
+          item && (isPrimaryBand(item['key']) || /^\(S\d+\) band$/i.test(item['key']))
         );
 
         const cutBeforeAt = (str) => String(str ?? '').split('@')[0].trim() || '-';
         const extractBwFromAt = (str) => (String(str ?? '').split('@')[1] || '').trim();
         const isValidBw = (bw) => bw && !['', '-', 'MHz'].includes(String(bw).trim());
+        const isValidValue = (val) => val && val !== '-' && val !== '' && val !== null;
 
         const withDbUnit = (val) => {
           const s = String(val || '').trim();
           if (s === '' || s === '-') return s;
           return s.match(/dB/i) ? s : s + ' dB';
+        };
+
+        const makeBwCell = (ul, dl, fallback) => {
+          const haveUL = isValidBw(ul);
+          const haveDL = isValidBw(dl);
+          if (haveUL && haveDL)
+            return E('div', {}, [_('UL: ' + ul), E('br', {}), _('DL: ' + dl)]);
+          if (haveUL) return E('div', {}, [_('UL: ' + ul)]);
+          if (haveDL) return E('div', {}, [_('DL: ' + dl)]);
+          return typeof fallback === 'string' ? E('div', {}, _(fallback)) : (fallback ?? E('div', {}, _('-')));
+        };
+
+        const makeEarfcnCell = (ul, dl, fallback) => {
+          const haveUL = isValidValue(ul);
+          const haveDL = isValidValue(dl);
+          if (haveUL && haveDL)
+            return E('div', {}, [_('UL: ' + ul), E('br', {}), _('DL: ' + dl)]);
+          if (haveUL) return E('div', {}, [_('UL: ' + ul)]);
+          if (haveDL) return E('div', {}, [_('DL: ' + dl)]);
+          return typeof fallback === 'string' ? E('div', {}, _(fallback)) : (fallback ?? E('div', {}, _('-')));
         };
 
         if (!modeLower.match(/lte|5g/) && bandsFiltered.length === 0) {
@@ -1171,16 +1197,6 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
             return unitMatch ? (first + ' ' + unitMatch[1]) : first;
           };
 
-          const makeBwCell = (ul, dl, fallback) => {
-            const haveUL = isValidBw(ul);
-            const haveDL = isValidBw(dl);
-            if (haveUL && haveDL)
-              return E('div', {}, [_('UL: ' + ul), E('br', {}), _('DL: ' + dl)]);
-            if (haveUL) return E('div', {}, [_('UL: ' + ul)]);
-            if (haveDL) return E('div', {}, [_('DL: ' + dl)]);
-            return typeof fallback === 'string' ? E('div', {}, _(fallback)) : (fallback ?? E('div', {}, _('-')));
-          };
-
           const getBandwidthForBand = (bandKey, rawBandValue) => {
             let bwUL, bwDL, bwGeneric;
             if (isPrimaryBand(bandKey)) {
@@ -1217,13 +1233,24 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
             if (sccIndexM) {
               // SCC
               const n = sccIndexM[0];
-              const getVal = (k) => ((addonArr.find(x => x && x['key'] === k) || {})['value'] || '-');
+              const getVal = (k) => getAddon(k) || '-';
               const sinr = withDbUnit(getVal('(S' + n + ') SINR'));
               const snr = withDbUnit(getVal('(S' + n + ') SNR'));
 
+              const earfcn = getAddon('(S' + n + ') EARFCN');
+              const earfcnDl = getAddon('(S' + n + ') EARFCN DL');
+              const earfcnUl = getAddon('(S' + n + ') EARFCN UL');
+              
+              let earfcnCell;
+              if (isValidValue(earfcn)) {
+                earfcnCell = E('div', {}, _(earfcn));
+              } else {
+                earfcnCell = makeEarfcnCell(earfcnUl, earfcnDl, '-');
+              }
+
               row.push(
                 getVal('(S' + n + ') PCI'),
-                getVal('(S' + n + ') EARFCN'),
+                earfcnCell,
                 !isNaN(parseInt(getVal('(S' + n + ') RSSI'), 10)) ? signalCell(getVal('(S' + n + ') RSSI'), getSignalLabel(getVal('(S' + n + ') RSSI'), 'RSSI').label, getSignalLabel(getVal('(S' + n + ') RSSI'), 'RSSI').color) : E('div', {}, _('')),
                 !isNaN(parseInt(getVal('(S' + n + ') RSRP'), 10)) ? signalCell(getVal('(S' + n + ') RSRP'), getSignalLabel(getVal('(S' + n + ') RSRP'), 'RSRP').label, getSignalLabel(getVal('(S' + n + ') RSRP'), 'RSRP').color) : E('div', {}, _('')),
                 !isNaN(parseInt(getVal('(S' + n + ') RSRQ'), 10)) ? signalCell(getVal('(S' + n + ') RSRQ'), getSignalLabel(getVal('(S' + n + ') RSRQ'), 'RSRQ').label, getSignalLabel(getVal('(S' + n + ') RSRQ'), 'RSRQ').color) : E('div', {}, _('')),
@@ -1236,11 +1263,16 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
             } else {
               // PCC
               const pci = getAddon('PCI') || '-';
-              let earfcn = getAddon('EARFCN');
-              if (!earfcn) {
-                const earfcnDl = getAddon('EARFCN DL') || '-';
-                const earfcnUl = getAddon('EARFCN UL') || '-';
-                earfcn = 'DL: ' + earfcnDl + ' UL: ' + earfcnUl;
+              
+              const earfcn = getAddon('EARFCN');
+              const earfcnDl = getAddon('EARFCN DL');
+              const earfcnUl = getAddon('EARFCN UL');
+              
+              let earfcnCell;
+              if (isValidValue(earfcn)) {
+                earfcnCell = E('div', {}, _(earfcn));
+              } else {
+                earfcnCell = makeEarfcnCell(earfcnUl, earfcnDl, '-');
               }
 
               const sinr0 = withDbUnit(getAddon('SINR'));
@@ -1251,7 +1283,7 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
 
               row.push(
                 pci,
-                earfcn,
+                earfcnCell,
                 !isNaN(parseFloat(rssiFirst)) ? signalCell(rssiFirst, getSignalLabel(rssiFirst, 'RSSI').label, getSignalLabel(rssiFirst, 'RSSI').color) : E('div', {}, _('')),
                 !isNaN(parseFloat(rsrpFirst)) ? signalCell(rsrpFirst, getSignalLabel(rsrpFirst, 'RSRP').label, getSignalLabel(rsrpFirst, 'RSRP').color) : E('div', {}, _('')),
                 !isNaN(parseInt(getAddon('RSRQ'), 10)) ? signalCell(getAddon('RSRQ'), getSignalLabel(getAddon('RSRQ'), 'RSRQ').label, getSignalLabel(getAddon('RSRQ'), 'RSRQ').color) : E('div', {}, _('')),

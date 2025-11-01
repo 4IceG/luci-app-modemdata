@@ -676,3 +676,24 @@ msgstr "Modem"
 msgid "Detailed Cell ID information with formats for different tools and applications."
 msgstr "Szczegółowe informacje o identyfikatorze komórki w formatach dla różnych narzędzi i aplikacji."
 
+msgid "Information about package authors and available support options."
+msgstr "Informacja o autorach i dostępnych opcjach wsparcia."
+
+msgid "Package name"
+msgstr "Nazwa pakietu"
+
+msgid "Proper Modem Configuration."
+msgstr "Poprawna konfiguracja modemu."
+
+msgid "User should remember:"
+msgstr "Użytkownik powinien zapamiętać:"
+
+msgid "1. For a specific modem, only one protocol should be set for communication with modem."
+msgstr "1. Dla konkretnego modemu należy ustawić tylko jeden protokół komunikacji z modemem."
+
+msgid "2. Only one package can read data from modem (at the same time)."
+msgstr "2. Tylko jeden pakiet może odczytywać dane z modemu (w tym samym czasie)."
+
+msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
+msgstr "3. Zbyt częste odczytywanie danych z modemu może spowodować jego zawieszenie (MM i uqmi potrzebują więcej czasu)."
+
