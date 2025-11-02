@@ -640,4 +640,62 @@ msgstr "Доступные опции"
 msgid "Device not found"
 msgstr "Устройство не найдено"
 
+msgid "Registered, home"
+msgstr "Зарегистрирована в домашней сети"
 
+msgid "Click to view Cell ID details"
+msgstr "Нажмите для просмотра деталей ID ячейки"
+
+msgid "Cell ID (dec)"
+msgstr "ID ячейки (dec)"
+
+msgid "Cell ID (hex)"
+msgstr "ID ячейки (hex)"
+
+msgid "eNB ID (hex)"
+msgstr "ID eNB (hex)"
+
+msgid "Sector ID (hex)"
+msgstr "ID сектора (hex)"
+
+msgid "eNB ID (dec)"
+msgstr "ID eNB (dec)"
+
+msgid "Sector ID (dec)"
+msgstr "ID сектора (dec)"
+
+msgid "Cell ID (hex) for CellMapper"
+msgstr "ID ячейки (hex) для CellMapper"
+
+msgid "Cell ID (dec) for CellMapper"
+msgstr "ID ячейки (dec) для CellMapper"
+
+msgid "Cell ID Information"
+msgstr "Информация об ID ячейки"
+
+msgid "Modem"
+msgstr "Модем"
+
+msgid "Detailed Cell ID information with formats for different tools and applications."
+msgstr "Подробная информация об ID ячейки в форматах для различных инструментов и приложений."
+
+msgid "Information about package authors and available support options."
+msgstr "Информация об авторах пакета и доступных вариантах поддержки."
+
+msgid "Package name"
+msgstr "Название пакета"
+
+msgid "Proper Modem Configuration."
+msgstr "Правильная конфигурация модема."
+
+msgid "User should remember:"
+msgstr "Пользователь должен помнить:"
+
+msgid "1. For a specific modem, only one protocol should be set for communication with modem."
+msgstr "1. Для конкретного модема должен быть установлен только один протокол связи."
+
+msgid "2. Only one package can read data from modem (at the same time)."
+msgstr "2. Только один пакет может читать данные с модема (одновременно)."
+
+msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
+msgstr "3. Слишком частое чтение данных с модема может привести к его зависанию (MM и uqmi требуют больше времени)."

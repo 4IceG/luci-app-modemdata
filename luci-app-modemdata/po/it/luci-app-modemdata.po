@@ -639,3 +639,66 @@ msgstr "Opzioni disponibili"
 
 msgid "Device not found"
 msgstr "Dispositivo non trovato"
+
+msgid "Registered, home"
+msgstr "Registrato, rete domestica"
+
+msgid "Show signal levels"
+msgstr "Mostra livelli del segnale"
+
+msgid "Click to view Cell ID details"
+msgstr "Clicca per visualizzare i dettagli dell'ID cella"
+
+msgid "Cell ID (dec)"
+msgstr "ID cella (dec)"
+
+msgid "Cell ID (hex)"
+msgstr "ID cella (hex)"
+
+msgid "eNB ID (hex)"
+msgstr "ID eNB (hex)"
+
+msgid "Sector ID (hex)"
+msgstr "ID settore (hex)"
+
+msgid "eNB ID (dec)"
+msgstr "ID eNB (dec)"
+
+msgid "Sector ID (dec)"
+msgstr "ID settore (dec)"
+
+msgid "Cell ID (hex) for CellMapper"
+msgstr "ID cella (hex) per CellMapper"
+
+msgid "Cell ID (dec) for CellMapper"
+msgstr "ID cella (dec) per CellMapper"
+
+msgid "Cell ID Information"
+msgstr "Informazioni ID cella"
+
+msgid "Modem"
+msgstr "Modem"
+
+msgid "Detailed Cell ID information with formats for different tools and applications."
+msgstr "Informazioni dettagliate ID cella con formati per diversi strumenti e applicazioni."
+
+msgid "Information about package authors and available support options."
+msgstr "Informazioni sugli autori del pacchetto e opzioni di supporto disponibili."
+
+msgid "Package name"
+msgstr "Nome pacchetto"
+
+msgid "Proper Modem Configuration."
+msgstr "Configurazione corretta del modem."
+
+msgid "User should remember:"
+msgstr "L'utente deve ricordare:"
+
+msgid "1. For a specific modem, only one protocol should be set for communication with modem."
+msgstr "1. Per uno specifico modem, deve essere impostato solo un protocollo per la comunicazione."
+
+msgid "2. Only one package can read data from modem (at the same time)."
+msgstr "2. Solo un pacchetto può leggere i dati dal modem (allo stesso tempo)."
+
+msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
+msgstr "3. Leggere i dati dal modem troppo spesso può causare il blocco (MM e uqmi richiedono più tempo)."

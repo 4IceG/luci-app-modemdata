@@ -696,4 +696,3 @@ msgstr "2. Tylko jeden pakiet może odczytywać dane z modemu (w tym samym czasi
 
 msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
 msgstr "3. Zbyt częste odczytywanie danych z modemu może spowodować jego zawieszenie (MM i uqmi potrzebują więcej czasu)."
-

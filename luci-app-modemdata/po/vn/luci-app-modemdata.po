@@ -638,3 +638,63 @@ msgstr "Các tùy chọn có sẵn"
 
 msgid "Device not found"
 msgstr "Không tìm thấy thiết bị"
+
+msgid "Registered, home"
+msgstr "Đã đăng ký, mạng nhà"
+
+msgid "Click to view Cell ID details"
+msgstr "Nhấp để xem chi tiết ID cell"
+
+msgid "Cell ID (dec)"
+msgstr "ID cell (dec)"
+
+msgid "Cell ID (hex)"
+msgstr "ID cell (hex)"
+
+msgid "eNB ID (hex)"
+msgstr "ID eNB (hex)"
+
+msgid "Sector ID (hex)"
+msgstr "ID sector (hex)"
+
+msgid "eNB ID (dec)"
+msgstr "ID eNB (dec)"
+
+msgid "Sector ID (dec)"
+msgstr "ID sector (dec)"
+
+msgid "Cell ID (hex) for CellMapper"
+msgstr "ID cell (hex) cho CellMapper"
+
+msgid "Cell ID (dec) for CellMapper"
+msgstr "ID cell (dec) cho CellMapper"
+
+msgid "Cell ID Information"
+msgstr "Thông tin ID cell"
+
+msgid "Modem"
+msgstr "Modem"
+
+msgid "Detailed Cell ID information with formats for different tools and applications."
+msgstr "Thông tin chi tiết về ID cell với các định dạng cho các công cụ và ứng dụng khác nhau."
+
+msgid "Information about package authors and available support options."
+msgstr "Thông tin về tác giả gói và các tùy chọn hỗ trợ có sẵn."
+
+msgid "Package name"
+msgstr "Tên gói"
+
+msgid "Proper Modem Configuration."
+msgstr "Cấu hình modem đúng cách."
+
+msgid "User should remember:"
+msgstr "Người dùng nên nhớ:"
+
+msgid "1. For a specific modem, only one protocol should be set for communication with modem."
+msgstr "1. Đối với một modem cụ thể, chỉ nên đặt một giao thức để giao tiếp với modem."
+
+msgid "2. Only one package can read data from modem (at the same time)."
+msgstr "2. Chỉ một gói có thể đọc dữ liệu từ modem (cùng một lúc)."
+
+msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
+msgstr "3. Đọc dữ liệu từ modem quá thường xuyên có thể làm treo thiết bị (MM và uqmi cần nhiều thời gian hơn)."
