@@ -1,9 +1,6 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
-msgid "Information about 3G/4G/5G connection"
-msgstr "Информация о подключении 3G/4G/5G"
-
 msgid "For more information about the modemdata package, please visit: %shttps://github.com/obsy/modemdata%s."
 msgstr "Для получения дополнительной информации о пакете modemdata посетите: %shttps://github.com/obsy/modemdata%s."
 
@@ -587,7 +584,10 @@ msgid "Author (package maintainer)"
 msgstr "Автор (сопровождающий пакета)"
 
 msgid "Modemdata Info"
-msgstr "Информация о пакете modemdata"
+msgstr "Информация modemdata"
+
+msgid "Modemdata Status"
+msgstr "Статус modemdata"
 
 msgid "Luci-app-modemdata Info"
 msgstr "Информация о пакете luci-app-modemdata"
@@ -601,8 +601,26 @@ msgstr "Если данные в LuCI не отображаются, и вы н�
 msgid "Suggested solution"
 msgstr "Предлагаемое решение"
 
-msgid "Troubleshooting"
-msgstr "Поиск и устранение неисправностей"
+msgid "Troubleshooting / Hints"
+msgstr "Устранение неполадок / Подсказки"
+
+msgid "Problem"
+msgstr "Проблема"
+
+msgid "Common problems that may arise when using the package, and ways to solve them."
+msgstr "Распространённые проблемы, которые могут возникнуть при использовании пакета, и способы их решения."
+
+msgid "Package does not show data for the Fibocom FM350-GL modem."
+msgstr "Пакет не отображает данные для модема Fibocom FM350-GL."
+
+msgid "The modem is very sensitive to data read by the communication port. Selecting the wrong communication port may cause the modem to freeze or restart."
+msgstr "Модем очень чувствителен к данным, считываемым через порт связи. Выбор неправильного порта связи может привести к зависанию или перезагрузке модема."
+
+msgid "and"
+msgstr "и"
+
+msgid "packages are recommended for proper modem support."
+msgstr "рекомендуются для правильной поддержки модема."
 
 msgid "Please select method for reading data from the modem and install the necessary packages."
 msgstr "Выберите способ чтения данных с модема и установите необходимые пакеты."

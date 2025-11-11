@@ -1,9 +1,6 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
-msgid "Information about 3G/4G/5G connection"
-msgstr "Informacja o statusie połączenia 3G/4G/5G"
-
 msgid "For more information about the modemdata package, please visit: %shttps://github.com/obsy/modemdata%s."
 msgstr "Aby uzyskać więcej informacji o pakiecie modemdata, odwiedź %shttps://github.com/obsy/modemdata%s."
 
@@ -587,7 +584,10 @@ msgid "Author (package maintainer)"
 msgstr "Autor (opiekun pakietu)"
 
 msgid "Modemdata Info"
-msgstr "Informacje o pakiecie modemdata"
+msgstr "Modemdata info"
+
+msgid "Modemdata Status"
+msgstr "Modemdata status"
 
 msgid "Luci-app-modemdata Info"
 msgstr "Informacje o pakiecie luci-app-modemdata"
@@ -601,8 +601,26 @@ msgstr "Jeżeli dane w LuCI nie są widoczne, a wiemy na 100% że modem został 
 msgid "Suggested solution"
 msgstr "Sugerowane rozwiązanie"
 
-msgid "Troubleshooting"
-msgstr "Rozwiązywanie problemów"
+msgid "Troubleshooting / Hints"
+msgstr "Rozwiązywanie problemów / Porady"
+
+msgid "Problem"
+msgstr "Problem"
+
+msgid "Common problems that may arise when using the package, and ways to solve them."
+msgstr "Typowe problemy, które mogą pojawić się podczas korzystania z pakietu, oraz sposoby ich rozwiązania."
+
+msgid "Package does not show data for the Fibocom FM350-GL modem."
+msgstr "Pakiet nie wyświetla danych dla modemu Fibocom FM350-GL."
+
+msgid "The modem is very sensitive to data read by the communication port. Selecting the wrong communication port may cause the modem to freeze or restart."
+msgstr "Modem jest bardzo wrażliwy na odczytywanie danych przez port komunikacyjny. Wybranie niewłaściwego portu komunikacyjnego może spowodować zawieszenie się modemu lub jego ponowne uruchomienie."
+
+msgid "and"
+msgstr "oraz"
+
+msgid "packages are recommended for proper modem support."
+msgstr "zalecane pakiety dla prawidłowej obsługi modemu."
 
 msgid "Please select method for reading data from the modem and install the necessary packages."
 msgstr "Proszę wybrać metodę odczytu danych z modemu oraz zainstalować niezbędne pakiety."

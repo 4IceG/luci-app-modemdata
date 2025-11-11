@@ -25,21 +25,6 @@ function handleOpen(ev) {
 	if (ev === 'opentopic')        { window.open('https://eko.one.pl/forum/viewtopic.php?id=24829'); return; }
 }
 
-let Troubleshooting = form.DummyValue.extend({
-	load: function() {
-		let help1 = '<em>'+_('Go to the Diagnostics tab and run a script check. Most often, the error is caused by a strange operator name. To fix this, select the Force PLMN from file option if it is available in the modem configuration options.')+'</em>';
-		return E([
-			E('div', { 'class': 'cbi-section' }, [
-				E('h5', _('If data in LuCI is not visible, and we are 100% sure that the modem has been defined/configured correctly.')),
-				E('div', { 'class': 'cbi-value' }, [
-					E('label', { 'class': 'cbi-value-title', 'style': 'padding-top:0rem' }, _('Suggested solution')+': '),
-					E('div', { 'class': 'cbi-value-field', 'id': 'installedcompiled', 'style': '' }, help1)
-				]),
-			])
-		]);
-	}
-});
-
 return view.extend({
 	load: function () {
 		return uci.load('modemdata');
@@ -188,8 +173,54 @@ return view.extend({
 			]);
 		};
 
-		s.tab('troubleshooting', _('Troubleshooting'));
-		o = s.taboption('troubleshooting', Troubleshooting);
+		s.tab('troubleshooting', _('Troubleshooting / Hints'));
+		
+		let troubleshootingData = [
+            // 1.
+			{
+				issue: _('If data in LuCI is not visible, and we are 100% sure that the modem has been defined/configured correctly.'),
+				solution: _('Go to the Diagnostics tab and run a script check. Most often, the error is caused by a strange operator name. To fix this, select the Force PLMN from file option if it is available in the modem configuration options.')
+			},
+            // 2.
+            {
+                issue: _('Package does not show data for the Fibocom FM350-GL modem.'),
+                solution: _('The modem is very sensitive to data read by the communication port. Selecting the wrong communication port may cause the modem to freeze or restart.') + 
+                          ' ' + 
+                          '<a href="https://github.com/obsy/modemfeed/tree/master/luci/protocols/luci-proto-xmm" target="_blank" rel="noopener noreferrer">luci-proto-xmm</a>' +
+                          ' ' + _('and') + ' ' +
+                          '<a href="https://github.com/obsy/modemfeed/tree/master/packages/net/xmm-modem" target="_blank" rel="noopener noreferrer">xmm-modem</a>' +
+                          ' ' + _('packages are recommended for proper modem support.')
+            }
+		];
+
+		let troubleshootingRows = [];
+		let troubleshootingTable = E('table', { 
+			'class': 'table', 
+			'style': 'border:1px solid var(--border-color-medium)!important; table-layout:fixed; border-collapse:collapse; width:100%;'
+		}, [
+			E('tr', { 'class': 'tr table-titles' }, [
+				E('th', { 'class': 'th', 'style': 'width:40%' }, _('Problem')),
+				E('th', { 'class': 'th' }, _('Suggested solution'))
+			])
+		]);
+
+		for (let i = 0; i < troubleshootingData.length; i++) {
+			let item = troubleshootingData[i];
+			troubleshootingRows.push([
+				item.issue,
+				E('em', {}, item.solution)
+			]);
+		}
+
+		cbi_update_table(troubleshootingTable, troubleshootingRows);
+
+		o = s.taboption('troubleshooting', form.DummyValue, '_troubleshooting_info');
+		o.render = function() {
+			return E('div', { 'class': 'cbi-section' }, [
+				E('p', {}, _('Common problems that may arise when using the package, and ways to solve them.')),
+				troubleshootingTable
+			]);
+		};
 
 		return m.render();
 	},

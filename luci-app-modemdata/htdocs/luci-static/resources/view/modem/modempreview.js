@@ -101,6 +101,10 @@ function addDarkModeStyles() {
       background-color: var(--connection-disconnected-bg);
     }
 
+    .ifacebox {
+      min-width: 23% !important;
+    }
+
     .signal-badge {
       padding: 3px 10px;
       border-radius: 12px;
@@ -1329,8 +1333,8 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
           let title = _('Signal strength') + ': ' + p + '%';
           signalView.appendChild(
             E('div', { 'class': 'ifacebadge', 'style': 'width:92px;', 'title': title }, [
-              E('img', { 'src': icon, 'style': 'padding-left:2px;height:32px;width:auto;display:inline-block;' }),
-              E('strong', {}, p > 0 ? (p + '%') : '')
+              E('img', { 'src': icon, 'style': 'padding:0 auto;height:32px;width:auto;display:inline-block;margin:0 auto;' }),
+              E('strong', {'style': 'margin-left:-.1em;'}, p > 0 ? (p + '%') : '')
             ])
           );
         }

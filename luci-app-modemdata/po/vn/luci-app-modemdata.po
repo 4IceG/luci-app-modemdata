@@ -1,9 +1,6 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
-msgid "Information about 3G/4G/5G connection"
-msgstr "Thông tin về kết nối 3G/4G/5G"
-
 msgid "For more information about the modemdata package, please visit: %shttps://github.com/obsy/modemdata%s."
 msgstr "Để biết thêm thông tin về gói modemdata, vui lòng truy cập: %shttps://github.com/obsy/modemdata%s."
 
@@ -588,6 +585,9 @@ msgstr "Tác giả (người bảo trì gói)"
 msgid "Modemdata Info"
 msgstr "Thông tin Modemdata"
 
+msgid "Modemdata Status"
+msgstr "Trạng thái Modemdata"
+
 msgid "Luci-app-modemdata Info"
 msgstr "Thông tin Luci-app-modemdata"
 
@@ -600,8 +600,26 @@ msgstr "Nếu dữ liệu trong LuCI không hiển thị, và bạn chắc chắ
 msgid "Suggested solution"
 msgstr "Giải pháp đề xuất"
 
-msgid "Troubleshooting"
-msgstr "Xử lý sự cố"
+msgid "Troubleshooting / Hints"
+msgstr "Khắc phục sự cố / Gợi ý"
+
+msgid "Problem"
+msgstr "Vấn đề"
+
+msgid "Common problems that may arise when using the package, and ways to solve them."
+msgstr "Các vấn đề phổ biến có thể phát sinh khi sử dụng gói và cách giải quyết chúng."
+
+msgid "Package does not show data for the Fibocom FM350-GL modem."
+msgstr "Gói không hiển thị dữ liệu cho modem Fibocom FM350-GL."
+
+msgid "The modem is very sensitive to data read by the communication port. Selecting the wrong communication port may cause the modem to freeze or restart."
+msgstr "Modem rất nhạy cảm với dữ liệu được đọc bởi cổng giao tiếp. Việc chọn sai cổng giao tiếp có thể khiến modem bị treo hoặc khởi động lại."
+
+msgid "and"
+msgstr "và"
+
+msgid "packages are recommended for proper modem support."
+msgstr "được khuyến nghị để hỗ trợ modem đúng cách."
 
 msgid "Please select method for reading data from the modem and install the necessary packages."
 msgstr "Vui lòng chọn phương thức đọc dữ liệu từ modem và cài đặt các gói cần thiết."
