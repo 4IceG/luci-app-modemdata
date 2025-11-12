@@ -204,12 +204,16 @@ function addDarkModeStyles() {
 
     /* Fix ifacebox card layout - make body fill the entire card */
     .ifacebox {
-      display: flex !important;
-      flex-direction: column !important;
+      display: flex !important;           /* Use flexbox layout */
+      flex-direction: column !important;  /* Stack header and body vertically */
     }
 
     .ifacebox-body {
-      flex: 1 !important;
+      flex: 1 !important;  /* Fill remaining space to match card height */
+    }
+
+    .ifacebox-head {
+      background: transparent !important;  /* Remove gray background, use theme color */
     }
   `;
   document.head.appendChild(style);
