@@ -201,6 +201,16 @@ function addDarkModeStyles() {
     label.cbi-checkbox > label[for]::after {
       display: none !important;
     }
+
+    /* Fix ifacebox card layout - make body fill the entire card */
+    .ifacebox {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .ifacebox-body {
+      flex: 1 !important;
+    }
   `;
   document.head.appendChild(style);
 }
