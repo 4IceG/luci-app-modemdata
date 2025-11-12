@@ -227,6 +227,33 @@ function addDarkModeStyles() {
       width: 100% !important;                  /* Take full width of parent */
       box-sizing: border-box !important;       /* Include padding in width calculation */
     }
+
+    /* Fix progress bar width consistency across different themes */
+    .cbi-value {
+      display: flex !important;                /* Use flexbox for label and field alignment */
+      align-items: flex-start !important;      /* Align items to top */
+    }
+
+    .cbi-value-title {
+      min-width: 120px !important;             /* Fixed width for labels to align all bars */
+      max-width: 120px !important;
+      flex-shrink: 0 !important;               /* Prevent label from shrinking */
+    }
+
+    .cbi-value-field {
+      flex: 1 !important;                      /* Take remaining space */
+      min-width: 0 !important;                 /* Allow field to shrink if needed */
+    }
+
+    .cbi-progressbar {
+      max-width: 75% !important;               /* Limit bar length to 75% of available space */
+      width: 100% !important;                  /* Take full available width up to max-width */
+    }
+
+    /* Fix modal window width for signal levels dialog */
+    .cbi-modal {
+      max-width: 600px !important;             /* Limit modal width to 600px */
+    }
   `;
   document.head.appendChild(style);
 }
