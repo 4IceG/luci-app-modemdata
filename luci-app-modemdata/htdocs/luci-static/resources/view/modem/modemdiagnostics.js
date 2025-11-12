@@ -15,6 +15,312 @@
   
 */
 
+// 添加诊断页面样式
+function addDiagnosticsStyles() {
+  if (document.getElementById('modemdata-diagnostics-styles')) return;
+  
+  const style = document.createElement('style');
+  style.id = 'modemdata-diagnostics-styles';
+  style.type = 'text/css';
+  style.textContent = `
+    /* 诊断按钮样式优化 - 适配所有主题 */
+    .diag-action .cbi-button {
+      min-width: 80px;
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    /* 不同操作类型的按钮颜色 */
+    .cbi-button-add {
+      background-color: #28a745;
+      border-color: #28a745;
+      color: #ffffff;
+    }
+
+    .cbi-button-add:hover:not([disabled]) {
+      background-color: #218838;
+      border-color: #1e7e34;
+      box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+    }
+
+    .cbi-button-remove {
+      background-color: #dc3545;
+      border-color: #dc3545;
+      color: #ffffff;
+    }
+
+    .cbi-button-remove:hover:not([disabled]) {
+      background-color: #c82333;
+      border-color: #bd2130;
+      box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+    }
+
+    .cbi-button-apply {
+      background-color: #007bff;
+      border-color: #007bff;
+      color: #ffffff;
+    }
+
+    .cbi-button-apply:hover:not([disabled]) {
+      background-color: #0069d9;
+      border-color: #0062cc;
+      box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+    }
+
+    /* 禁用状态 */
+    .diag-action .cbi-button[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background-color: #6c757d !important;
+      border-color: #6c757d !important;
+    }
+
+    /* 深色模式适配 */
+    :root[data-darkmode="true"] .diag-action .cbi-button,
+    body.dark .diag-action .cbi-button {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    :root[data-darkmode="true"] .cbi-button-add,
+    body.dark .cbi-button-add {
+      background-color: rgba(40, 167, 69, 0.8);
+      border-color: rgba(40, 167, 69, 0.6);
+    }
+
+    :root[data-darkmode="true"] .cbi-button-remove,
+    body.dark .cbi-button-remove {
+      background-color: rgba(220, 53, 69, 0.8);
+      border-color: rgba(220, 53, 69, 0.6);
+    }
+
+    :root[data-darkmode="true"] .cbi-button-apply,
+    body.dark .cbi-button-apply {
+      background-color: rgba(0, 123, 255, 0.8);
+      border-color: rgba(0, 123, 255, 0.6);
+    }
+
+    /* 强制重置 table 默认样式 - 使用更具体的选择器 */
+    table.table,
+    .cbi-map table.table {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+      gap: 16px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      border: none !important;
+      border-spacing: 0 !important;
+      border-collapse: initial !important;
+      table-layout: initial !important;
+      margin-top: 1em !important;
+    }
+
+    /* 让 tr 透传，使 td 直接成为 grid 子项 */
+    table.table tr,
+    table.table .tr,
+    .cbi-map table.table tr {
+      display: contents !important;
+    }
+    
+    /* 重置 td 的默认 table-cell 显示 */
+    table.table td,
+    table.table .td,
+    .cbi-map table.table td {
+      display: flex !important;
+    }
+
+    /* 每个诊断项卡片样式 */
+    .table .td.left {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      background: var(--modemdata-card-bg) !important;
+      border: 1px solid var(--modemdata-card-border) !important;
+      border-radius: 8px !important;
+      padding: 16px !important;
+      min-height: 150px !important;
+      transition: all 0.2s ease !important;
+      box-sizing: border-box !important;
+    }
+
+    .table .td.left:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    :root[data-darkmode="true"] .table .td.left:hover,
+    body.dark .table .td.left:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    /* 隐藏空单元格 */
+    .table .td.left:empty {
+      display: none !important;
+    }
+
+    /* 标题 - 左对齐 */
+    .table .cbi-value-title {
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      margin: 0 0 10px 0 !important;
+      padding: 0 !important;
+      display: block !important;
+      color: var(--modemdata-text-primary) !important;
+      line-height: 1.4 !important;
+      text-align: left !important;
+      width: 100% !important;
+    }
+
+    /* 命令区域 - 左对齐，单行显示 */
+    .table .td.left p {
+      margin: 0 0 12px 0 !important;
+      padding: 0 !important;
+      font-size: 11px !important;
+      line-height: 1.4 !important;
+      flex: 1 !important;
+      text-align: left !important;
+      width: 100% !important;
+      overflow: hidden !important;
+    }
+
+    /* code 标签 - 单行显示，可滚动 */
+    .table .td.left p code {
+      background-color: rgba(130, 130, 130, 0.3) !important;
+      padding: 5px 10px !important;
+      border-radius: 4px !important;
+      font-size: 11px !important;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important;
+      color: #0a0a0a !important;
+      font-weight: 600 !important;
+      border: 1px solid rgba(0, 0, 0, 0.2) !important;
+      display: block !important;
+      white-space: nowrap !important;
+      overflow-x: auto !important;
+      max-width: 100% !important;
+    }
+
+    :root[data-darkmode="true"] .table .td.left p code,
+    body.dark .table .td.left p code {
+      background-color: rgba(210, 210, 210, 0.25) !important;
+      color: #f5f5f5 !important;
+      border-color: rgba(255, 255, 255, 0.25) !important;
+    }
+
+    /* 按钮 - 左对齐，固定宽度 */
+    .diag-action {
+      display: flex !important;
+      margin-top: auto !important;
+      width: 100% !important;
+      justify-content: flex-start !important;
+    }
+
+    .diag-action .cbi-button {
+      width: auto !important;
+      min-width: 90px !important;
+      padding: 6px 20px !important;
+      display: inline-block !important;
+      text-align: center !important;
+    }
+
+    /* 修复下拉框文字被遮挡问题 */
+    .cbi-input-select {
+      line-height: 1.6 !important;
+      padding: 8px 12px !important;
+      min-height: 40px !important;
+      font-size: 14px !important;
+    }
+
+    .cbi-input-select option {
+      line-height: 1.8 !important;
+      padding: 8px 12px !important;
+      min-height: 36px !important;
+      font-size: 14px !important;
+    }
+
+    /* 响应式断点优化 */
+    @media (max-width: 669px) {
+      table.table,
+      .cbi-map table.table {
+        grid-template-columns: 1fr !important;
+      }
+    }
+    
+    @media (min-width: 670px) {
+      table.table,
+      .cbi-map table.table {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+      }
+    }
+
+    /* 输出对话框样式 */
+    #cmd_modal_output {
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      color: #333;
+    }
+
+    :root[data-darkmode="true"] #cmd_modal_output,
+    body.dark #cmd_modal_output {
+      background-color: #1a1a1a;
+      border-color: #444;
+      color: #e0e0e0;
+    }
+
+    /* 模态框按钮样式 */
+    .cbi-modal .right .btn {
+      margin-left: 8px;
+      min-width: 80px;
+    }
+
+    /* Modem 选择器样式 */
+    #mselect {
+      font-size: 13px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      transition: border-color 0.2s ease;
+    }
+
+    #mselect:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    }
+
+    :root[data-darkmode="true"] #mselect,
+    body.dark #mselect {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #e0e0e0;
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // 强制清理 table 的 inline styles，确保 Grid 布局生效
+  function cleanTableStyles() {
+    document.querySelectorAll('table.table').forEach(function(table) {
+      table.removeAttribute('style');
+      table.style.cssText = 'display: grid !important; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important; gap: 16px !important; width: 100% !important;';
+    });
+    document.querySelectorAll('table.table td, table.table .td').forEach(function(td) {
+      td.removeAttribute('style');
+      if (td.classList.contains('left')) {
+        td.style.cssText = 'display: flex !important;';
+      }
+    });
+  }
+  
+  // 多次尝试清理，确保生效
+  setTimeout(cleanTableStyles, 50);
+  setTimeout(cleanTableStyles, 200);
+  setTimeout(cleanTableStyles, 500);
+}
+
 let commandOutputDialog = baseclass.extend({
   __init__: function(title, content){ this.title = title; this.content = content; },
 
@@ -173,6 +479,9 @@ return view.extend({
   load: function(){ return L.resolveDefault(uci.load('defmodems')); },
 
   render: function(){
+    // 初始化样式
+    addDiagnosticsStyles();
+    
     let sections = uci.sections('defmodems','defmodems');
     let result = sections.map(s=>`${s.modemdata}_${s.comm_port}_${s.network}_${s.forced_plmn}_${s.onproxy}_#[ ${s.modemdata} ] ${s.comm_port} - ${s.modem} (${s.user_desc})`).join(';');
     result = result.replace("(undefined)","");
@@ -217,19 +526,19 @@ return view.extend({
         off_u2=ids.includes('u2')?true:false;
     }
 
-    let table4 = E('table', { class:'table', style:'width:100%; table-layout:fixed; margin-top:1em;' }, [
+    let table4 = E('table', { class:'table' }, [
       E('tr', {}, [
-        E('td', { class:'td left', style:'vertical-align:top; width:33%;' }, [
+        E('td', { class:'td left' }, [
           E('label', { class:'cbi-value-title' }, _("USB debug information")),
           E('p', {}, _("<code>cat /sys/kernel/debug/usb/devices</code>")),
           E('span', { class:'diag-action' }, [ E('button', { class:'cbi-button', click:ui.createHandlerFn(this,'handleUSB') }, _('Run')) ])
         ]),
-        E('td', { class:'td left', style:'vertical-align:top; width:33%;' }, [
+        E('td', { class:'td left' }, [
           E('label', { class:'cbi-value-title' }, _("Check ttyX ports")),
           E('p', {}, _("<code>ls /dev</code>")),
           E('span', { class:'diag-action' }, [ E('button', { class:'cbi-button', click:ui.createHandlerFn(this,'handleTTY') }, _('Run')) ])
         ]),
-        E('td', { class:'td left', style:'vertical-align:top; width:33%;' }, [
+        E('td', { class:'td left' }, [
           E('label', { class:'cbi-value-title' }, _("Check") + ' ' + _("network.sh")),
           E('p', {}, _("<code>sh -x /usr/share/modemdata/network.sh</code>")),
           E('span', { class:'diag-action' }, [ E('button', { class:'cbi-button', click:ui.createHandlerFn(this,'handlenetwork') }, _('Run')) ])
@@ -237,19 +546,19 @@ return view.extend({
       ])
     ]);
 
-    let table = E('table', { class:'table', style:'width:100%; table-layout:fixed;' }, [
+    let table = E('table', { class:'table' }, [
       E('tr', {}, [
-        E('td', { class:'td left', style:'vertical-align:top; width:33%;' }, [
+        E('td', { class:'td left' }, [
           E('label', { class:'cbi-value-title' }, _("Check serial and ecm mode")),
           E('p', {}, _("<code>sh /usr/bin/md_serial_ecm</code>")),
           E('span', { class:'diag-action' }, [ E('button', { class:'cbi-button cbi-button-add', id:'s1', disabled:off_s1, click:ui.createHandlerFn(this,'handleDBG') }, _('Run')) ])
         ]),
-        E('td', { class:'td left', style:'vertical-align:top; width:33%;' }, [
+        E('td', { class:'td left' }, [
           E('label', { class:'cbi-value-title' }, _("Check") + ' ' + _("product.sh")),
           E('p', {}, _("<code>sh -x /usr/share/modemdata/product.sh</code>")),
           E('span', { class:'diag-action' }, [ E('button', { class:'cbi-button cbi-button-add', id:'s2', disabled:off_s2, click:ui.createHandlerFn(this,'handleproduct') }, _('Run')) ])
         ]),
-        E('td', { class:'td left', style:'vertical-align:top; width:33%;' }, [
+        E('td', { class:'td left' }, [
           E('label', { class:'cbi-value-title' }, _("Check") + ' ' + _("params.sh")),
           E('p', {}, _("<code>sh -x /usr/share/modemdata/params.sh</code>")),
           E('span', { class:'diag-action' }, [ E('button', { class:'cbi-button cbi-button-add', id:'s3', disabled:off_s3, click:ui.createHandlerFn(this,'handleparams') }, _('Run')) ])
@@ -257,35 +566,35 @@ return view.extend({
       ])
     ]);
 
-    let table2 = E('table', { class:'table', style:'width:100%; table-layout:fixed; margin-top:1em;' }, [
+    let table2 = E('table', { class:'table' }, [
       E('tr', {}, [
-        E('td', { class:'td left', style:'vertical-align:top; width:33%;' }, [
+        E('td', { class:'td left' }, [
           E('label', { class:'cbi-value-title' }, _("Check uqmi mode")),
           E('p', {}, _("<code>sh -x /usr/bin/md_uqmi</code>")),
           E('span', { class:'diag-action' }, [ E('button', { class:'cbi-button cbi-button-remove', id:'u1', disabled:off_u1, click:ui.createHandlerFn(this,'handleuqmi') }, _('Run')) ])
         ]),
-        E('td', { class:'td left', style:'vertical-align:top; width:33%;' }, [
+        E('td', { class:'td left' }, [
           E('label', { class:'cbi-value-title' }, _("Check") + ' ' + _("params_qmi.sh")),
           E('p', {}, _("<code>sh -x /usr/share/modemdata/params_qmi.sh</code>")),
           E('span', { class:'diag-action' }, [ E('button', { class:'cbi-button cbi-button-remove', id:'u2', disabled:off_u2, click:ui.createHandlerFn(this,'handleparuqmi') }, _('Run')) ])
         ]),
-        E('td', { class:'td left', style:'vertical-align:top; width:33%;' }, [])
+        E('td', { class:'td left' }, [])
       ])
     ]);
 
-    let table3 = E('table', { class:'table', style:'width:100%; table-layout:fixed; margin-top:1em;' }, [
+    let table3 = E('table', { class:'table' }, [
       E('tr', {}, [
-        E('td', { class:'td left', style:'vertical-align:top; width:33%;' }, [
+        E('td', { class:'td left' }, [
           E('label', { class:'cbi-value-title' }, _("Check ModemManager mode")),
           E('p', {}, _("<code>sh -x /usr/bin/md_modemmanager</code>")),
           E('span', { class:'diag-action' }, [ E('button', { class:'cbi-button cbi-button-apply', id:'m1', disabled:off_m1, click:ui.createHandlerFn(this,'handlemm') }, _('Run')) ])
         ]),
-        E('td', { class:'td left', style:'vertical-align:top; width:33%;' }, [
+        E('td', { class:'td left' }, [
           E('label', { class:'cbi-value-title' }, _("Check") + ' ' + _("params_modemmanager.sh")),
           E('p', {}, _("<code>sh -x /usr/share/modemdata/params_modemmanager.sh</code>")),
           E('span', { class:'diag-action' }, [ E('button', { class:'cbi-button cbi-button-apply', id:'m2', disabled:off_m2, click:ui.createHandlerFn(this,'handleparamsmm') }, _('Run')) ])
         ]),
-        E('td', { class:'td left', style:'vertical-align:top; width:33%;' }, [
+        E('td', { class:'td left' }, [
           E('label', { class:'cbi-value-title' }, _("Check") + ' ' + _("product_modemmanager.sh")),
           E('p', {}, _("<code>sh -x /usr/share/modemdata/product_modemmanager.sh</code>")),
           E('span', { class:'diag-action' }, [ E('button', { class:'cbi-button cbi-button-apply', id:'m3', disabled:off_m3, click:ui.createHandlerFn(this,'handleprodmm') }, _('Run')) ])
