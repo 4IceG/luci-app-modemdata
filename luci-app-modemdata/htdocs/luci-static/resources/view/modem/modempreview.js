@@ -167,6 +167,40 @@ function addDarkModeStyles() {
     :root[data-darkmode="true"] .signal-badge--nodata {
       border: 1px solid rgba(255, 255, 255, 0.4);
     }
+
+    /* Fix checkbox vertical alignment issue across different themes */
+    label.cbi-checkbox {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 0.25em !important;
+      line-height: 1.6 !important;
+      vertical-align: middle !important;
+      min-height: 24px !important;
+    }
+
+    label.cbi-checkbox input[type="checkbox"] {
+      margin: 0 !important;
+      margin-right: 0.5em !important;
+      vertical-align: middle !important;
+      flex-shrink: 0 !important;
+      width: 18px !important;
+      height: 18px !important;
+      opacity: 1 !important;
+      position: static !important;  /* Fix: Some themes (e.g. Argon) set position:relative causing 6.4px offset */
+      top: 0 !important;
+      left: 0 !important;
+      z-index: 1 !important;
+      cursor: pointer !important;
+    }
+
+    label.cbi-checkbox > label[for] {
+      display: none !important;
+    }
+
+    label.cbi-checkbox > label[for]::before,
+    label.cbi-checkbox > label[for]::after {
+      display: none !important;
+    }
   `;
   document.head.appendChild(style);
 }
