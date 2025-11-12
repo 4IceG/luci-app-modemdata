@@ -170,50 +170,62 @@ function addDarkModeStyles() {
 
     /* Fix checkbox vertical alignment issue across different themes */
     label.cbi-checkbox {
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 0.25em !important;
-      line-height: 1.6 !important;
-      vertical-align: middle !important;
-      min-height: 24px !important;
+      display: inline-flex !important;        /* Use flexbox for alignment */
+      align-items: center !important;         /* Vertically center checkbox and text */
+      gap: 0.25em !important;                 /* Space between checkbox and text */
+      line-height: 1.6 !important;            /* Consistent line height */
+      vertical-align: middle !important;      /* Align with surrounding text */
+      min-height: 24px !important;            /* Minimum height for touch targets */
     }
 
     label.cbi-checkbox input[type="checkbox"] {
-      margin: 0 !important;
-      margin-right: 0.5em !important;
-      vertical-align: middle !important;
-      flex-shrink: 0 !important;
-      width: 18px !important;
-      height: 18px !important;
-      opacity: 1 !important;
-      position: static !important;  /* Fix: Some themes (e.g. Argon) set position:relative causing 6.4px offset */
-      top: 0 !important;
-      left: 0 !important;
-      z-index: 1 !important;
-      cursor: pointer !important;
+      margin: 0 !important;                   /* Remove default margins */
+      margin-right: 0.5em !important;         /* Space after checkbox */
+      vertical-align: middle !important;      /* Align with text baseline */
+      flex-shrink: 0 !important;              /* Prevent checkbox from shrinking */
+      position: relative !important;          /* Keep relative for focus effects */
+      top: 0 !important;                      /* Reset vertical offset (fix Argon 6.4px, Bootstrap 2px) */
+      bottom: 0 !important;                   /* Reset bottom offset */
+      left: 0 !important;                     /* Reset horizontal offset */
+      right: 0 !important;                    /* Reset right offset */
     }
 
+    /* Completely hide custom checkbox label and its pseudo-elements to prevent sweep animation */
     label.cbi-checkbox > label[for] {
-      display: none !important;
+      display: none !important;               /* Hide the element */
+      visibility: hidden !important;          /* Make invisible */
+      opacity: 0 !important;                  /* Fully transparent */
+      pointer-events: none !important;        /* Disable mouse events */
+      max-width: 0 !important;                /* Constrain width */
+      max-height: 0 !important;               /* Constrain height */
+      overflow: hidden !important;            /* Hide overflow content */
     }
 
     label.cbi-checkbox > label[for]::before,
     label.cbi-checkbox > label[for]::after {
-      display: none !important;
+      display: none !important;               /* Hide pseudo-elements */
+      content: none !important;               /* Remove content */
+      visibility: hidden !important;          /* Make invisible */
+      max-width: 0 !important;                /* Constrain width to prevent sweep animation */
+      max-height: 0 !important;               /* Constrain height to prevent sweep animation */
     }
 
     /* Fix ifacebox card layout - make body fill the entire card */
     .ifacebox {
-      display: flex !important;           /* Use flexbox layout */
-      flex-direction: column !important;  /* Stack header and body vertically */
+      display: flex !important;                /* Use flexbox layout for consistent card structure */
+      flex-direction: column !important;       /* Stack header and body vertically */
     }
 
     .ifacebox-body {
-      flex: 1 !important;  /* Fill remaining space to match card height */
+      flex: 1 !important;                      /* Fill remaining vertical space to match card height */
+      width: 100% !important;                  /* Take full width of parent (fix width compression) */
+      box-sizing: border-box !important;       /* Include padding in width calculation */
     }
 
     .ifacebox-head {
-      background: transparent !important;  /* Remove gray background, use theme color */
+      background: transparent !important;      /* Remove gray (#f8f8f8) background, use theme color */
+      width: 100% !important;                  /* Take full width of parent */
+      box-sizing: border-box !important;       /* Include padding in width calculation */
     }
   `;
   document.head.appendChild(style);
@@ -1708,12 +1720,15 @@ return view.extend({
       ]),
 
       E('div', { 'style': 'display:flex; align-items:center; gap:1rem; margin-left:auto; flex-wrap:wrap;' }, [
-        E('label', { 'class': 'cbi-checkbox', 'style': 'user-select:none;' }, [
+        E('label', { 
+          'class': 'cbi-checkbox', 
+          'style': 'user-select:none;'
+        }, [
           E('input', {
             'id': 'hide-data',
             'type': 'checkbox',
             'name': 'showhistory',
-            'data-tooltip': _('Hide selected data')
+            'title': _('Hide selected data')
           }),
           ' ',
           E('label', { 'for': 'hide-data' }),
