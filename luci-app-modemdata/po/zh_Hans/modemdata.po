@@ -893,3 +893,42 @@ msgstr "☰"
 
 msgid "-"
 msgstr "-"
+
+msgid "Signal to Interference+Noise / Signal to Noise"
+msgstr "信号与干扰+噪声比 / 信噪比"
+
+msgid "Received Signal Strength Indicator"
+msgstr "接收信号强度指示"
+
+msgid "Reference Signal Received Power"
+msgstr "参考信号接收功率"
+
+msgid "Reference Signal Received Quality"
+msgstr "参考信号接收质量"
+
+msgid "Received Signal Code Power"
+msgstr "接收信号码功率"
+
+msgid "Energy per Chip / Interference"
+msgstr "每码片能量 / 干扰比"
+
+msgid "Modemdata Status"
+msgstr "调制解调器数据状态"
+
+msgid "(Received Signal Strength Indicator)"
+msgstr "（接收信号强度指示）"
+
+msgid "(Reference Signal Received Power)"
+msgstr "（参考信号接收功率）"
+
+msgid "(Reference Signal Received Quality)"
+msgstr "（参考信号接收质量）"
+
+msgid "(Signal to Interference+Noise / Signal to Noise)"
+msgstr "（信号与干扰+噪声比 / 信噪比）"
+
+msgid "(Received Signal Code Power)"
+msgstr "（接收信号码功率）"
+
+msgid "(Energy per Chip / Interference)"
+msgstr "（每码片能量 / 干扰比）"
