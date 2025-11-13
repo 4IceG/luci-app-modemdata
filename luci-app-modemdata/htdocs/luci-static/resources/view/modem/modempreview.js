@@ -232,22 +232,47 @@ function addDarkModeStyles() {
     .cbi-value {
       display: flex !important;                /* Use flexbox for label and field alignment */
       align-items: flex-start !important;      /* Align items to top */
+      width: 100% !important;                  /* Ensure container takes full width */
+      max-width: none !important;              /* Remove any width constraints */
     }
 
-    .cbi-value-title {
-      min-width: 120px !important;             /* Fixed width for labels to align all bars */
-      max-width: 120px !important;
-      flex-shrink: 0 !important;               /* Prevent label from shrinking */
+    .cbi-value > .cbi-value-title,
+    .cbi-value .cbi-value-title,
+    label.cbi-value-title,
+    .cbi-value > label.cbi-value-title,
+    div.cbi-value > label.cbi-value-title {
+      flex: 0 0 240px !important;              /* Fixed width 240px for alignment */
+      min-width: 240px !important;             /* Minimum width to align labels in same container */
+      max-width: 240px !important;             /* Maximum width to prevent expansion */
+      width: 240px !important;                 /* Force exact width */
+      white-space: nowrap !important;          /* Prevent text wrapping */
+      overflow: visible !important;            /* Allow text to be visible */
+      text-overflow: clip !important;          /* Don't use ellipsis */
+      margin-right: 1em !important;            /* Add spacing after label */
+      flex-basis: 240px !important;            /* Force flex-basis to override theme */
     }
 
-    .cbi-value-field {
-      flex: 1 !important;                      /* Take remaining space */
-      min-width: 0 !important;                 /* Allow field to shrink if needed */
+
+    .cbi-value > .cbi-value-field,
+    .cbi-value .cbi-value-field,
+    div.cbi-value-field {
+      flex: 1 1 0 !important;                  /* Grow to fill space equally, 0 basis */
+      min-width: 0 !important;                 /* Remove minimum width constraint */
+      max-width: 300px !important;             /* Limit maximum width for consistency */
+      width: auto !important;                  /* Auto width based on content */
+      margin-left: 0 !important;               /* No left margin, use label's margin-right */
     }
 
     .cbi-progressbar {
-      max-width: 75% !important;               /* Limit bar length to 75% of available space */
-      width: 100% !important;                  /* Take full available width up to max-width */
+      max-width: none !important;              /* Remove max-width constraint */
+      width: 100% !important;                  /* Take full available width */
+      min-width: 200px !important;             /* Minimum width for consistency */
+    }
+    
+    /* Ensure progress bar container has consistent width */
+    .cbi-value-field .cbi-progressbar {
+      display: block !important;               /* Block display for full width */
+      box-sizing: border-box !important;       /* Include padding in width */
     }
 
     /* Fix modal window width for signal levels dialog */
