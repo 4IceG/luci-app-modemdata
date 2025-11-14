@@ -31,13 +31,15 @@ function addDiagnosticsStyles() {
       border-radius: 4px;
       transition: all 0.2s ease;
       font-weight: 500;
+      /* 让按钮文字颜色继承主题的文字颜色 */
+      color: inherit !important;
     }
 
     /* 不同操作类型的按钮颜色 */
     .cbi-button-add {
       background-color: #28a745;
       border-color: #28a745;
-      color: #ffffff;
+      color: #ffffff !important;
     }
 
     .cbi-button-add:hover:not([disabled]) {
@@ -49,7 +51,7 @@ function addDiagnosticsStyles() {
     .cbi-button-remove {
       background-color: #dc3545;
       border-color: #dc3545;
-      color: #ffffff;
+      color: #ffffff !important;
     }
 
     .cbi-button-remove:hover:not([disabled]) {
@@ -61,7 +63,7 @@ function addDiagnosticsStyles() {
     .cbi-button-apply {
       background-color: #007bff;
       border-color: #007bff;
-      color: #ffffff;
+      color: #ffffff !important;
     }
 
     .cbi-button-apply:hover:not([disabled]) {
