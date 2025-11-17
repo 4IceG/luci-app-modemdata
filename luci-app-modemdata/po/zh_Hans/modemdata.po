@@ -772,7 +772,7 @@ msgid "Install"
 msgstr "安装"
 
 msgid "Install…"
-msgstr "安装中..."
+msgstr "去安装..."
 
 msgid "Installed"
 msgstr "已安装"
