@@ -148,6 +148,37 @@ function addDarkModeStyles() {
       text-shadow: var(--signal-shadow);
     }
 
+    .table th, .table td { min-width: 0; }
+
+    .signal-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      padding: 4px 6px;
+      box-sizing: border-box;
+    }
+
+    .signal-cell .signal-badge {
+      flex: 0 0 80px;
+      min-width: 56px;
+      max-width: 80px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-sizing: border-box;
+    }
+
+    .signal-cell .signal-label {
+      flex: 1 1 0;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 12px;
+      line-height: 1;
+    }
+
     :root[data-darkmode="true"] .signal-badge--excellent {
       border: 1px solid rgba(52, 199, 89, 0.6);
     }
@@ -1095,9 +1126,9 @@ function signalCell(value, label, statusColor) {
     default:       cssClass += ' signal-badge--nodata'; break;
   }
 
-  return E('div', { style: 'display:flex;align-items:center;gap:6px;font-size:12px;' }, [
-    E('span', { 'class': cssClass }, value),
-    E('span', { style: 'font-size:12px;font-weight:light;white-space:nowrap;' }, label)
+  return E('div', { 'class': 'signal-cell' }, [
+    E('span', { 'class': cssClass, 'title': String(value) }, value),
+    E('span', { 'class': 'signal-label', 'title': String(label) }, label)
   ]);
 }
 
@@ -1888,10 +1919,15 @@ return view.extend({
                 E('span', {}, _('Signal') + ':'),
                 E('span', { 'style': 'font-weight:500', 'id': signalId }, [ '-' ])
               ]),
-              E('div', { 'style': 'display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px' }, [
-                E('span', {}, _('Connection state') + ':'),
-                E('span', { 'style': 'font-weight:500', 'id': stateId }, [ '-' ])
-              ]),
+                E('div', { 'style': 'display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px' }, [
+                  E('span', {
+                    'style': 'min-width:0; max-width:70%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;'
+                  }, _('Connection state') + ':'),
+                  E('span', {
+                    'style': 'font-weight:500',
+                    'id': stateId
+                  }, [ '-' ])
+                ]),
               E('div', { 'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px' }, [
                 E('span', {}, _('Operator') + ':'),
                 E('span', { 'style': 'font-weight:500', 'id': operatorId }, [ '-' ])
@@ -1904,9 +1940,10 @@ return view.extend({
                 E('span', {}, _('Technology') + ':'),
                 E('span', { 'style': 'font-weight:500', 'id': modeId }, [ '-' ])
               ]),
-              E('div', { 'style': 'text-align:left;font-size:11px;border-top:1px solid var(--border-color-medium);padding-top:8px' }, [
                 E('div', { 'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px' }, [
-                  E('span', {}, _('Connection time') + ':'),
+                  E('span', {
+                    'style': 'min-width:0; max-width:75%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;'
+                  }, _('Connection time') + ':'),
                   E('span', { 'style': 'font-weight:500', 'id': connstId }, [ '-' ])
                 ]),
                 E('div', { 'style': 'display:flex;justify-content:space-between;margin-bottom:2px' }, [
