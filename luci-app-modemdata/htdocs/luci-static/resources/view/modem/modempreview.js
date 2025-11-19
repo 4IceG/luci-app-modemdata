@@ -1923,6 +1923,7 @@ return view.extend({
                   E('span', {
                     'style': 'min-width:0; max-width:70%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;'
                   }, _('Connection state') + ':'),
+
                   E('span', {
                     'style': 'font-weight:500',
                     'id': stateId
@@ -1940,6 +1941,7 @@ return view.extend({
                 E('span', {}, _('Technology') + ':'),
                 E('span', { 'style': 'font-weight:500', 'id': modeId }, [ '-' ])
               ]),
+              E('div', { 'style': 'text-align:left;font-size:11px;border-top:1px solid var(--border-color-medium);padding-top:8px' }, [
                 E('div', { 'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px' }, [
                   E('span', {
                     'style': 'min-width:0; max-width:75%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;'
