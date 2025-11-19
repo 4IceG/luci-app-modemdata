@@ -1923,7 +1923,6 @@ return view.extend({
                   E('span', {
                     'style': 'min-width:0; max-width:70%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;'
                   }, _('Connection state') + ':'),
-
                   E('span', {
                     'style': 'font-weight:500',
                     'id': stateId
