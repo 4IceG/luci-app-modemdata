@@ -36,7 +36,7 @@ try_params_uqmi() {
 SEPARATOR=""
 parse_section() {
 	echo "["
-	$RES/product_qmi.sh "$device"
+	$RES/product.sh "$device"
 	echo ","
 	$RES/network.sh "$network"
 	echo ","

@@ -148,14 +148,16 @@ function addDarkModeStyles() {
       text-shadow: var(--signal-shadow);
     }
 
-    .table th, .table td { min-width: 0; }
+    .table th, .table td {
+      min-width: 0;
+      padding: 4px 1px;
+    }
 
     .signal-cell {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       overflow: hidden;
-      padding: 4px 6px;
       box-sizing: border-box;
     }
 
@@ -171,12 +173,12 @@ function addDarkModeStyles() {
 
     .signal-cell .signal-label {
       flex: 1 1 0;
-      min-width: 0;
+      min-width: 55px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       font-size: 12px;
-      line-height: 1;
+      line-height: 1.2;
     }
 
     :root[data-darkmode="true"] .signal-badge--excellent {
