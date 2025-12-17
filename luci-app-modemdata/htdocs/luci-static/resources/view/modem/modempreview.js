@@ -536,7 +536,7 @@ async function _readSignalsForIndex(idx, forceFresh) {
         res = await L.resolveDefault(fs.exec_direct('/usr/bin/md_modemmanager', [m.comm_port, m.network, m.forced_plmn || '-']));
 
       if (!res) return null;
-      let jsonraw = JSON.parse(res);
+      let jsonraw = JSON.parse(res.replace(/[\u0000-\u001F\u007F-\u009F]/g, ""));
       let arr = Object.values(jsonraw);
       if (!arr || arr.length < 3 || !arr[2]) return null;
 
@@ -1188,7 +1188,7 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
       })().then(function(res) {
         if (!res) return;
 
-        let jsonraw = JSON.parse(res);
+        let jsonraw = JSON.parse(res.replace(/[\u0000-\u001F\u007F-\u009F]/g, ""));
         let json = Object.values(jsonraw);
         if (!json || json.length < 3 || !json[0] || !json[1] || !json[2]) return;
 
