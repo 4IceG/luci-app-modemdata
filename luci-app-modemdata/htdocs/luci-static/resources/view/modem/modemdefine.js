@@ -9,7 +9,7 @@
 
 /*
 
-  Copyright 2025 Rafał Wabik - IceG - From eko.one.pl forum
+  Copyright 2025-2026 Rafał Wabik - IceG - From eko.one.pl forum
 
   MIT License
   

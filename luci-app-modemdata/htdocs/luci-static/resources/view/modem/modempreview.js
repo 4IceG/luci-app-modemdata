@@ -10,7 +10,7 @@
 
 /*
 
-  Copyright 2025 Rafał Wabik - IceG - From eko.one.pl forum
+  Copyright 2025-2026 Rafał Wabik - IceG - From eko.one.pl forum
   
   MIT License
   
@@ -99,10 +99,6 @@ function addDarkModeStyles() {
     
     .connection-status--disconnected {
       background-color: var(--connection-disconnected-bg);
-    }
-
-    .ifacebox {
-      min-width: 23% !important;
     }
 
     .signal-badge {
@@ -245,6 +241,7 @@ function addDarkModeStyles() {
 
     /* Fix ifacebox card layout - make body fill the entire card */
     .ifacebox {
+      min-width: 23% !important;
       display: flex !important;                /* Use flexbox layout for consistent card structure */
       flex-direction: column !important;       /* Stack header and body vertically */
     }
@@ -255,8 +252,7 @@ function addDarkModeStyles() {
       box-sizing: border-box !important;       /* Include padding in width calculation */
     }
 
-    .ifacebox-head {
-      background: transparent !important;      /* Remove gray (#f8f8f8) background, use theme color */
+    .ifacebox-head port-label {
       width: 100% !important;                  /* Take full width of parent */
       box-sizing: border-box !important;       /* Include padding in width calculation */
     }
@@ -1915,7 +1911,7 @@ return view.extend({
 
           // Connection
           E('div', { 'class': 'ifacebox', 'style': 'margin:.25em;width:100%' }, [
-            E('div', { 'class': 'ifacebox-head', 'style': 'font-weight:bold;background:#f8f8f8;padding:8px' }, [ _('Connection') ]),
+            E('div', { 'class': 'ifacebox-head port-label', 'style': 'font-weight:bold;padding:8px' }, [ _('Connection') ]),
             E('div', { 'class': 'ifacebox-body', 'style': 'padding:8px' }, [
               E('div', { 'style': 'display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px' }, [
                 E('span', {}, _('Signal') + ':'),
@@ -1963,7 +1959,7 @@ return view.extend({
 
           // SIM Card
           E('div', { 'class': 'ifacebox', 'style': 'margin:.25em;width:100%' }, [
-            E('div', { 'class': 'ifacebox-head', 'style': 'font-weight:bold;background:#f8f8f8;padding:8px' }, [ _('SIM Card') ]),
+            E('div', { 'class': 'ifacebox-head port-label', 'style': 'font-weight:bold;padding:8px' }, [ _('SIM Card') ]),
             E('div', { 'class': 'ifacebox-body', 'style': 'padding:8px' }, [
               E('div', { 'id': slotDivId, 'style': 'display:none;justify-content:space-between;margin-bottom:4px;font-size:12px' }, [
                 E('span', {}, _('Slot in use') + ':'),
@@ -1991,7 +1987,7 @@ return view.extend({
 
           // Modem Info
           E('div', { 'class': 'ifacebox', 'style': 'margin:.25em;width:100%' }, [
-            E('div', { 'class': 'ifacebox-head', 'style': 'font-weight:bold;background:#f8f8f8;padding:8px' }, [ _('Modem Information') ]),
+            E('div', { 'class': 'ifacebox-head port-label', 'style': 'font-weight:bold;padding:8px' }, [ _('Modem Information') ]),
             E('div', { 'class': 'ifacebox-body', 'style': 'padding:8px' }, [
               E('div', { 'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px' }, [
                 E('span', {}, _('Modem type') + ':'),
@@ -2020,7 +2016,7 @@ return view.extend({
 
           // Cell Info
           E('div', { 'class': 'ifacebox', 'style': 'margin:.25em;width:100%' }, [
-            E('div', { 'class': 'ifacebox-head', 'style': 'font-weight:bold;background:#f8f8f8;padding:8px' }, [ _('Cell Information') ]),
+            E('div', { 'class': 'ifacebox-head port-label', 'style': 'font-weight:bold;padding:8px' }, [ _('Cell Information') ]),
             E('div', { 'class': 'ifacebox-body', 'style': 'padding:8px' }, [
             E('div', { 'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px' }, [
               E('span', {}, _('Cell ID') + ':'),

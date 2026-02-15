@@ -12,6 +12,7 @@
 				"/usr/share/modemdata/product.sh": [ "exec" ],
 				"/usr/share/modemdata/product_modemmanager.sh": [ "exec" ],
 				"/usr/share/modemdata/addon/ecm/huawei.sh": [ "exec" ],
+				"/usr/bin/mmcli": [ "exec" ],
 				"/bin/sh": [ "exec" ],
 				"/usr/bin/md_serial_ecm": [ "exec" ],
 				"/usr/bin/md_modemmanager": [ "exec" ],
