@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# (c) 2024-2025 Rafał Wabik - IceG - From eko.one.pl forum
+# (c) 2024-2026 Rafał Wabik - IceG - From eko.one.pl forum
 #
 
 TAB=$1

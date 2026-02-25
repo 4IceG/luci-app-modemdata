@@ -115,6 +115,12 @@ return view.extend({
         o.default = 'open';
         o.modalonly = true;
         o.depends('website', 'www.btsearch.pl');
+        
+		o = s.taboption('bts1', form.Flag, 'force_no_cert', _('Skip SSL certificate check'),
+		_('Disable SSL certificate verification when downloading. Enable if the server uses a self-signed certificate.')
+		);
+		o.rmempty = false;
+        o.depends('btsaction', 'download');
 
         let sIconv = m.section(form.NamedSection, 'kmods', 'kmods', _());
         sIconv.render = L.bind(function (view) {

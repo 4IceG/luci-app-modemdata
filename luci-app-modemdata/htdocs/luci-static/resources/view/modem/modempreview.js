@@ -866,8 +866,13 @@ async function handleDownloadAction(evOrBtn) {
     default:         searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=-1&mode=std'; break;
   }
 
+  let forceNoCert = uci.get('modemdata', '@modemdata[0]', 'force_no_cert');
+  let fetchArgs = (forceNoCert === '1')
+    ? ['--no-check-certificate', '-O', '/tmp/bts' + modemIndex + '_file', searchsite]
+    : ['-O', '/tmp/bts' + modemIndex + '_file', searchsite];
+
   try {
-    await fs.exec_direct('/bin/uclient-fetch', ['-O', '/tmp/bts' + modemIndex + '_file', searchsite]);
+    await fs.exec_direct('/bin/uclient-fetch', fetchArgs);
     let exists = await fs.stat('/tmp/bts' + modemIndex + '_file');
 
     if (!exists) {

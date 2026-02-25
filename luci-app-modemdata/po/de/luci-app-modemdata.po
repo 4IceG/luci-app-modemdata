@@ -603,3 +603,9 @@ msgstr "2. Nur ein Paket kann Daten vom Modem lesen (gleichzeitig)."
 
 msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
 msgstr "3. Zu häufiges Lesen von Daten vom Modem kann zum Einfrieren führen (MM und uqmi benötigen mehr Zeit)."
+
+msgid "Skip SSL certificate check"
+msgstr "SSL-Zertifikatsprüfung überspringen"
+
+msgid "Disable SSL certificate verification when downloading. Enable if the server uses a self-signed certificate."
+msgstr "SSL-Zertifikatsverifizierung beim Herunterladen deaktivieren. Aktivieren, wenn der Server ein selbstsigniertes Zertifikat verwendet."

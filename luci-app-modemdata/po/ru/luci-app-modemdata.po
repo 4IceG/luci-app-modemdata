@@ -717,3 +717,9 @@ msgstr "2. Только один пакет может читать данные
 
 msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
 msgstr "3. Слишком частое чтение данных с модема может привести к его зависанию (MM и uqmi требуют больше времени)."
+
+msgid "Skip SSL certificate check"
+msgstr "Пропустить проверку SSL-сертификата"
+
+msgid "Disable SSL certificate verification when downloading. Enable if the server uses a self-signed certificate."
+msgstr "Отключить проверку SSL-сертификата при загрузке. Включите, если сервер использует самоподписанный сертификат."

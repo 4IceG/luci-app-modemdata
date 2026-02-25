@@ -1,179 +1,177 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: luci-app-modemdata\n"
-"PO-Revision-Date: 2024-11-04 20:05+0800\n"
-"Last-Translator: \n"
-"Language-Team: Chinese (Simplified)\n"
-"Language: zh_Hans\n"
+"Language-Team: Chinese (Traditional)\n"
+"Language: zh_Hant\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Information about 3G/4G/5G connection"
-msgstr "3G/4G/5G 连接信息"
+msgstr "3G/4G/5G 連線資訊"
 
 msgid "For more information about the modemdata package, please visit: %shttps://github.com/obsy/modemdata%s."
-msgstr "有关 modemdata 软件包的更多信息，请访问：%shttps://github.com/obsy/modemdata%s。"
+msgstr "有關 modemdata 套件的更多資訊，請造訪：%shttps://github.com/obsy/modemdata%s。"
 
 msgid "Package allows the user to view the data read from the modem, to see the parameters of the connection to the mobile network."
-msgstr "该软件包允许用户查看从调制解调器读取的数据，查看移动网络连接参数。"
+msgstr "此套件允許使用者檢視從數據機讀取的資料，查看行動網路連線參數。"
 
 msgid "eko.one.pl forum"
-msgstr "eko.one.pl 论坛"
+msgstr "eko.one.pl 論壇"
 
 msgid "Signal strength"
-msgstr "信号强度"
+msgstr "訊號強度"
 
 msgid "Modem(s)"
-msgstr "调制解调器"
+msgstr "數據機"
 
 msgid "Ups.. no modems detected."
-msgstr "喔嚯……没找到调制解调器。"
+msgstr "哎呀……找不到數據機。"
 
 msgid "Configuration"
-msgstr "配置"
+msgstr "設定"
 
 msgid "General Information"
-msgstr "常规信息"
+msgstr "一般資訊"
 
 msgid "Modem Information"
-msgstr "调制解调器信息"
+msgstr "數據機資訊"
 
 msgid "Cell Information"
-msgstr "基站信息"
+msgstr "基地台資訊"
 
 msgid "Connection"
-msgstr "连接"
+msgstr "連線"
 
 msgid "Technology"
-msgstr "技术"
+msgstr "技術"
 
 msgid "Operator"
-msgstr "运营商"
+msgstr "電信業者"
 
 msgid "Location"
 msgstr "位置"
 
 msgid "Sent"
-msgstr "已发送"
+msgstr "已傳送"
 
 msgid "Connection time"
-msgstr "连接时间"
+msgstr "連線時間"
 
 msgid "Modem type"
-msgstr "调制解调器类型"
+msgstr "數據機類型"
 
 msgid "Hide data."
-msgstr "隐藏数据。"
+msgstr "隱藏資料。"
 
 msgid "Hide selected data"
-msgstr "隐藏选定的数据"
+msgstr "隱藏所選資料"
 
 msgid "Additional information"
-msgstr "附加信息"
+msgstr "附加資訊"
 
 msgid "Revision / FW"
-msgstr "版本 / 固件"
+msgstr "版本 / 韌體"
 
 msgid "IP adress / Port"
-msgstr "IP 地址 / 端口"
+msgstr "IP 位址 / 連接埠"
 
 msgid "Chip Temperature"
-msgstr "芯片温度"
+msgstr "晶片溫度"
 
 msgid "Configuration modemdata package"
-msgstr "配置 modemdata 软件包"
+msgstr "設定 modemdata 套件"
 
 msgid "Configuration panel for modemdata and gui application."
-msgstr "modemdata 和图形界面应用程序的配置面板。"
+msgstr "modemdata 和圖形介面應用程式的設定面板。"
 
 msgid "Add data to hide"
-msgstr "添加要隐藏的数据"
+msgstr "新增要隱藏的資料"
 
 msgid "Enter the data you would like to hide, e.g. <code>IMEI, IMSI</code>."
-msgstr "输入您想要隐藏的数据，例如 <code>IMEI, IMSI</code>。"
+msgstr "輸入您想隱藏的資料，例如 <code>IMEI, IMSI</code>。"
 
 msgid "Open page"
-msgstr "打开页面"
+msgstr "開啟頁面"
 
 msgid "Download data (experimental)"
-msgstr "下载数据（实验性）"
+msgstr "下載資料（實驗性）"
 
 msgid "Network"
-msgstr "网络"
+msgstr "網路"
 
 msgid "IP adress / Port for communication with the modem"
-msgstr "与调制解调器通信的 IP 地址 / 端口"
+msgstr "與數據機通訊的 IP 位址 / 連接埠"
 
 msgid "Defined modems"
-msgstr "已定义的调制解调器"
+msgstr "已定義的數據機"
 
 msgid "Interface to define the available modems. The list of modems will make it easier for the user to switch between modems in LuCI."
-msgstr "定义可用调制解调器的界面。调制解调器列表将使用户更容易在 LuCI 中切换调制解调器。"
+msgstr "定義可用數據機的介面。數據機清單將使使用者更容易在 LuCI 中切換數據機。"
 
 msgid "Settings"
-msgstr "设置"
+msgstr "設定"
 
 msgid "Add new modem settings..."
-msgstr "添加新的调制解调器设置..."
+msgstr "新增數據機設定..."
 
 msgid "Modem Settings"
-msgstr "调制解调器设置"
+msgstr "數據機設定"
 
 msgid "Manufacturer / Product"
-msgstr "制造商 / 产品"
+msgstr "製造商 / 產品"
 
 msgid "Please select a modem"
-msgstr "请选择调制解调器"
+msgstr "請選擇數據機"
 
 msgid "IP adress / Port for communication"
-msgstr "通信的 IP 地址 / 端口"
+msgstr "通訊的 IP 位址 / 連接埠"
 
 msgid "Protocol"
-msgstr "协议"
+msgstr "通訊協定"
 
 msgid "Port for communication"
-msgstr "通信端口"
+msgstr "通訊連接埠"
 
 msgid "Please select a QMI/MBIM port"
-msgstr "请选择 QMI/MBIM 端口"
+msgstr "請選擇 QMI/MBIM 連接埠"
 
 msgid "Modem id"
-msgstr "调制解调器 ID"
+msgstr "數據機 ID"
 
 msgid "Please select a modem id"
-msgstr "请选择调制解调器 ID"
+msgstr "請選擇數據機 ID"
 
 msgid "MBIM device"
-msgstr "MBIM 设备"
+msgstr "MBIM 裝置"
 
 msgid "Select if you want to read from MBIM."
-msgstr "如果要从 MBIM 读取，请选择此项。"
+msgstr "若要從 MBIM 讀取，請選擇此項。"
 
 msgid "Assigned interface"
-msgstr "分配的接口"
+msgstr "指派的介面"
 
 msgid "Interface assigned to modem."
-msgstr "分配给调制解调器的接口。"
+msgstr "指派給數據機的介面。"
 
 msgid "Enter IP adress"
-msgstr "输入 IP 地址"
+msgstr "輸入 IP 位址"
 
 msgid "IP adress"
-msgstr "IP 地址"
+msgstr "IP 位址"
 
 msgid "Reading data via"
-msgstr "通过以下方式读取数据"
+msgstr "透過以下方式讀取資料"
 
 msgid "Port / IP / Modem identifier"
-msgstr "端口 / IP / 调制解调器标识符"
+msgstr "連接埠 / IP / 數據機識別碼"
 
 msgid ""
 "Enter modem name manually if the suggested name is not "
 "obvious. <br /><br /><b>Important</b> <br />The modem name is only searched for modems connected via USB."
 msgstr ""
-"如果建议的名称不明确，请手动输入调制解调器名称。"
-"<br /><br /><b>重要</b> <br />仅搜索通过 USB 连接的调制解调器名称。"
+"如果建議的名稱不明確，請手動輸入數據機名稱。"
+"<br /><br /><b>重要</b> <br />僅搜尋透過 USB 連接的數據機名稱。"
 
 msgid ""
 "Select method for reading data from the modem. <br /> <br />serial port: <br /> Select one of the available "
@@ -181,118 +179,118 @@ msgid ""
 "is available.<br /> <br />uqmi: <br /> Select one of the available cdc-wdmX ports.<br /> <br />ModemManager: <br /> Select "
 "one of the searched modem identifiers."
 msgstr ""
-"选择从调制解调器读取数据的方法。<br /> <br />串口：<br /> 选择一个可用的 "
-"ttyUSBX / ttyACMx / wwan0atX / mhi_DUN 端口。<br /> <br />ecm：<br /> 输入调制解调器（华为）可用的 IP 地址 192.168.X.X。"
-"<br /> <br />uqmi：<br /> 选择一个可用的 cdc-wdmX 端口。<br /> <br />ModemManager：<br /> 选择"
-"一个搜索到的调制解调器标识符。"
+"選擇從數據機讀取資料的方法。<br /> <br />序列埠：<br /> 選擇一個可用的 "
+"ttyUSBX / ttyACMx / wwan0atX / mhi_DUN 連接埠。<br /> <br />ecm：<br /> 輸入數據機（華為）可用的 IP 位址 192.168.X.X。"
+"<br /> <br />uqmi：<br /> 選擇一個可用的 cdc-wdmX 連接埠。<br /> <br />ModemManager：<br /> 選擇"
+"一個搜尋到的數據機識別碼。"
 
 msgid "Please select a port"
-msgstr "请选择端口"
+msgstr "請選擇連接埠"
 
 msgid "User description"
-msgstr "用户描述"
+msgstr "使用者描述"
 
 msgid "Optional"
-msgstr "可选"
+msgstr "選用"
 
 msgid "User description (optional)"
-msgstr "用户描述（可选）"
+msgstr "使用者描述（選用）"
 
 msgid "Excellent"
-msgstr "优秀"
+msgstr "優良"
 
 msgid "Good"
 msgstr "良好"
 
 msgid "Fair"
-msgstr "一般"
+msgstr "普通"
 
 msgid "Poor"
-msgstr "较差"
+msgstr "較差"
 
 msgid "Physical cell ID"
-msgstr "物理小区 ID"
+msgstr "實體小區 ID"
 
 msgid "Bandwidth"
-msgstr "带宽"
+msgstr "頻寬"
 
 msgid "SIM status"
-msgstr "SIM 卡状态"
+msgstr "SIM 卡狀態"
 
 msgid "Not registered"
-msgstr "未注册"
+msgstr "未登錄"
 
 msgid "Registered, home"
-msgstr "已注册，本地网络"
+msgstr "已登錄，本地網路"
 
 msgid "Registered (roaming)"
-msgstr "已注册（漫游）"
+msgstr "已登錄（漫遊）"
 
 msgid "Registered, only SMS"
-msgstr "已注册，仅短信"
+msgstr "已登錄，僅簡訊"
 
 msgid "Registered (roaming), only SMS"
-msgstr "已注册（漫游），仅短信"
+msgstr "已登錄（漫遊），僅簡訊"
 
 msgid "Searching.."
-msgstr "搜索中.."
+msgstr "搜尋中.."
 
 msgid "Connection state"
-msgstr "连接状态"
+msgstr "連線狀態"
 
 msgid "Connected"
-msgstr "已连接"
+msgstr "已連線"
 
 msgid "Disconnected"
-msgstr "已断开"
+msgstr "已中斷"
 
 msgid "Registering denied"
-msgstr "注册被拒绝"
+msgstr "登錄被拒絕"
 
 msgid "Waiting to read data from the modem..."
-msgstr "等待从调制解调器读取数据..."
+msgstr "等待從數據機讀取資料..."
 
 msgid "Waiting for data..."
-msgstr "等待数据..."
+msgstr "等待資料..."
 
 msgid "BTS Search"
-msgstr "基站搜索"
+msgstr "基地台搜尋"
 
 msgid "BTS Information"
-msgstr "基站信息"
+msgstr "基地台資訊"
 
 msgid "Search"
-msgstr "搜索"
+msgstr "搜尋"
 
 msgid "Bands"
-msgstr "频段"
+msgstr "頻段"
 
 msgid "Search BTS"
-msgstr "搜索基站"
+msgstr "搜尋基地台"
 
 msgid "Hint: There may be a problem with polish characters if you download data from the btsearch site. The solution is to install the iconv package (to do this click on the button added below)."
-msgstr "提示：如果从 btsearch 网站下载数据，可能会出现字符编码问题。解决方案是安装 iconv 软件包（单击下面添加的按钮即可）。"
+msgstr "提示：如果從 btsearch 網站下載資料，可能會出現字元編碼問題。解決方案是安裝 iconv 套件（點擊下方新增的按鈕即可）。"
 
 msgid "BTS search settings"
-msgstr "基站搜索设置"
+msgstr "基地台搜尋設定"
 
 msgid "Website to search for BTS"
-msgstr "搜索基站的网站"
+msgstr "搜尋基地台的網站"
 
 msgid "Select a website for searching."
-msgstr "选择用于搜索的网站。"
+msgstr "選擇用於搜尋的網站。"
 
 msgid "Install a package using package manager"
-msgstr "使用软件包管理器安装软件包"
+msgstr "使用套件管理員安裝套件"
 
 msgid "Select an action after clicking the search button."
-msgstr "单击搜索按钮后选择操作。"
+msgstr "點擊搜尋按鈕後選擇操作。"
 
 msgid "Install iconv"
-msgstr "安装 iconv"
+msgstr "安裝 iconv"
 
 msgid "Install qmi-utils"
-msgstr "安装 qmi-utils"
+msgstr "安裝 qmi-utils"
 
 msgid "SIM Slot"
 msgstr "SIM 卡槽"
@@ -304,184 +302,184 @@ msgid "Slot in use"
 msgstr "使用中的卡槽"
 
 msgid "Problem with registering to the network, check the SIM card."
-msgstr "注册到网络时出现问题，请检查 SIM 卡。"
+msgstr "登錄網路時出現問題，請檢查 SIM 卡。"
 
 msgid "SIM PIN required"
-msgstr "需要 SIM 卡 PIN 码"
+msgstr "需要 SIM 卡 PIN 碼"
 
 msgid "SIM PUK required"
-msgstr "需要 SIM 卡 PUK 码"
+msgstr "需要 SIM 卡 PUK 碼"
 
 msgid "SIM failure"
 msgstr "SIM 卡故障"
 
 msgid "SIM busy"
-msgstr "SIM 卡繁忙"
+msgstr "SIM 卡忙碌"
 
 msgid "SIM wrong"
-msgstr "SIM 卡错误"
+msgstr "SIM 卡錯誤"
 
 msgid "SIM PIN2 required"
-msgstr "需要 SIM 卡 PIN2 码"
+msgstr "需要 SIM 卡 PIN2 碼"
 
 msgid "SIM PUK2 required"
-msgstr "需要 SIM 卡 PUK2 码"
+msgstr "需要 SIM 卡 PUK2 碼"
 
 msgid "Information read from the SIM card and device."
-msgstr "从 SIM 卡和设备读取的信息。"
+msgstr "從 SIM 卡和裝置讀取的資訊。"
 
 msgid "No data"
-msgstr "无数据"
+msgstr "無資料"
 
 msgid "Diagnostics"
-msgstr "诊断"
+msgstr "診斷"
 
 msgid "Modem(s) configuration"
-msgstr "调制解调器配置"
+msgstr "數據機設定"
 
 msgid "Package configuration"
-msgstr "软件包配置"
+msgstr "套件設定"
 
 msgid "Run various commands to verify data read from the modem and debug scripts."
-msgstr "运行各种命令以验证从调制解调器读取的数据并调试脚本。"
+msgstr "執行各種命令以驗證從數據機讀取的資料並偵錯指令碼。"
 
 msgid "USB debug information"
-msgstr "USB 调试信息"
+msgstr "USB 除錯資訊"
 
 msgid "Check ttyX ports"
-msgstr "检查 ttyX 端口"
+msgstr "檢查 ttyX 連接埠"
 
 msgid "Check serial and ecm mode"
-msgstr "检查串口和 ecm 模式"
+msgstr "檢查序列埠和 ecm 模式"
 
 msgid "Check uqmi mode"
-msgstr "检查 uqmi 模式"
+msgstr "檢查 uqmi 模式"
 
 msgid "Check ModemManager mode"
-msgstr "检查 ModemManager 模式"
+msgstr "檢查 ModemManager 模式"
 
 msgid "Clear"
 msgstr "清除"
 
 msgid "Download"
-msgstr "下载"
+msgstr "下載"
 
 msgid "Notes Update date"
-msgstr "备注 更新日期"
+msgstr "備註 更新日期"
 
 msgid "Band"
-msgstr "频段"
+msgstr "頻段"
 
 msgid "Package update and support"
-msgstr "软件包更新和支持"
+msgstr "套件更新與支援"
 
 msgid "Failed to download index.json file from external repository."
-msgstr "无法从外部仓库下载 index.json 文件。"
+msgstr "無法從外部儲存庫下載 index.json 檔案。"
 
 msgid "Failed to read downloaded file."
-msgstr "无法读取下载的文件。"
+msgstr "無法讀取下載的檔案。"
 
 msgid "Installed package is up to date."
-msgstr "已安装的软件包是最新的。"
+msgstr "已安裝的套件是最新的。"
 
 msgid "Update is available."
 msgstr "有可用更新。"
 
 msgid "The index.json file did not contain any package information."
-msgstr "index.json 文件不包含任何软件包信息。"
+msgstr "index.json 檔案不包含任何套件資訊。"
 
 msgid "Error parsing version."
-msgstr "解析版本时出错。"
+msgstr "解析版本時出錯。"
 
 msgid "Check repository"
-msgstr "检查仓库"
+msgstr "檢查儲存庫"
 
 msgid "Package update..."
-msgstr "软件包更新..."
+msgstr "套件更新..."
 
 msgid "Report a bug"
-msgstr "报告错误"
+msgstr "回報錯誤"
 
 msgid "Write in the topic of the package on the forum eko.one.pl"
-msgstr "在 eko.one.pl 论坛的软件包主题中发帖"
+msgstr "在 eko.one.pl 論壇的套件主題中發文"
 
 msgid "Write on forum"
-msgstr "在论坛上发帖"
+msgstr "在論壇上發文"
 
 msgid "Report a bug on the package Github page"
-msgstr "在软件包的 Github 页面上报告错误"
+msgstr "在套件的 Github 頁面上回報錯誤"
 
 msgid "Open a package discussion on Github"
-msgstr "在 Github 上打开软件包讨论"
+msgstr "在 Github 上開啟套件討論"
 
 msgid "Open discussion"
-msgstr "打开讨论"
+msgstr "開啟討論"
 
 msgid "Buy a coffee if you want to support the development of the project and the author"
-msgstr "如果您想支持项目和作者的开发，请请我喝杯咖啡"
+msgstr "如果您想支持專案和作者的開發，請請我喝杯咖啡"
 
 msgid "Buy a coffee"
-msgstr "请喝咖啡"
+msgstr "請喝咖啡"
 
 msgid "Become a sponsor if you want to support the development of the project and the author"
-msgstr "如果您想支持项目和作者的开发，请成为赞助者"
+msgstr "如果您想支持專案和作者的開發，請成為贊助者"
 
 msgid "Become a sponsor"
-msgstr "成为赞助者"
+msgstr "成為贊助者"
 
 msgid "Download package information from an external repository"
-msgstr "从外部仓库下载软件包信息"
+msgstr "從外部儲存庫下載套件資訊"
 
 msgid "Add repository and download package update"
-msgstr "添加仓库并下载软件包更新"
+msgstr "新增儲存庫並下載套件更新"
 
 msgid "Package Info"
-msgstr "软件包信息"
+msgstr "套件資訊"
 
 msgid "Compiled"
-msgstr "编译时间"
+msgstr "編譯時間"
 
 msgid "Repository Info"
-msgstr "仓库信息"
+msgstr "儲存庫資訊"
 
 msgid "Currently installed"
-msgstr "当前已安装"
+msgstr "目前已安裝"
 
 msgid "Package in repository"
-msgstr "仓库中的软件包"
+msgstr "儲存庫中的套件"
 
 msgid "Last repository check"
-msgstr "上次检查仓库"
+msgstr "上次檢查儲存庫"
 
 msgid "Poland"
-msgstr "波兰"
+msgstr "波蘭"
 
 msgid "Force read by"
-msgstr "强制读取方式"
+msgstr "強制讀取方式"
 
 msgid "Select method for reading data from the modem."
-msgstr "选择从调制解调器读取数据的方法。"
+msgstr "選擇從數據機讀取資料的方法。"
 
 msgid "inactive"
-msgstr "未激活"
+msgstr "未啟用"
 
 msgid "ModemMenager"
-msgstr "调制解调器管理器"
+msgstr "數據機管理員"
 
 msgid "Force PLMN"
-msgstr "强制 PLMN"
+msgstr "強制 PLMN"
 
 msgid "Force reading PLMN from file."
-msgstr "强制从文件读取 PLMN。"
+msgstr "強制從檔案讀取 PLMN。"
 
 msgid "Command result"
-msgstr "命令结果"
+msgstr "命令結果"
 
 msgid "Check"
-msgstr "检查"
+msgstr "檢查"
 
 msgid "Auto update every:"
-msgstr "自动更新间隔："
+msgstr "自動更新間隔："
 
 msgid "2 seconds"
 msgstr "2 秒"
@@ -505,208 +503,208 @@ msgid "60 seconds"
 msgstr "60 秒"
 
 msgid "Refresh rate"
-msgstr "刷新频率"
+msgstr "重新整理頻率"
 
 msgid "Set how often the data should be refreshed in the Modem(s) tab."
-msgstr "设置调制解调器选项卡中数据刷新的频率。"
+msgstr "設定數據機索引標籤中資料重新整理的頻率。"
 
 msgid ""
 "Set how often the data should be refreshed in the Modem(s) tab. <br /><br /><b>Important</b> <br />Not "
 "every modem / protocol can communicate quickly with scripts. "
 "Too high a polling rate can freeze the modem. <br />ModemManager and uqmi need more time to respond."
 msgstr ""
-"设置调制解调器选项卡中数据刷新的频率。<br /><br /><b>重要</b> <br />并非"
-"每个调制解调器 / 协议都能与脚本快速通信。"
-"轮询频率过高可能会导致调制解调器冻结。<br />ModemManager 和 uqmi 需要更多时间响应。"
+"設定數據機索引標籤中資料重新整理的頻率。<br /><br /><b>重要</b> <br />並非"
+"每個數據機 / 通訊協定都能與指令碼快速通訊。"
+"輪詢頻率過高可能會導致數據機凍結。<br />ModemManager 和 uqmi 需要更多時間回應。"
 
 msgid "Updating again in %s second(s)."
-msgstr "%s 秒后再次更新。"
+msgstr "%s 秒後再次更新。"
 
 msgid "Please wait... data collection is in progress."
-msgstr "请稍候... 正在收集数据。"
+msgstr "請稍候... 正在收集資料。"
 
 msgid "Modems found"
-msgstr "找到的调制解调器"
+msgstr "找到的數據機"
 
 msgid "List of found modems. Not all modems may be shown."
-msgstr "找到的调制解调器列表。可能不会显示所有调制解调器。"
+msgstr "找到的數據機清單。可能不會顯示所有數據機。"
 
 msgid "Show modems found"
-msgstr "显示找到的调制解调器"
+msgstr "顯示找到的數據機"
 
 msgid "Show"
-msgstr "显示"
+msgstr "顯示"
 
 msgid "Currently, only modems connected via USB are searched for."
-msgstr "目前仅搜索通过 USB 连接的调制解调器。"
+msgstr "目前僅搜尋透過 USB 連接的數據機。"
 
 msgid "No Modems Detected..."
-msgstr "未检测到调制解调器..."
+msgstr "未偵測到數據機..."
 
 msgid "Oops.. there are no modems in settings. You will be redirected to a tab where you can define the installed modem(s)."
-msgstr "喔嚯……设置中没有调制解调器。您将被重定向到可以定义已安装调制解调器的选项卡。"
+msgstr "哎呀……設定中沒有數據機。您將被重新導向到可以定義已安裝數據機的索引標籤。"
 
 msgid "Redirecting..."
-msgstr "重定向中..."
+msgstr "重新導向中..."
 
 msgid "Redirecting in"
-msgstr "重定向倒计时"
+msgstr "重新導向倒數"
 
 msgid "seconds..."
 msgstr "秒..."
 
 msgid "(no data)"
-msgstr "（无数据）"
+msgstr "（無資料）"
 
 msgid "Enter a valid IP address in the format 192.168.X.X"
-msgstr "以 192.168.X.X 格式输入有效的 IP 地址"
+msgstr "以 192.168.X.X 格式輸入有效的 IP 位址"
 
 msgid "Only numbers and dots are allowed"
-msgstr "只允许数字和点"
+msgstr "只允許數字和點"
 
 msgid "Each part must be a number from 0 to 255"
-msgstr "每部分必须是 0 到 255 之间的数字"
+msgstr "每部分必須是 0 到 255 之間的數字"
 
 msgid "In the future tab will allow you to update the package from %sRafał (IceG) external repository%s."
-msgstr "将来此选项卡将允许您从 %sRafał (IceG) 外部仓库%s 更新软件包。"
+msgstr "將來此索引標籤將允許您從 %sRafał (IceG) 外部儲存庫%s 更新套件。"
 
 msgid "Option will appear after apk implementation."
-msgstr "选项将在 apk 实现后出现。"
+msgstr "選項將在 apk 實作後出現。"
 
 msgid "Author (package maintainer)"
-msgstr "作者（软件包维护者）"
+msgstr "作者（套件維護者）"
 
 msgid "Modemdata Info"
-msgstr "Modemdata 信息"
+msgstr "Modemdata 資訊"
 
 msgid "Luci-app-modemdata Info"
-msgstr "Luci-app-modemdata 信息"
+msgstr "Luci-app-modemdata 資訊"
 
 msgid "Go to the Diagnostics tab and run a script check. Most often, the error is caused by a strange operator name. To fix this, select the Force PLMN from file option if it is available in the modem configuration options."
-msgstr "转到诊断选项卡并运行脚本检查。通常，错误是由奇怪的运营商名称引起的。要解决此问题，请在调制解调器配置选项中选择从文件强制 PLMN 选项（如果可用）。"
+msgstr "前往診斷索引標籤並執行指令碼檢查。通常，錯誤是由奇怪的電信業者名稱引起的。要解決此問題，請在數據機設定選項中選擇從檔案強制 PLMN 選項（如果可用）。"
 
 msgid "If data in LuCI is not visible, and we are 100% sure that the modem has been defined/configured correctly."
-msgstr "如果 LuCI 中的数据不可见，而我们百分之百确定调制解调器已正确定义/配置。"
+msgstr "如果 LuCI 中的資料不可見，而我們百分之百確定數據機已正確定義/設定。"
 
 msgid "Suggested solution"
-msgstr "建议的解决方案"
+msgstr "建議的解決方案"
 
 msgid "Troubleshooting"
-msgstr "故障排除"
+msgstr "疑難排解"
 
 msgid "Please select method for reading data from the modem and install the necessary packages."
-msgstr "请选择从调制解调器读取数据的方法并安装必要的软件包。"
+msgstr "請選擇從數據機讀取資料的方法並安裝必要的套件。"
 
 msgid "Required packages"
-msgstr "所需软件包"
+msgstr "所需套件"
 
 msgid "Check required packages"
-msgstr "检查所需软件包"
+msgstr "檢查所需套件"
 
 msgid "Before configuring the modem, check if all required packages are installed in the system."
-msgstr "在配置调制解调器之前，请检查系统中是否安装了所有必需的软件包。"
+msgstr "在設定數據機之前，請檢查系統中是否安裝了所有必要的套件。"
 
 msgid "Loading package data…"
-msgstr "加载软件包数据..."
+msgstr "載入套件資料..."
 
 msgid "Waiting..."
 msgstr "等待中..."
 
 msgid "Show signal levels"
-msgstr "显示信号电平"
+msgstr "顯示訊號電平"
 
 msgid "Primary band signal levels"
-msgstr "主频段信号电平"
+msgstr "主頻段訊號電平"
 
 msgid "Device is busy"
-msgstr "设备繁忙"
+msgstr "裝置忙碌"
 
 msgid "Primary band"
-msgstr "主频段"
+msgstr "主頻段"
 
 msgid "Available options"
-msgstr "可用选项"
+msgstr "可用選項"
 
 msgid "Device not found"
-msgstr "未找到设备"
+msgstr "找不到裝置"
 
 msgid "Click to view Cell ID details"
-msgstr "单击以查看小区 ID 详细信息"
+msgstr "點擊以查看小區 ID 詳細資訊"
 
 msgid "Cell ID (dec)"
-msgstr "小区 ID（十进制）"
+msgstr "小區 ID（十進位）"
 
 msgid "Cell ID (hex)"
-msgstr "小区 ID（十六进制）"
+msgstr "小區 ID（十六進位）"
 
 msgid "eNB ID (hex)"
-msgstr "eNB ID（十六进制）"
+msgstr "eNB ID（十六進位）"
 
 msgid "Sector ID (hex)"
-msgstr "扇区 ID（十六进制）"
+msgstr "扇區 ID（十六進位）"
 
 msgid "eNB ID (dec)"
-msgstr "eNB ID（十进制）"
+msgstr "eNB ID（十進位）"
 
 msgid "Sector ID (dec)"
-msgstr "扇区 ID（十进制）"
+msgstr "扇區 ID（十進位）"
 
 msgid "Cell ID (hex) for CellMapper"
-msgstr "CellMapper 的小区 ID（十六进制）"
+msgstr "CellMapper 的小區 ID（十六進位）"
 
 msgid "Cell ID (dec) for CellMapper"
-msgstr "CellMapper 的小区 ID（十进制）"
+msgstr "CellMapper 的小區 ID（十進位）"
 
 msgid "Cell ID Information"
-msgstr "小区 ID 信息"
+msgstr "小區 ID 資訊"
 
 msgid "Modem"
-msgstr "调制解调器"
+msgstr "數據機"
 
 msgid "Detailed Cell ID information with formats for different tools and applications."
-msgstr "详细的小区 ID 信息，包含不同工具和应用程序的格式。"
+msgstr "詳細的小區 ID 資訊，包含不同工具和應用程式的格式。"
 
 msgid "Information about package authors and available support options."
-msgstr "有关软件包作者和可用支持选项的信息。"
+msgstr "有關套件作者和可用支援選項的資訊。"
 
 msgid "Package name"
-msgstr "软件包名称"
+msgstr "套件名稱"
 
 msgid "Proper Modem Configuration."
-msgstr "正确的调制解调器配置。"
+msgstr "正確的數據機設定。"
 
 msgid "User should remember:"
-msgstr "用户应记住："
+msgstr "使用者應記住："
 
 msgid "1. For a specific modem, only one protocol should be set for communication with modem."
-msgstr "1. 对于特定的调制解调器，只应设置一个与调制解调器通信的协议。"
+msgstr "1. 對於特定的數據機，只應設定一個與數據機通訊的通訊協定。"
 
 msgid "2. Only one package can read data from modem (at the same time)."
-msgstr "2. 同时只能有一个软件包从调制解调器读取数据。"
+msgstr "2. 同時只能有一個套件從數據機讀取資料。"
 
 msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
-msgstr "3. 过于频繁地从调制解调器读取数据可能会导致其冻结（MM 和 uqmi 需要更多时间）。"
+msgstr "3. 過於頻繁地從數據機讀取資料可能會導致其凍結（MM 和 uqmi 需要更多時間）。"
 
 msgid "Troubleshooting / Hints"
-msgstr "故障排除 / 提示"
+msgstr "疑難排解 / 提示"
 
 msgid "Problem"
-msgstr "问题"
+msgstr "問題"
 
 msgid "Common problems that may arise when using the package, and ways to solve them."
-msgstr "使用软件包时可能出现的常见问题及其解决方法。"
+msgstr "使用套件時可能出現的常見問題及其解決方法。"
 
 msgid "Package does not show data for the Fibocom FM350-GL modem."
-msgstr "软件包不显示 Fibocom FM350-GL 调制解调器的数据。"
+msgstr "套件不顯示 Fibocom FM350-GL 數據機的資料。"
 
 msgid "The modem is very sensitive to data read by the communication port. Selecting the wrong communication port may cause the modem to freeze or restart."
-msgstr "调制解调器对通信端口读取的数据非常敏感。选择错误的通信端口可能会导致调制解调器冻结或重启。"
+msgstr "數據機對通訊連接埠讀取的資料非常敏感。選擇錯誤的通訊連接埠可能會導致數據機凍結或重新啟動。"
 
 msgid "and"
 msgstr "和"
 
 msgid "packages are recommended for proper modem support."
-msgstr "软件包推荐用于正确支持调制解调器。"
+msgstr "套件推薦用於正確支援數據機。"
 
 msgid "Modemdata"
 msgstr "Modemdata"
@@ -715,70 +713,70 @@ msgid "Luci-app-modemdata"
 msgstr "Luci-app-modemdata"
 
 msgid "Info"
-msgstr "信息"
+msgstr "資訊"
 
 msgid "Action"
 msgstr "操作"
 
 msgid "Run"
-msgstr "运行"
+msgstr "執行"
 
 msgid "Close"
-msgstr "关闭"
+msgstr "關閉"
 
 msgid "Dismiss"
-msgstr "关闭"
+msgstr "關閉"
 
 msgid "Unable to clear the file"
-msgstr "无法清除文件"
+msgstr "無法清除檔案"
 
 msgid "Unable to read the contents"
-msgstr "无法读取内容"
+msgstr "無法讀取內容"
 
 msgid "Unable to save the contents"
-msgstr "无法保存内容"
+msgstr "無法儲存內容"
 
 msgid "Error: "
-msgstr "错误："
+msgstr "錯誤："
 
 msgid "Download error"
-msgstr "下载错误"
+msgstr "下載錯誤"
 
 msgid "Failed to load package data."
-msgstr "无法加载软件包数据。"
+msgstr "無法載入套件資料。"
 
 msgid "Failed to download bts data file from site."
-msgstr "无法从网站下载基站数据文件。"
+msgstr "無法從網站下載基地台資料檔案。"
 
 msgid "Failed to process the downloaded file with btsearch.sh."
-msgstr "无法使用 btsearch.sh 处理下载的文件。"
+msgstr "無法使用 btsearch.sh 處理下載的檔案。"
 
 msgid "Error loading Cell ID data: "
-msgstr "加载小区 ID 数据时出错："
+msgstr "載入小區 ID 資料時出錯："
 
 msgid "Loading"
-msgstr "加载中"
+msgstr "載入中"
 
 msgid "Refreshing"
-msgstr "刷新中"
+msgstr "重新整理中"
 
 msgid "Disabled"
-msgstr "已禁用"
+msgstr "已停用"
 
 msgid "Disabled."
-msgstr "已禁用。"
+msgstr "已停用。"
 
 msgid "Install"
-msgstr "安装"
+msgstr "安裝"
 
 msgid "Install…"
-msgstr "去安装..."
+msgstr "前往安裝..."
 
 msgid "Installed"
-msgstr "已安装"
+msgstr "已安裝"
 
 msgid "serial"
-msgstr "串口"
+msgstr "序列埠"
 
 msgid "ecm"
 msgstr "ecm"
@@ -787,28 +785,28 @@ msgid "uqmi"
 msgstr "uqmi"
 
 msgid "modemmanager"
-msgstr "调制解调器管理器"
+msgstr "數據機管理員"
 
 msgid "modem "
 msgstr "调制解调器 "
 
 msgid "Name"
-msgstr "名称"
+msgstr "名稱"
 
 msgid "Time"
-msgstr "时间"
+msgstr "時間"
 
 msgid "Signal"
-msgstr "信号"
+msgstr "訊號"
 
 msgid "(Signal Strength)"
-msgstr "（信号强度）"
+msgstr "（訊號強度）"
 
 msgid "Received"
 msgstr "已接收"
 
 msgid "Country"
-msgstr "国家"
+msgstr "國家"
 
 msgid "ICCID"
 msgstr "ICCID"
@@ -868,19 +866,19 @@ msgid "UC-Id/ECID"
 msgstr "UC-Id/ECID"
 
 msgid "Duplex"
-msgstr "双工"
+msgstr "雙工"
 
 msgid "StationID"
-msgstr "站点 ID"
+msgstr "站點 ID"
 
 msgid "Cd."
-msgstr "编号"
+msgstr "編號"
 
 msgid "Mobile Country Code"
-msgstr "移动国家代码"
+msgstr "行動國家代碼"
 
 msgid "Mobile Network Code"
-msgstr "移动网络代码"
+msgstr "行動網路代碼"
 
 msgid "btsearch.pl"
 msgstr "btsearch.pl"
@@ -895,46 +893,46 @@ msgid "-"
 msgstr "-"
 
 msgid "Signal to Interference+Noise / Signal to Noise"
-msgstr "信号与干扰+噪声比 / 信噪比"
+msgstr "訊號與干擾+雜訊比 / 訊噪比"
 
 msgid "Received Signal Strength Indicator"
-msgstr "接收信号强度指示"
+msgstr "接收訊號強度指示"
 
 msgid "Reference Signal Received Power"
-msgstr "参考信号接收功率"
+msgstr "參考訊號接收功率"
 
 msgid "Reference Signal Received Quality"
-msgstr "参考信号接收质量"
+msgstr "參考訊號接收品質"
 
 msgid "Received Signal Code Power"
-msgstr "接收信号码功率"
+msgstr "接收訊號碼功率"
 
 msgid "Energy per Chip / Interference"
-msgstr "每码片能量 / 干扰比"
+msgstr "每碼片能量 / 干擾比"
 
 msgid "Modemdata Status"
-msgstr "调制解调器数据状态"
+msgstr "數據機資料狀態"
 
 msgid "(Received Signal Strength Indicator)"
-msgstr "（接收信号强度指示）"
+msgstr "（接收訊號強度指示）"
 
 msgid "(Reference Signal Received Power)"
-msgstr "（参考信号接收功率）"
+msgstr "（參考訊號接收功率）"
 
 msgid "(Reference Signal Received Quality)"
-msgstr "（参考信号接收质量）"
+msgstr "（參考訊號接收品質）"
 
 msgid "(Signal to Interference+Noise / Signal to Noise)"
-msgstr "（信号与干扰+噪声比 / 信噪比）"
+msgstr "（訊號與干擾+雜訊比 / 訊噪比）"
 
 msgid "(Received Signal Code Power)"
-msgstr "（接收信号码功率）"
+msgstr "（接收訊號碼功率）"
 
 msgid "(Energy per Chip / Interference)"
-msgstr "（每码片能量 / 干扰比）"
+msgstr "（每碼片能量 / 干擾比）"
 
 msgid "Skip SSL certificate check"
-msgstr "跳过 SSL 证书检查"
+msgstr "略過 SSL 憑證檢查"
 
 msgid "Disable SSL certificate verification when downloading. Enable if the server uses a self-signed certificate."
-msgstr "下载时禁用 SSL 证书验证。如果服务器使用自签名证书，请启用此选项。"
+msgstr "下載時停用 SSL 憑證驗證。若伺服器使用自簽憑證，請啟用此選項。"
