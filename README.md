@@ -288,6 +288,8 @@ LuCI JS interface for [modemdata](https://github.com/obsy/modemdata) package. In
 
 ![](https://github.com/4IceG/Personal_data/blob/master/zrzuty/modemdata/mdlast3b.png?raw=true)
 
+![](https://github.com/4IceG/Personal_data/blob/master/zrzuty/modemdata/BTSearch.png?raw=true)
+
 ![](https://github.com/4IceG/Personal_data/blob/master/zrzuty/modemdata/modemdata_upd_modal.png?raw=true)
 
 > "Diagnostics" window / Okno diagnostyki:
@@ -304,7 +306,7 @@ LuCI JS interface for [modemdata](https://github.com/obsy/modemdata) package. In
 
 > "Configuration" window / Okno konfiguracji pakietu:
 
-![](https://github.com/4IceG/Personal_data/blob/master/zrzuty/modemdata/md4b.png?raw=true)
+![](https://github.com/4IceG/Personal_data/blob/master/zrzuty/modemdata/Package%20configuration%20bts.png?raw=true)
 
 > "Package update and support" window / Okno aktualizacji pakietu i wsparcia:
 
