@@ -4,7 +4,6 @@
 		"read": {
    			"cgi-io": [ "exec" ],
     			"file": {
-				"/usr/share/modemdata/btsearch.sh": [ "exec" ],
 				"/usr/share/modemdata/network.sh": [ "exec" ],
 				"/usr/share/modemdata/params.sh": [ "exec" ],
 				"/usr/share/modemdata/params_modemmanager.sh": [ "exec" ],
@@ -29,6 +28,7 @@
 				"/dev": [ "list" ],
 				"/etc/defmodems": [ "read" ],
 				"/etc/modem/modemlist.json": [ "read" ],
+				"/usr/bin/curl": [ "exec" ],
 				"/usr/libexec/package-manager-call list-installed": [ "exec" ],
 				"/usr/libexec/opkg-list installed": [ "exec" ],
 				"/usr/libexec/opkg-call list-installed": [ "exec" ],
@@ -40,7 +40,7 @@
 			"file": {
 				"/bin/cat": [ "exec" ],
 				"/bin/sh": [ "exec" ],
-				"/usr/bin/wget": [ "exec" ],
+                                "/usr/bin/curl": [ "exec" ],
 				"/bin/uclient-fetch": [ "exec" ],
 				"/bin/ls /dev": [ "exec" ],
 				"/bin/sh /usr/bin/md_serial_ecm": [ "exec" ],

@@ -717,8 +717,41 @@ msgstr "2. Chỉ một gói có thể đọc dữ liệu từ modem (cùng một
 msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
 msgstr "3. Đọc dữ liệu từ modem quá thường xuyên có thể làm treo thiết bị (MM và uqmi cần nhiều thời gian hơn)."
 
-msgid "Skip SSL certificate check"
-msgstr "Bỏ qua kiểm tra chứng chỉ SSL"
+msgid "BTS search: no response from server."
+msgstr "Tìm kiếm BTS: không có phản hồi từ máy chủ."
 
-msgid "Disable SSL certificate verification when downloading. Enable if the server uses a self-signed certificate."
-msgstr "Tắt xác minh chứng chỉ SSL khi tải xuống. Bật nếu máy chủ sử dụng chứng chỉ tự ký."
+msgid "BTS search: no results found."
+msgstr "Tìm kiếm BTS: không tìm thấy kết quả."
+
+msgid "this month"
+msgstr "tháng này"
+
+msgid "month ago"
+msgstr "1 tháng trước"
+
+msgid "months ago"
+msgstr "vài tháng trước"
+
+msgid "Station ID"
+msgstr "ID trạm"
+
+msgid "Confirmed"
+msgstr "Đã xác nhận"
+
+msgid "Updated"
+msgstr "Đã cập nhật"
+
+msgid "Show on map"
+msgstr "Hiển thị trên bản đồ"
+
+msgid "Download data"
+msgstr "Tải dữ liệu"
+
+msgid "Install curl"
+msgstr "Cài đặt curl"
+
+msgid "Hint: The package supports the third generation of the BTSearch website."
+msgstr "Gợi ý: Gói này hỗ trợ thế hệ thứ ba của trang web BTSearch."
+
+msgid "To download data (via the API), you must have the curl package installed (to do this click on the button added below)."
+msgstr "Để tải dữ liệu (qua API), bạn cần cài đặt gói curl (nhấn vào nút bên dưới để thực hiện)."

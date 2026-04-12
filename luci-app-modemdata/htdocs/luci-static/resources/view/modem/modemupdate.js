@@ -32,22 +32,11 @@ return view.extend({
 
 	render: function (data) {
 		let m, s, o;
-
+		
 		let info = _('In the future tab will allow you to update the package from %sRafał (IceG) external repository%s.')
 			.format('<a href="https://github.com/4IceG/Modem-extras-apk" target="_blank">', '</a>');
 
 		m = new form.Map('modemdata', _('Package update and support'), info);
-
-		s = m.section(form.NamedSection, 'global');
-		s.render = L.bind(function (view, section_id) {
-			return E('div', { 'class': 'cbi-section' }, [
-			E('div', { 'class': 'ifacebox', 'style': 'display:flex' }, [
-			E('strong', _('Info')),
-					E('label', {}, _('Option will appear after apk implementation.')),
-				]),
-				E('br'),
-			]);
-		}, o, this);
 
 		s = m.section(form.TypedSection);
 		s.anonymous = true;

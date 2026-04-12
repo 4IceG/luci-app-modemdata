@@ -933,8 +933,41 @@ msgstr "（接收信号码功率）"
 msgid "(Energy per Chip / Interference)"
 msgstr "（每码片能量 / 干扰比）"
 
-msgid "Skip SSL certificate check"
-msgstr "跳过 SSL 证书检查"
+msgid "BTS search: no response from server."
+msgstr "BTS搜索：服务器无响应。"
 
-msgid "Disable SSL certificate verification when downloading. Enable if the server uses a self-signed certificate."
-msgstr "下载时禁用 SSL 证书验证。如果服务器使用自签名证书，请启用此选项。"
+msgid "BTS search: no results found."
+msgstr "BTS搜索：未找到结果。"
+
+msgid "this month"
+msgstr "本月"
+
+msgid "month ago"
+msgstr "1个月前"
+
+msgid "months ago"
+msgstr "几个月前"
+
+msgid "Station ID"
+msgstr "基站ID"
+
+msgid "Confirmed"
+msgstr "已确认"
+
+msgid "Updated"
+msgstr "已更新"
+
+msgid "Show on map"
+msgstr "在地图上显示"
+
+msgid "Download data"
+msgstr "下载数据"
+
+msgid "Install curl"
+msgstr "安装curl"
+
+msgid "Hint: The package supports the third generation of the BTSearch website."
+msgstr "提示：该软件包支持BTSearch网站第三代版本。"
+
+msgid "To download data (via the API), you must have the curl package installed (to do this click on the button added below)."
+msgstr "要通过API下载数据，必须安装curl软件包（点击下方按钮即可安装）。"

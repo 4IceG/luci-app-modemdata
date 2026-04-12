@@ -48,11 +48,34 @@ let pkg = {
 
 return view.extend({
 
-    option_install_iconv: function () {
-        return pkg.openInstallerSearch('iconv');
+    option_install_curl: function () {
+        return pkg.openInstallerSearch('curl');
     },
 
-    render: function () {
+    checkPackages: function () {
+        return fs.exec_direct('/usr/bin/opkg', ['list-installed'], 'text')
+            .catch(function () {
+                return fs.exec_direct('/usr/libexec/opkg-call', ['list-installed'], 'text')
+                    .catch(function () {
+                        return fs.exec_direct('/usr/libexec/package-manager-call', ['list-installed'], 'text')
+                            .catch(function () { return ''; });
+                    });
+            })
+            .then(function (data) {
+                data = (data || '').trim();
+                return data ? data.split('\n') : [];
+            });
+    },
+
+    load: function () {
+        return Promise.all([
+            this.checkPackages()
+        ]);
+    },
+
+    render: function (data) {
+        let installedList = Array.isArray(data[0]) ? data[0] : [];
+        let curlInstalled = installedList.some(function (s) { return s && s.indexOf('curl') !== -1; });
         let m, s, o;
 
         m = new form.Map('modemdata', _('Configuration'),
@@ -92,10 +115,9 @@ return view.extend({
         o.rawhtml = true;
         o.default =
             '<div class="cbi-section-descr">' +
-            _(
-                'Hint: There may be a problem with polish characters if you download data from the btsearch site. ' +
-                'The solution is to install the iconv package (to do this click on the button added below).'
-            ) +
+            _('Hint: The package supports the third generation of the BTSearch website.') +
+            ' ' +
+            _('To download data (via the API), you must have the curl package installed (to do this click on the button added below).') +
             '</div>';
 
         o = s.taboption('bts1', form.ListValue, 'website',
@@ -110,39 +132,38 @@ return view.extend({
         o = s.taboption('bts1', form.ListValue, 'btsaction', _('Action'),
             _('Select an action after clicking the search button.')
         );
-        o.value('open',     _('Open page'));
-        o.value('download', _('Download data (experimental)'));
+        o.value('open', _('Open page'));
         o.default = 'open';
         o.modalonly = true;
         o.depends('website', 'www.btsearch.pl');
-        
-		o = s.taboption('bts1', form.Flag, 'force_no_cert', _('Skip SSL certificate check'),
-		_('Disable SSL certificate verification when downloading. Enable if the server uses a self-signed certificate.')
-		);
-		o.rmempty = false;
-        o.depends('btsaction', 'download');
 
-        let sIconv = m.section(form.NamedSection, 'kmods', 'kmods', _());
-        sIconv.render = L.bind(function (view) {
+        if (curlInstalled) {
+            o.value('download', _('Download data'));
+        }
+
+        let sCurl = m.section(form.NamedSection, 'kmods', 'kmods', _());
+        sCurl.render = L.bind(function (view) {
             return form.NamedSection.prototype.render.apply(this, this.varargs(arguments, 1))
                 .then(L.bind(function (node) {
+                    let btn = curlInstalled
+                        ? E('button', { 'class': 'edit btn', 'disabled': true }, _('Installed'))
+                        : E('button', {
+                            'class': 'btn cbi-button-action',
+                            'click': ui.createHandlerFn(view, 'option_install_curl', this.map),
+                            'title': _('Install a package using package manager')
+                          }, [_('Install…')]);
+
                     node.appendChild(E('div', { 'class': 'cbi-value' }, [
-                        E('label', { 'class': 'cbi-value-title' }, _('Install iconv')),
+                        E('label', { 'class': 'cbi-value-title' }, _('Install curl')),
                         E('div', { 'class': 'cbi-value-field', 'style': 'width:25vw' },
-                            E('div', { 'class': 'cbi-section-node' }, [
-                                E('button', {
-                                    'class': 'btn cbi-button-action',
-                                    'click': ui.createHandlerFn(view, 'option_install_iconv', this.map),
-                                    'title': _('Install a package using package manager')
-                                }, [_('Install')])
-                            ])
+                            E('div', { 'class': 'cbi-section-node' }, [ btn ])
                         )
                     ]));
                     node.appendChild(E('br'));
                     node.appendChild(E('br'));
                     return node;
                 }, this));
-        }, sIconv, this);
+        }, sCurl, this);
 
         return m.render();
     }

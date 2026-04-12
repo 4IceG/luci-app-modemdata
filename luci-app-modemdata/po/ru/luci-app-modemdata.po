@@ -718,8 +718,41 @@ msgstr "2. Только один пакет может читать данные
 msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
 msgstr "3. Слишком частое чтение данных с модема может привести к его зависанию (MM и uqmi требуют больше времени)."
 
-msgid "Skip SSL certificate check"
-msgstr "Пропустить проверку SSL-сертификата"
+msgid "BTS search: no response from server."
+msgstr "Поиск BTS: нет ответа от сервера."
 
-msgid "Disable SSL certificate verification when downloading. Enable if the server uses a self-signed certificate."
-msgstr "Отключить проверку SSL-сертификата при загрузке. Включите, если сервер использует самоподписанный сертификат."
+msgid "BTS search: no results found."
+msgstr "Поиск BTS: результаты не найдены."
+
+msgid "this month"
+msgstr "в этом месяце"
+
+msgid "month ago"
+msgstr "месяц назад"
+
+msgid "months ago"
+msgstr "месяцев назад"
+
+msgid "Station ID"
+msgstr "ID станции"
+
+msgid "Confirmed"
+msgstr "Подтверждено"
+
+msgid "Updated"
+msgstr "Обновлено"
+
+msgid "Show on map"
+msgstr "Показать на карте"
+
+msgid "Download data"
+msgstr "Скачать данные"
+
+msgid "Install curl"
+msgstr "Установить curl"
+
+msgid "Hint: The package supports the third generation of the BTSearch website."
+msgstr "Подсказка: Пакет поддерживает третье поколение сайта BTSearch."
+
+msgid "To download data (via the API), you must have the curl package installed (to do this click on the button added below)."
+msgstr "Для загрузки данных (через API) необходимо установить пакет curl (для этого нажмите кнопку ниже)."

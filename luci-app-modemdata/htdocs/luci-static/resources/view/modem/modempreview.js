@@ -829,6 +829,7 @@ async function openBasicSignalsModal(modemIndex) {
 /* BTS info download */
 async function handleDownloadAction(evOrBtn) {
 
+  const LuCI = window.L;
   let modemIndex = null;
   const t = (evOrBtn && evOrBtn.target) ? evOrBtn.target : evOrBtn;
 
@@ -845,53 +846,169 @@ async function handleDownloadAction(evOrBtn) {
   }
   if (modemIndex == null) return;
 
-  let cellElement = document.getElementById('cell_' + modemIndex);
-  let providerElement = document.getElementById('operator_' + modemIndex);
-  let providerValue = providerElement ? (providerElement.textContent || '').trim().toLowerCase() : '';
+  const cellElement = document.getElementById('cell_' + modemIndex);
   if (!cellElement) return;
+  const cellValue = (cellElement.textContent || '').trim();
+  const cellDECNumeric = cellValue.split(/\s+/)[0] || '0';
+  if (parseInt(cellDECNumeric, 10) < 1) return;
 
-  let cellValue = (cellElement.textContent || '').trim();
-  let parts = cellValue.split(/\s+/);
-  let hexPart = parts.length > 1 ? parts[1] : '';
-  let cellHEXNumeric = hexPart ? hexPart.replace(/[()]/g, '') : '';
-
-  let searchsite = '';
-  switch (providerValue) {
-    case 't-mobile': searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=1&mode=std'; break;
-    case 'orange':   searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=2&mode=std'; break;
-    case 'plus':     searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=3&mode=std'; break;
-    case 'play':     searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=4&mode=std'; break;
-    case 'sferia':   searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=5&mode=std'; break;
-    case 'aero 2':   searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=8&mode=std'; break;
-    default:         searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=-1&mode=std'; break;
-  }
-
-  let forceNoCert = uci.get('modemdata', '@modemdata[0]', 'force_no_cert');
-  let fetchArgs = (forceNoCert === '1')
-    ? ['--no-check-certificate', '-O', '/tmp/bts' + modemIndex + '_file', searchsite]
-    : ['-O', '/tmp/bts' + modemIndex + '_file', searchsite];
-
+  /* --- API btsearch.pl --- */
   try {
-    await fs.exec_direct('/bin/uclient-fetch', fetchArgs);
-    let exists = await fs.stat('/tmp/bts' + modemIndex + '_file');
+    const result = await fs.exec_direct('/usr/bin/curl', [
+      '-s',
+      'https://btsearch.pl/api/v1/search?limit=100&sort=desc&sortBy=relevance',
+      '--request', 'POST',
+      '--header', 'Content-Type: application/json',
+      '--data', '{"query":"cid: ' + cellDECNumeric + ' ecid: ' + cellDECNumeric + '"}'
+    ]);
 
-    if (!exists) {
-      ui.addNotification(null, E('p', _('Failed to download bts data file from site.')), 'error');
-      if (!poll.active()) poll.start();
+    if (!result || !result.trim()) {
+      ui.addNotification(null, E('p', _('BTS search: no response from server.')), 'error');
       return;
     }
 
-    let mybts = await fs.exec_direct('/usr/share/modemdata/btsearch.sh', [modemIndex]);
-    if (!mybts) {
-      ui.addNotification(null, E('p', _('Failed to process the downloaded file with btsearch.sh.')), 'error');
-      if (!poll.active()) poll.start();
+    const api = JSON.parse(result.trim());
+    if (!api || !api.data || api.data.length === 0) {
+      ui.addNotification(null, E('p', _('BTS search: no results found.')), 'error');
       return;
     }
 
-    let json = JSON.parse(mybts);
-    if (!json || !json.mobile || json.mobile.length <= 2) {
-      if (!poll.active()) poll.start();
-      return;
+    const station = api.data[0];
+    const loc     = station.location || {};
+    const op      = station.operator || {};
+    const cells   = station.cells || [];
+
+    const matchedCell = cells.find(function(c) {
+      return c.details && (
+        c.details.ecid == parseInt(cellDECNumeric, 10) ||
+        c.details.cid  == parseInt(cellDECNumeric, 10)
+      );
+    });
+    const det = matchedCell ? matchedCell.details : null;
+
+    const ratsSet = {};
+    cells.forEach(function(c) { if (c.rat) ratsSet[c.rat] = true; });
+    const rats = Object.keys(ratsSet).join(', ');
+
+    const btsLat    = parseFloat(loc.latitude);
+    const btsLon    = parseFloat(loc.longitude);
+    const hasCoords = !isNaN(btsLat) && !isNaN(btsLon);
+
+    function monthsAgo(dateStr) {
+      if (!dateStr) return '-';
+      const updated = new Date(dateStr);
+      const now     = new Date();
+      let months    = (now.getFullYear() - updated.getFullYear()) * 12
+                    + (now.getMonth() - updated.getMonth());
+      if (now.getDate() < updated.getDate()) months--;
+      if (months <= 0) return _('this month');
+      return months + ' ' + (months === 1 ? _('month ago') : _('months ago'));
+    }
+
+    function getTileConfig() {
+      if (document.documentElement.getAttribute('data-darkmode') === 'true') {
+        return {
+          url:         'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+        };
+      }
+      return {
+        url:         'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      };
+    }
+
+    const mapDivId = 'bts_modal_map_' + modemIndex + '_' + Date.now();
+    const mapDiv = E('div', {
+      'id':    mapDivId,
+      'style': 'width: 100%; height: 260px; border-radius: 6px; margin-bottom: 10px; background: #e8e8e8;'
+    });
+
+    function initBtsMap() {
+      const LL        = window.LeafletL || window.L;
+      const container = document.getElementById(mapDivId);
+
+      if (!container) {
+        setTimeout(initBtsMap, 100);
+        return;
+      }
+      if (container.offsetWidth === 0 || container.offsetHeight === 0) {
+        setTimeout(initBtsMap, 100);
+        return;
+      }
+
+      try {
+        const btsMap = LL.map(mapDivId, {
+          zoomControl:     true,
+          scrollWheelZoom: true
+        });
+
+        let tileLayer = null;
+
+        function applyTile() {
+          const tile = getTileConfig();
+          if (tileLayer) btsMap.removeLayer(tileLayer);
+          tileLayer = LL.tileLayer(tile.url, {
+            maxZoom:     19,
+            attribution: tile.attribution
+          }).addTo(btsMap);
+        }
+
+        applyTile();
+
+        const themeObserver = new MutationObserver(function() { applyTile(); });
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-darkmode'] });
+
+        const modalCleanup = new MutationObserver(function() {
+          if (!document.getElementById(mapDivId)) {
+            themeObserver.disconnect();
+            modalCleanup.disconnect();
+          }
+        });
+        modalCleanup.observe(document.body, { childList: true, subtree: true });
+
+        btsMap.setView([btsLat, btsLon], 16);
+
+        LL.marker([btsLat, btsLon])
+          .addTo(btsMap)
+          .bindPopup(
+            '<b>' + (op.name || '') + '</b><br>' +
+            (station.station_id || '') + '<br>' +
+            (loc.city || '') + (loc.address ? ', ' + loc.address : '')
+          )
+          .openPopup();
+
+        setTimeout(function() { btsMap.invalidateSize(); }, 300);
+
+      } catch(e) {
+        // map bugs
+      }
+    }
+
+    function loadLeafletAndInitMap() {
+      const leafletUrl = 'https://unpkg.com/leaflet@1.9.4/dist';
+
+      if (typeof window.LeafletLoaded !== 'undefined') {
+        requestAnimationFrame(function() { setTimeout(initBtsMap, 100); });
+        return;
+      }
+
+      const css  = document.createElement('link');
+      css.rel    = 'stylesheet';
+      css.type   = 'text/css';
+      css.href   = leafletUrl + '/leaflet.css';
+      document.getElementsByTagName('head')[0].appendChild(css);
+
+      const script  = document.createElement('script');
+      script.type   = 'text/javascript';
+      script.src    = leafletUrl + '/leaflet.js';
+      script.onload = function() {
+        window.LeafletLoaded = true;
+        window.LeafletL      = window.L;
+        window.L             = LuCI;
+        requestAnimationFrame(function() { setTimeout(initBtsMap, 100); });
+      };
+      document.getElementsByTagName('head')[0].appendChild(script);
     }
 
     if (poll.active()) poll.stop();
@@ -899,7 +1016,7 @@ async function handleDownloadAction(evOrBtn) {
     ui.showModal(
       E('span', {}, [
         E('img', {
-          'src': L.resource('icons/mybts.svg'),
+          'src':   LuCI.resource('icons/mybts.svg'),
           'style': 'padding-left: 2px; height: 32px; width: auto; display: inline-block; vertical-align: middle;'
         }),
         ' ',
@@ -907,22 +1024,35 @@ async function handleDownloadAction(evOrBtn) {
         E('hr')
       ]),
       [
-        E('div', { class: 'info-message' }, [
-          L.itemlist(E('span'), [
-            _('Network'),            json.mobile.length > 1 ? json.mobile : '-',
-            _('Location'),           json.location.length > 1 ? json.location : '-',
-            _('Cd.'),                json.locationmax.length > 1 ? json.locationmax : '-',
-            _('Band'),               json.band.length > 1 ? json.band : '-',
-            _('Duplex'),             json.duplex.length > 1 ? json.duplex : '-',
-            _('LAC/TAC'),            json.lac_tac.length > 1 ? json.lac_tac : '-',
-            _('CID'),                json.cid.length > 1 ? json.cid : '-',
-            _('RNC/eNBI'),           json.rnc_enbi.length > 1 ? json.rnc_enbi : '-',
-            _('UC-Id/ECID'),         json.uc_id_ecid.length > 1 ? json.uc_id_ecid : '-',
-            _('StationID'),          json.stationid.length > 1 ? json.stationid : '-',
-            _('Notes Update date'),  json.notes_update_date.length > 1 ? json.notes_update_date : '-'
+        hasCoords ? E('div', { 'style': 'width: 100%; margin-bottom: 4px;' }, [ mapDiv ]) : E('span'),
+        E('div', { 'class': 'info-message' }, [
+          LuCI.itemlist(E('span'), [
+            _('Operator'),       op.full_name  || op.name || '-',
+            _('Station ID'),     station.station_id || '-',
+            _('Location'),       (loc.city || '-') + (loc.address ? ', ' + loc.address : ''),
+            _('Region'),         (loc.region && loc.region.name) ? loc.region.name : '-',
+            _('GPS'),    hasCoords ? btsLat.toFixed(6) + ', ' + btsLon.toFixed(6) : '-',
+            _('Standard'),            rats || '-',
+            _('TAC/LAC'),        det ? String(det.tac || det.lac || '-') : '-',
+            _('eNB ID'),         det && det.enbid  ? String(det.enbid)  : '-',
+            _('Cell ID'), det && det.clid   ? String(det.clid)   : '-',
+            _('ECID'),           det && det.ecid   ? String(det.ecid)   : '-',
+            _('EARFCN'),         det && det.earfcn ? String(det.earfcn) : '-',
+            _('Confirmed'),      station.is_confirmed ? _('Yes') : _('No'),
+            _('Updated'),        station.updatedAt
+              ? station.updatedAt.slice(0, 10) + ' (' + monthsAgo(station.updatedAt) + ')'
+              : '-'
           ])
         ]),
-        E('div', { 'class': 'right' }, [
+        E('hr'),
+        E('div', { 'style': 'display: flex; justify-content: space-between; align-items: center;' }, [
+          hasCoords ? E('a', {
+            'href':   'https://btsearch.pl/#map=16.00/' + btsLat.toFixed(6) + '/' + btsLon.toFixed(6),
+            'target': '_blank',
+            'class':  'btn btn-primary',
+            'style':  'text-decoration: none;'
+          }, _('Show on map')) : E('span'),
+
           E('button', {
             'class': 'btn',
             'click': ui.createHandlerFn(this, function() {
@@ -933,11 +1063,15 @@ async function handleDownloadAction(evOrBtn) {
         ]),
       ]
     );
+
+    if (hasCoords) loadLeafletAndInitMap();
+
   } catch (err) {
     ui.addNotification(null, E('p', {}, _('Error: ') + err.message));
     if (!poll.active()) poll.start();
   }
 }
+/* BTS info download */
 
 function handleAction(evOrBtn) {
   let modemIndex = null;
@@ -969,18 +1103,16 @@ function handleAction(evOrBtn) {
         if (cellElement) {
           let cellValue = (cellElement.textContent || '').trim();
           let parts = cellValue.split(/\s+/);
-          let hexPart = parts.length > 1 ? parts[1] : '';
-          let cellHEXNumeric = hexPart ? hexPart.replace(/[()]/g, '') : '';
+          let decPart = parts[0] ? parts[0].trim() : '';
+          let cellDECNumeric = decPart ? decPart.replace(/[()]/g, '') : '';
 
           let searchsite = '';
           switch (providerValue) {
-            case 't-mobile': searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=1&mode=std'; break;
-            case 'orange':   searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=2&mode=std'; break;
-            case 'plus':     searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=3&mode=std'; break;
-            case 'play':     searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=4&mode=std'; break;
-            case 'sferia':   searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=5&mode=std'; break;
-            case 'aero 2':   searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=8&mode=std'; break;
-            default:         searchsite = 'https://www.btsearch.pl/szukaj.php?search=' + cellHEXNumeric + 'h&siec=-1&mode=std'; break;
+            case 't-mobile': searchsite = 'https://btsearch.pl/stations?mnc=26002&q=' + cellDECNumeric; break;
+            case 'orange':   searchsite = 'https://btsearch.pl/stations?mnc=26003&q=' + cellDECNumeric; break;
+            case 'plus':     searchsite = 'https://btsearch.pl/stations?mnc=26001&q=' + cellDECNumeric; break;
+            case 'play':     searchsite = 'https://btsearch.pl/stations?mnc=26006&q=' + cellDECNumeric; break;
+            default:         searchsite = 'https://btsearch.pl/stations?q=' + cellDECNumeric; break;
           }
           window.open(searchsite, '_blank');
         }
