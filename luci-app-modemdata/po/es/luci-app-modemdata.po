@@ -259,9 +259,6 @@ msgstr "Bandas"
 msgid "Search BTS"
 msgstr "Buscar BTS"
 
-msgid "Hint: There may be a problem with polish characters if you download data from the btsearch site. The solution is to install the iconv package (to do this click on the button added below)."
-msgstr "Consejo: Puede haber un problema con caracteres especiales si descarga datos del sitio btsearch. La solución es instalar el paquete iconv (para hacerlo, haga clic en el botón que aparece a continuación)."
-
 msgid "BTS search settings"
 msgstr "Configuración de búsqueda BTS"
 
@@ -730,8 +727,5 @@ msgstr "Descargar datos"
 msgid "Install curl"
 msgstr "Instalar curl"
 
-msgid "Hint: The package supports the third generation of the BTSearch website."
-msgstr "Consejo: El paquete es compatible con la tercera generación del sitio web BTSearch."
-
-msgid "To download data (via the API), you must have the curl package installed (to do this click on the button added below)."
-msgstr "Para descargar datos (a través de la API), debe tener instalado el paquete curl (para hacerlo, haga clic en el botón que aparece a continuación)."
+msgid "Note: The package is fully compatible with the latest, third-generation version of the BTSearch website."
+msgstr "Nota: El paquete es totalmente compatible con la última versión de tercera generación del sitio web BTSearch."

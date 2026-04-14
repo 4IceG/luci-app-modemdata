@@ -257,7 +257,7 @@ msgid "BTS Search"
 msgstr "Lokalizacja stacji bazowej"
 
 msgid "BTS Information"
-msgstr "Informacja o stacji bazowej"
+msgstr "Informacje o stacji bazowej"
 
 msgid "Search"
 msgstr "Szukaj"
@@ -267,9 +267,6 @@ msgstr "Pasma"
 
 msgid "Search BTS"
 msgstr "Wyszukaj BTS"
-
-msgid "Hint: There may be a problem with polish characters if you download data from the btsearch site. The solution is to install the iconv package (to do this click on the button added below)."
-msgstr "Wskazówka: Może wystąpić problem z polskimi znakami, jeśli pobierasz dane ze strony btsearch. Rozwiązaniem jest instalacja pakietu iconv (w tym celu kliknij przycisk dodany poniżej)."
 
 msgid "BTS search settings"
 msgstr "Ustawienia wyszukiwania stacji bazowej"
@@ -748,8 +745,5 @@ msgstr "Pobierz dane"
 msgid "Install curl"
 msgstr "Zainstaluj curl"
 
-msgid "Hint: The package supports the third generation of the BTSearch website."
-msgstr "Wskazówka: Pakiet obsługuje trzecią generację strony BTSearch."
-
-msgid "To download data (via the API), you must have the curl package installed (to do this click on the button added below)."
-msgstr "Aby pobierać dane (przez API), musisz mieć zainstalowany pakiet curl (w tym celu kliknij przycisk poniżej)."
+msgid "Note: The package is fully compatible with the latest, third-generation version of the BTSearch website."
+msgstr "Nota: Pakiet jest w pełni kompatybilny z najnowszą, trzecią generację strony BTSearch."

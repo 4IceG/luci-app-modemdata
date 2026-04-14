@@ -270,9 +270,6 @@ msgstr "频段"
 msgid "Search BTS"
 msgstr "搜索基站"
 
-msgid "Hint: There may be a problem with polish characters if you download data from the btsearch site. The solution is to install the iconv package (to do this click on the button added below)."
-msgstr "提示：如果从 btsearch 网站下载数据，可能会出现字符编码问题。解决方案是安装 iconv 软件包（单击下面添加的按钮即可）。"
-
 msgid "BTS search settings"
 msgstr "基站搜索设置"
 
@@ -966,8 +963,5 @@ msgstr "下载数据"
 msgid "Install curl"
 msgstr "安装curl"
 
-msgid "Hint: The package supports the third generation of the BTSearch website."
-msgstr "提示：该软件包支持BTSearch网站第三代版本。"
-
-msgid "To download data (via the API), you must have the curl package installed (to do this click on the button added below)."
-msgstr "要通过API下载数据，必须安装curl软件包（点击下方按钮即可安装）。"
+msgid "Note: The package is fully compatible with the latest, third-generation version of the BTSearch website."
+msgstr "注意：该软件包与最新的第三代 BTSearch 网站完全兼容。"

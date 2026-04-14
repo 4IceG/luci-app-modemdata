@@ -28,7 +28,7 @@
 				"/dev": [ "list" ],
 				"/etc/defmodems": [ "read" ],
 				"/etc/modem/modemlist.json": [ "read" ],
-				"/usr/bin/curl": [ "exec" ],
+				"/bin/uclient-fetch": [ "exec" ],
 				"/usr/libexec/package-manager-call list-installed": [ "exec" ],
 				"/usr/libexec/opkg-list installed": [ "exec" ],
 				"/usr/libexec/opkg-call list-installed": [ "exec" ],
@@ -40,7 +40,6 @@
 			"file": {
 				"/bin/cat": [ "exec" ],
 				"/bin/sh": [ "exec" ],
-                                "/usr/bin/curl": [ "exec" ],
 				"/bin/uclient-fetch": [ "exec" ],
 				"/bin/ls /dev": [ "exec" ],
 				"/bin/sh /usr/bin/md_serial_ecm": [ "exec" ],

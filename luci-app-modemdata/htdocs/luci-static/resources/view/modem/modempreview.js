@@ -854,12 +854,14 @@ async function handleDownloadAction(evOrBtn) {
 
   /* --- API btsearch.pl --- */
   try {
-    const result = await fs.exec_direct('/usr/bin/curl', [
-      '-s',
-      'https://btsearch.pl/api/v1/search?limit=100&sort=desc&sortBy=relevance',
-      '--request', 'POST',
-      '--header', 'Content-Type: application/json',
-      '--data', '{"query":"cid: ' + cellDECNumeric + ' ecid: ' + cellDECNumeric + '"}'
+    const result = await fs.exec_direct('/bin/uclient-fetch', [
+      '--header=Content-Type: application/json',
+      '--header=Accept: application/json',
+      '--header=Origin: https://btsearch.pl',
+      '--header=Referer: https://btsearch.pl/',
+      '--post-data={"query":"cid: ' + cellDECNumeric + ' ecid: ' + cellDECNumeric + '"}',
+      '-O', '-',
+      'https://btsearch.pl/api/v1/search?limit=100&sort=desc&sortBy=relevance'
     ]);
 
     if (!result || !result.trim()) {
@@ -921,7 +923,7 @@ async function handleDownloadAction(evOrBtn) {
     const mapDivId = 'bts_modal_map_' + modemIndex + '_' + Date.now();
     const mapDiv = E('div', {
       'id':    mapDivId,
-      'style': 'width: 100%; height: 260px; border-radius: 6px; margin-bottom: 10px; background: #e8e8e8;'
+      'style': 'width: 100%; height: 260px; border-radius: 5px; margin-bottom: 10px; background: #e8e8e8; border: 1px solid var(--border-color-medium);'
     });
 
     function initBtsMap() {
@@ -1031,11 +1033,11 @@ async function handleDownloadAction(evOrBtn) {
             _('Station ID'),     station.station_id || '-',
             _('Location'),       (loc.city || '-') + (loc.address ? ', ' + loc.address : ''),
             _('Region'),         (loc.region && loc.region.name) ? loc.region.name : '-',
-            _('GPS'),    hasCoords ? btsLat.toFixed(6) + ', ' + btsLon.toFixed(6) : '-',
-            _('Standard'),            rats || '-',
+            _('GPS'),            hasCoords ? btsLat.toFixed(6) + ', ' + btsLon.toFixed(6) : '-',
+            _('Standard'),       rats || '-',
             _('TAC/LAC'),        det ? String(det.tac || det.lac || '-') : '-',
             _('eNB ID'),         det && det.enbid  ? String(det.enbid)  : '-',
-            _('Cell ID'), det && det.clid   ? String(det.clid)   : '-',
+            _('Cell ID'),        det && det.clid   ? String(det.clid)   : '-',
             _('ECID'),           det && det.ecid   ? String(det.ecid)   : '-',
             _('EARFCN'),         det && det.earfcn ? String(det.earfcn) : '-',
             _('Confirmed'),      station.is_confirmed ? _('Yes') : _('No'),

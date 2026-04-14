@@ -267,9 +267,6 @@ msgstr "Các băng tần"
 msgid "Search BTS"
 msgstr "Tìm kiếm BTS"
 
-msgid "Hint: There may be a problem with polish characters if you download data from the btsearch site. The solution is to install the iconv package (to do this click on the button added below)."
-msgstr "Gợi ý: Có thể xảy ra sự cố với các ký tự tiếng Ba Lan khi bạn tải dữ liệu từ trang btsearch. Giải pháp là cài đặt gói iconv (để làm điều này, hãy nhấp vào nút được thêm bên dưới)."
-
 msgid "BTS search settings"
 msgstr "Cài đặt tìm kiếm BTS"
 
@@ -750,8 +747,5 @@ msgstr "Tải dữ liệu"
 msgid "Install curl"
 msgstr "Cài đặt curl"
 
-msgid "Hint: The package supports the third generation of the BTSearch website."
-msgstr "Gợi ý: Gói này hỗ trợ thế hệ thứ ba của trang web BTSearch."
-
-msgid "To download data (via the API), you must have the curl package installed (to do this click on the button added below)."
-msgstr "Để tải dữ liệu (qua API), bạn cần cài đặt gói curl (nhấn vào nút bên dưới để thực hiện)."
+msgid "Note: The package is fully compatible with the latest, third-generation version of the BTSearch website."
+msgstr "Lưu ý: Gói này hoàn toàn tương thích với phiên bản mới nhất, thế hệ thứ ba của trang web BTSearch."

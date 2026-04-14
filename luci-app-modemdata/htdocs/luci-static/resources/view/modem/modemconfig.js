@@ -115,9 +115,11 @@ return view.extend({
         o.rawhtml = true;
         o.default =
             '<div class="cbi-section-descr">' +
-            _('Hint: The package supports the third generation of the BTSearch website.') +
+            _('Note: The package is fully compatible with the latest, third-generation version of the BTSearch website.') +
+/* ---  Downloading data using curl       
             ' ' +
             _('To download data (via the API), you must have the curl package installed (to do this click on the button added below).') +
+*/
             '</div>';
 
         o = s.taboption('bts1', form.ListValue, 'website',
@@ -136,6 +138,9 @@ return view.extend({
         o.default = 'open';
         o.modalonly = true;
         o.depends('website', 'www.btsearch.pl');
+        o.value('download', _('Download data'));
+
+/* ---  Downloading data using curl
 
         if (curlInstalled) {
             o.value('download', _('Download data'));
@@ -164,6 +169,8 @@ return view.extend({
                     return node;
                 }, this));
         }, sCurl, this);
+        
+*/
 
         return m.render();
     }
