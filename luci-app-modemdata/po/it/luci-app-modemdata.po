@@ -1,0 +1,762 @@
+msgid ""
+msgstr ""
+"Language-Team: Rafał Wabik (IceG)\n"
+"Language: lt\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "For more information about the modemdata package, please visit: %shttps://github.com/obsy/modemdata%s."
+msgstr "Per maggiori informazione sul pacchetto modemdata, visita %shttps://github.com/obsy/modemdata%s."
+
+msgid "Package allows the user to view the data read from the modem, to see the parameters of the connection to the mobile network."
+msgstr "Il pacchetto permette all'utente di vedere i dati letti dal modem, mostrando i parametri di connessione del network mobile."
+
+msgid "eko.one.pl forum"
+msgstr "forum eko.one.pl"
+
+msgid "Signal strength"
+msgstr "Potenza segnale"
+
+msgid "Modem(s)"
+msgstr "Modem"
+
+msgid "Ups.. no modems detected."
+msgstr "Ops.. nessun modem rilevato."
+
+msgid "Configuration"
+msgstr "Configurazione"
+
+msgid "General Information"
+msgstr "Info genarali"
+
+msgid "Modem Information"
+msgstr "Info modem"
+
+msgid "Cell Information"
+msgstr "Info cella"
+
+msgid "Connection"
+msgstr "Conessione"
+
+msgid "Technology"
+msgstr "Tecnologia"
+
+msgid "Operator"
+msgstr "Operatore"
+
+msgid "Location"
+msgstr "Lokalizacja"
+
+msgid "Sent"
+msgstr "Inviato"
+
+msgid "Signal strength"
+msgstr "Potenza segnale"
+
+msgid "Connection time"
+msgstr "Durata connessione"
+
+msgid "Modem type"
+msgstr "Tipo di modem"
+
+msgid "Hide data."
+msgstr "Nascondi dati."
+
+msgid "Hide selected data"
+msgstr "Nascondi dati selezionati"
+
+msgid "Additional information"
+msgstr "Info aggiuntive"
+
+msgid "Revision / FW"
+msgstr "Revisione / FW"
+
+msgid "IP adress / Port"
+msgstr "Indirizzo IP / Porta"
+
+msgid "Chip Temperature"
+msgstr "Temperatura chip"
+
+msgid "Configuration modemdata package"
+msgstr "Configurazione pacchetto modemdata"
+
+msgid "Configuration panel for modemdata and gui application."
+msgstr "Panello di configurazione Modemdata e inferfaccia grafica."
+
+msgid "Add data to hide"
+msgstr "Aggiungi dati da nascondere"
+
+msgid "Enter the data you would like to hide, e.g. <code>IMEI, IMSI</code>."
+msgstr "Inserisci dati che vuoi nascondere, ad es. <code>IMEI, IMSI</code>."
+
+msgid "Open page"
+msgstr "Apri pagina"
+
+msgid "Download data (experimental)"
+msgstr "Scarica dati (sperimentale)"
+
+msgid "Network"
+msgstr "Network"
+
+msgid "IP adress / Port for communication with the modem"
+msgstr "Indirizzo IP / Porta di comunicazione con modem"
+
+msgid "Defined modems"
+msgstr "Modem selezionato"
+
+msgid "Interface to define the available modems. The list of modems will make it easier for the user to switch between modems in LuCI."
+msgstr "Interfaccia per definire modem disponibili. L'elenco dei modem semplificherà la scelta nell'interfaccia LuCI."
+
+msgid "Settings"
+msgstr "Settings"
+
+msgid "Add new modem settings..."
+msgstr "Aggiungi nuovo settaggio modem..."
+
+msgid "Modem Settings"
+msgstr "Settaggio modem"
+
+msgid "Manufacturer / Product"
+msgstr "Produttore / Prodotto"
+
+msgid "Please select a modem"
+msgstr "Seleziona un modem"
+
+msgid "IP adress / Port for communication"
+msgstr "Indirizzo IP / Porta di comunicazione"
+
+msgid "Protocol"
+msgstr "Protocollo"
+
+msgid "Port for communication"
+msgstr "Porta di comunicazione"
+
+msgid "Please select a QMI/MBIM port"
+msgstr "Seleziona porta QMI/MBIM"
+
+msgid "Modem id"
+msgstr "Id modem"
+
+msgid "Please select a modem id"
+msgstr "Seleziona un Id modem"
+
+msgid "MBIM device"
+msgstr "Dispositivo MBIM"
+
+msgid "Select if you want to read from MBIM."
+msgstr "Seleziona per leggere i dati MBIM."
+
+msgid "Assigned interface"
+msgstr "Interfaccia assegnata"
+
+msgid "Interface assigned to modem."
+msgstr "Interfaccia assegnata al modem."
+
+msgid "Enter IP adress"
+msgstr "Inserisci indirizzo IP"
+
+msgid "IP adress"
+msgstr "Indirizzo IP"
+
+msgid "Reading data via"
+msgstr "Lettura dati via"
+
+msgid "Port / IP / Modem identifier"
+msgstr "Porta / Indirizzo IP / Id modem"
+
+msgid "Interface assigned to modem."
+msgstr "Interfaccia assegnata al modem."
+
+msgid ""
+"Enter modem name manually if the suggested name is not "
+"obvious. <br /><br /><b>Important</b> <br />The modem name is only searched for modems connected via USB."
+msgstr ""
+"Inserisci modem manualmente qualora il nome suggerito non fosse "
+"esplicito. <br /><br /><b>Importante</b> <br />In nome modem viene individuato solo per i dispositivi connessi via USB."
+
+msgid ""
+"Select method for reading data from the modem. <br /> <br />serial port: <br /> Select one of the available "
+"ttyUSBX / ttyACMx / wwan0atX / mhi_DUN ports.<br /> <br />ecm: <br /> Enter the IP address 192.168.X.X under which the modem (Huawei) "
+"is available.<br /> <br />uqmi: <br /> Select one of the available cdc-wdmX ports.<br /> <br />ModemManager: <br /> Select "
+"one of the searched modem identifiers."
+msgstr ""
+"Seleziona il metodo di lettura dati dal modem. <br /> <br />porta seriale: <br /> Seleziona dall'elenco disponibile "
+"porte ttyUSBX / ttyACMx / wwan0atX / mhi_DUN.<br /> <br />ecm: <br /> Inserisci indirizzo IP 192.168.X.X sotto il modem (Huawei) "
+"disponibile.<br /> <br />uqmi: <br /> Seleziona una delle porte cdc-wdmX disponibili.<br /> <br />ModemManager: <br /> Seleziona "
+"uno dei modem identificati."
+
+msgid "Please select a port"
+msgstr "Seleziona porta"
+
+msgid "User description"
+msgstr "Descrizione utente"
+
+msgid "Optional"
+msgstr "Opzionale"
+
+msgid "User description (optional)"
+msgstr "Descrizione utene (opzionale)"
+
+msgid "Signal strength"
+msgstr "Potenza segnale"
+
+msgid "Excellent"
+msgstr "Eccellente"
+
+msgid "Good"
+msgstr "Buona"
+
+msgid "Fair"
+msgstr "Discreta"
+
+msgid "Poor"
+msgstr "Debole"
+
+msgid "Physical cell ID"
+msgstr "ID cella fisica"
+
+msgid "Bandwidth"
+msgstr "Larghezza banda"
+
+msgid "SIM status"
+msgstr "Stato SIM"
+
+msgid "Not registered"
+msgstr "Non registrato"
+
+msgid "Registered"
+msgstr "Registrato"
+
+msgid "Registered (roaming)"
+msgstr "Registrato (roaming)"
+
+msgid "Registered, only SMS"
+msgstr "Registrato, solo SMS"
+
+msgid "Registered (roaming), only SMS"
+msgstr "Registrato (roaming), solo SMS"
+
+msgid "Searching.."
+msgstr "Ricerca.."
+
+msgid "Connection state"
+msgstr "Stato connessione"
+
+msgid "Connected"
+msgstr "Connesso"
+
+msgid "Disconnected"
+msgstr "Disconnesso"
+
+msgid "Registering denied"
+msgstr "Registrazione negata"
+
+msgid "Waiting to read data from the modem..."
+msgstr "Attesa lettura dati dal modem..."
+
+msgid "Waiting for data..."
+msgstr "Attesa lettura dati..."
+
+msgid "BTS Search"
+msgstr "Cerca BTS"
+
+msgid "BTS Information"
+msgstr "Info BTS"
+
+msgid "Search"
+msgstr "Ricerca"
+
+msgid "Bands"
+msgstr "Bande"
+
+msgid "Search BTS"
+msgstr "Cerca BTS"
+
+msgid "BTS search settings"
+msgstr "Settaggio ricerca BTS"
+
+msgid "Website to search for BTS"
+msgstr "Sito per cercare BTS"
+
+msgid "Select a website for searching."
+msgstr "Seleziona un sito per la richerca."
+
+msgid "Install a package using package manager"
+msgstr "Installa un pacchatto utizzando package manager"
+
+msgid "Select an action after clicking the search button."
+msgstr "Seleziona una scelta dopo aver premuta il tasto di ricerca."
+
+msgid "Install iconv"
+msgstr "Installa iconv"
+
+msgid "Install qmi-utils"
+msgstr "Installa qmi-utils"
+
+msgid "SIM Slot"
+msgstr "SIM Slot"
+
+msgid "SIM Card"
+msgstr "SIM Card"
+
+msgid "Slot in use"
+msgstr "Slot in uso"
+
+msgid "Problem with registering to the network, check the SIM card."
+msgstr "Problema di registrazione network, constrolla la SIM card."
+
+msgid "SIM PIN required"
+msgstr "SIM PIN richiesto"
+
+msgid "SIM PUK required"
+msgstr "SIM PUK richiesto"
+
+msgid "SIM failure"
+msgstr "Errore SIM"
+
+msgid "SIM busy"
+msgstr "SIM busy"
+
+msgid "SIM wrong"
+msgstr "SIM errata"
+
+msgid "SIM PIN2 required"
+msgstr "SIM PIN2 richiesto"
+
+msgid "SIM PUK2 required"
+msgstr "SIM PUK2 richiesto"
+
+msgid "Defined modems"
+msgstr "Modem definiti"
+
+msgid "Information read from the SIM card and device."
+msgstr "Info lette da SIM card e dispositivo."
+
+msgid "No data"
+msgstr "Nessun dato"
+
+msgid "Diagnostics"
+msgstr "Diagnostica"
+
+msgid "Modem(s) configuration"
+msgstr "Configurazione modem"
+
+msgid "Package configuration"
+msgstr "Configurazione pacchetto"
+
+msgid "Run various commands to verify data read from the modem and debug scripts."
+msgstr "Esegui vari comandi per verificare i dati letti dal modem e gli script di debug."
+
+msgid "USB debug information"
+msgstr "Info debug USB"
+
+msgid "Check ttyX ports"
+msgstr "Controlla porte ttyX"
+
+msgid "Check serial and ecm mode"
+msgstr "Controlla modalità seriale e ecm"
+
+msgid "Check uqmi mode"
+msgstr "Controlla modalità uqmi"
+
+msgid "Check ModemManager mode"
+msgstr "Controlla modalità ModemManager"
+
+msgid "Clear"
+msgstr "Cancella"
+
+msgid "Download"
+msgstr "Scarica"
+
+msgid "Location"
+msgstr "Località"
+
+msgid "Notes Update date"
+msgstr "Notes Update date"
+
+msgid "Band"
+msgstr "Banda"
+
+msgid "Network"
+msgstr "Network"
+
+msgid "Package update and support"
+msgstr "Aggiornamento e supporto pacchetto"
+
+msgid "Failed to download index.json file from external repository."
+msgstr "Errore durante il download index.json file dal repository esterno."
+
+msgid "Failed to read downloaded file."
+msgstr "Lettura errata del file scaricato."
+
+msgid "Installed package is up to date."
+msgstr "Il pacchetto installato è aggiornato."
+
+msgid "Update is available."
+msgstr "Aggiornamento disponibile."
+
+msgid "The index.json file did not contain any package information."
+msgstr "Il file index.json non contiene nessuna info per il pacchetto."
+
+msgid "Error parsing version."
+msgstr "Errore durante l'analisi della versione."
+
+msgid "Check repository"
+msgstr "Controlla repository"
+
+msgid "Package update..."
+msgstr "Aggiornamento pacchetto..."
+
+msgid "Report a bug"
+msgstr "Segnala bug"
+
+msgid "Write in the topic of the package on the forum eko.one.pl"
+msgstr "Scrivi un post nel forum eko.one.pl riguardo al pacchetto"
+
+msgid "Write on forum"
+msgstr "Scrivi sul forum"
+
+msgid "Report a bug on the package Github page"
+msgstr "Segnala bug nella pagina Github del pacchetto"
+
+msgid "Open a package discussion on Github"
+msgstr "Apri discussione su Github riguardo al pacchetto"
+
+msgid "Open discussion"
+msgstr "Apri discussione"
+
+msgid "Buy a coffee if you want to support the development of the project and the author"
+msgstr "Buy a coffee se vuoi supportare lo sviluppo del progetto e l'autore"
+
+msgid "Buy a coffee"
+msgstr "Buy a coffee"
+
+msgid "Become a sponsor if you want to support the development of the project and the author"
+msgstr "Diventa sponsor se vuoi supportare lo sviluppo del progetto e l'autore"
+
+msgid "Become a sponsor"
+msgstr "Diventa sponsor"
+
+msgid "Download package information from an external repository"
+msgstr "Scarica info sul pacchatto da un repository esterno"
+
+msgid "Add repository and download package update"
+msgstr "Aggiungi repository e scarica aggironamento pacchetto"
+
+msgid "Package Info"
+msgstr "Info pacchetto"
+
+msgid "Compiled"
+msgstr "Compilato"
+
+msgid "Repository Info"
+msgstr "Info repository"
+
+msgid "Currently installed"
+msgstr "Attualmente installato"
+
+msgid "Package in repository"
+msgstr "Pacchetto nel repository"
+
+msgid "Last repository check"
+msgstr "Ultima verifica repository"
+
+msgid "Poland"
+msgstr "Polonia"
+
+msgid "Force read by"
+msgstr "Forza lettura da"
+
+msgid "Select method for reading data from the modem."
+msgstr "Seleziona metodo lettura dati dal modem."
+
+msgid "inactive"
+msgstr "inattivo"
+
+msgid "ModemMenager"
+msgstr "ModemMenager"
+
+msgid "Force PLMN"
+msgstr "Forza PLMN"
+
+msgid "Force reading PLMN from file."
+msgstr "Forza lettura PLMN da file."
+
+msgid "Command result"
+msgstr "Risultato comando"
+
+msgid "Check"
+msgstr "Verifica"
+
+msgid "Auto update every:"
+msgstr "Auto update ogni:"
+
+msgid "2 seconds"
+msgstr "2 secondi"
+
+msgid "3 seconds"
+msgstr "3 secondi"
+
+msgid "5 seconds"
+msgstr "5 secondi"
+
+msgid "10 seconds"
+msgstr "10 sekund"
+
+msgid "30 seconds"
+msgstr "30 secondi"
+
+msgid "45 seconds"
+msgstr "45 secondi"
+
+msgid "60 seconds"
+msgstr "60 secondi"
+
+msgid "Refresh rate"
+msgstr "Ciclo refresh"
+
+msgid "Set how often the data should be refreshed in the Modem(s) tab."
+msgstr "Imposta frequenza refresh dei dati del modem."
+
+msgid ""
+"Set how often the data should be refreshed in the Modem(s) tab. <br /><br /><b>Important</b> <br />Not "
+"every modem / protocol can communicate quickly with scripts. "
+"Too high a polling rate can freeze the modem. <br />ModemManager and uqmi need more time to respond."
+msgstr ""
+"Imposta frequenza refresh dei dati del modem. <br /><br /><b>Importante</b> <br />Non "
+"tutti i modem / protocolli sono in grado di comunicare velocemente con gli scripts. "
+"Una frequenza elevata potrebbe bloccare il modem. <br />ModemManager e uqmi riciedono tempi maggiori per rispondere."
+
+msgid "Updating again in %s second(s)."
+msgstr "Aggiornamento tra %s secondi."
+
+msgid "Please wait... data collection is in progress."
+msgstr "Attendere... lettura dati in corso."
+
+msgid "Modems found"
+msgstr "Modem trovati"
+
+msgid "List of found modems. Not all modems may be shown."
+msgstr "Lista dei modem trovati. Non tutti i modem potrebbero essere mostrati."
+
+msgid "Show modems found"
+msgstr "Mostra modem trovati"
+
+msgid "Show"
+msgstr "Mostra"
+
+msgid "Currently, only modems connected via USB are searched for."
+msgstr "Verranno individuati solo i modem connessi via USB."
+
+msgid "No Modems Detected..."
+msgstr "Nessun modem individuato..."
+
+msgid "Oops.. there are no modems in settings. You will be redirected to a tab where you can define the installed modem(s)."
+msgstr "Ops... non ci sono modem nel settaggio. Verrai redirezionato alla pagina dove poter definire i modem installati."
+
+msgid "Redirecting..."
+msgstr "Reindirizzamento..."
+
+msgid "Redirecting in"
+msgstr "Reindirizzamento tra"
+
+msgid "seconds..."
+msgstr "secondi..."
+
+msgid "(no data)"
+msgstr "(nessun dato)"
+
+msgid "Enter a valid IP address in the format 192.168.X.X"
+msgstr "Inserisci in indirizzo IP valifo nel formato 192.168.X.X"
+
+msgid "Only numbers and dots are allowed"
+msgstr "Sono consentiti solo numeri e punti"
+
+msgid "Each part must be a number from 0 to 255"
+msgstr "Ogni parte deve essere una cifra tra 0 e 255"
+
+msgid "In the future tab will allow you to update the package from %sRafał (IceG) external repository%s."
+msgstr "Nei tab futuri verrà permesso di aggiornare il pacchetto dal %sRafała (IceG) repository esterno%s."
+
+msgid "Option will appear after apk implementation."
+msgstr "Opzione disponibile dopo l'implementazione apk."
+
+msgid "Author (package maintainer)"
+msgstr "Autore (package maintainer)"
+
+msgid "Modemdata Info"
+msgstr "Info Modemdata"
+
+msgid "Modemdata Status"
+msgstr "Stato Modemdata"
+
+msgid "Luci-app-modemdata Info"
+msgstr "Info luci-app-modemdata"
+
+msgid "Go to the Diagnostics tab and run a script check. Most often, the error is caused by a strange operator name. To fix this, select the Force PLMN from file option if it is available in the modem configuration options."
+msgstr "Vai alla Diagnostica ed esegui lo script di verifica. Spesso l'errore è provocato da nomi operatore anomali. Seleziona l'opzione Forza PLMN da file se disponibile."
+
+msgid "If data in LuCI is not visible, and we are 100% sure that the modem has been defined/configured correctly."
+msgstr "Qualora i dati LuCI non fossero disponibili e il modem è assolutamente definito/configurato in modo corretto."
+
+msgid "Suggested solution"
+msgstr "Soluzione suggerita"
+
+msgid "Troubleshooting / Hints"
+msgstr "Risoluzione dei problemi / Suggerimenti"
+
+msgid "Problem"
+msgstr "Problema"
+
+msgid "Common problems that may arise when using the package, and ways to solve them."
+msgstr "Problemi comuni che possono verificarsi durante l'utilizzo del pacchetto e modi per risolverli."
+
+msgid "Package does not show data for the Fibocom FM350-GL modem."
+msgstr "Il pacchetto non mostra i dati per il modem Fibocom FM350-GL."
+
+msgid "The modem is very sensitive to data read by the communication port. Selecting the wrong communication port may cause the modem to freeze or restart."
+msgstr "Il modem è molto sensibile ai dati letti dalla porta di comunicazione. La selezione della porta di comunicazione errata può causare il blocco o il riavvio del modem."
+
+msgid "and"
+msgstr "e"
+
+msgid "packages are recommended for proper modem support."
+msgstr "sono raccomandati per un corretto supporto del modem."
+
+msgid "Please select method for reading data from the modem and install the necessary packages."
+msgstr "Seleziona un metodo di lettura dati del modem e installa i pacchetti necessari."
+
+msgid "Required packages"
+msgstr "Pacchetti richiesti"
+
+msgid "Check required packages"
+msgstr "Verifica pacchetti richiesti"
+
+msgid "Before configuring the modem, check if all required packages are installed in the system."
+msgstr "Prima di configurare il modem, assicurati di aver installato tutti i pacchetti necessari."
+
+msgid "Loading package data…"
+msgstr "Lettura dati pacchetto..."
+
+msgid "Waiting..."
+msgstr "Attesa..."
+
+msgid "Show signal levels for the primary band"
+msgstr "Mostra livelli del segnale per la banda primaria"
+
+msgid "Primary band signal levels"
+msgstr "Livelli del segnale per la banda primaria"
+
+msgid "Device is busy"
+msgstr "Dispositivo busy"
+
+msgid "Primary band"
+msgstr "Banda primaria"
+
+msgid "Available options"
+msgstr "Opzioni disponibili"
+
+msgid "Device not found"
+msgstr "Dispositivo non trovato"
+
+msgid "Registered, home"
+msgstr "Registrato, rete domestica"
+
+msgid "Show signal levels"
+msgstr "Mostra livelli del segnale"
+
+msgid "Click to view Cell ID details"
+msgstr "Clicca per visualizzare i dettagli dell'ID cella"
+
+msgid "Cell ID (dec)"
+msgstr "ID cella (dec)"
+
+msgid "Cell ID (hex)"
+msgstr "ID cella (hex)"
+
+msgid "eNB ID (hex)"
+msgstr "ID eNB (hex)"
+
+msgid "Sector ID (hex)"
+msgstr "ID settore (hex)"
+
+msgid "eNB ID (dec)"
+msgstr "ID eNB (dec)"
+
+msgid "Sector ID (dec)"
+msgstr "ID settore (dec)"
+
+msgid "Cell ID (hex) for CellMapper"
+msgstr "ID cella (hex) per CellMapper"
+
+msgid "Cell ID (dec) for CellMapper"
+msgstr "ID cella (dec) per CellMapper"
+
+msgid "Cell ID Information"
+msgstr "Informazioni ID cella"
+
+msgid "Modem"
+msgstr "Modem"
+
+msgid "Detailed Cell ID information with formats for different tools and applications."
+msgstr "Informazioni dettagliate ID cella con formati per diversi strumenti e applicazioni."
+
+msgid "Information about package authors and available support options."
+msgstr "Informazioni sugli autori del pacchetto e opzioni di supporto disponibili."
+
+msgid "Package name"
+msgstr "Nome pacchetto"
+
+msgid "Proper Modem Configuration."
+msgstr "Configurazione corretta del modem."
+
+msgid "User should remember:"
+msgstr "L'utente deve ricordare:"
+
+msgid "1. For a specific modem, only one protocol should be set for communication with modem."
+msgstr "1. Per uno specifico modem, deve essere impostato solo un protocollo per la comunicazione."
+
+msgid "2. Only one package can read data from modem (at the same time)."
+msgstr "2. Solo un pacchetto può leggere i dati dal modem (allo stesso tempo)."
+
+msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
+msgstr "3. Leggere i dati dal modem troppo spesso può causare il blocco (MM e uqmi richiedono più tempo)."
+
+msgid "BTS search: no response from server."
+msgstr "Ricerca BTS: nessuna risposta dal server."
+
+msgid "BTS search: no results found."
+msgstr "Ricerca BTS: nessun risultato trovato."
+
+msgid "this month"
+msgstr "questo mese"
+
+msgid "month ago"
+msgstr "un mese fa"
+
+msgid "months ago"
+msgstr "mesi fa"
+
+msgid "Station ID"
+msgstr "ID stazione"
+
+msgid "Confirmed"
+msgstr "Confermato"
+
+msgid "Updated"
+msgstr "Aggiornato"
+
+msgid "Show on map"
+msgstr "Mostra sulla mappa"
+
+msgid "Download data"
+msgstr "Scarica dati"
+
+msgid "Install curl"
+msgstr "Installa curl"
+
+msgid "Note: The package is fully compatible with the latest, third-generation version of the BTSearch website."
+msgstr "Nota: Il pacchetto è completamente compatibile con l'ultima versione di terza generazione del sito web BTSearch."
+

@@ -1581,7 +1581,7 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
           signalView.appendChild(
             E('div', { 'class': 'ifacebadge', 'style': 'width:92px;', 'title': title }, [
               E('img', { 'src': icon, 'style': 'padding:0 auto;height:32px;width:auto;display:inline-block;margin:0 auto;' }),
-              E('strong', {'style': 'margin-left:-.1em;'}, p > 0 ? (p + '%') : '')
+              E('normal', {'style': 'margin-left:.2em;display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:85%;vertical-align:middle;'}, p > 0 ? (p + '%') : '')
             ])
           );
         }

@@ -1,0 +1,735 @@
+msgid ""
+msgstr ""
+"Language-Team: Rafał Wabik (IceG)\n"
+"Language: cs\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
+
+msgid "For more information about the modemdata package, please visit: %shttps://github.com/obsy/modemdata%s."
+msgstr "Pro více informací o balíčku modemdata navštivte: %shttps://github.com/obsy/modemdata%s."
+
+msgid "Package allows the user to view the data read from the modem, to see the parameters of the connection to the mobile network."
+msgstr "Balíček umožňuje uživateli zobrazit data načtená z modemu a sledovat parametry připojení k mobilní síti."
+
+msgid "eko.one.pl forum"
+msgstr "fórum eko.one.pl"
+
+msgid "Signal strength"
+msgstr "Síla signálu"
+
+msgid "Modem(s)"
+msgstr "Modem(y)"
+
+msgid "Ups.. no modems detected."
+msgstr "Ups.. nebyly detekovány žádné modemy."
+
+msgid "Configuration"
+msgstr "Konfigurace"
+
+msgid "General Information"
+msgstr "Obecné informace"
+
+msgid "Modem Information"
+msgstr "Informace o modemu"
+
+msgid "Cell Information"
+msgstr "Informace o buňce"
+
+msgid "Connection"
+msgstr "Připojení"
+
+msgid "Technology"
+msgstr "Technologie"
+
+msgid "Operator"
+msgstr "Operátor"
+
+msgid "Location"
+msgstr "Umístění"
+
+msgid "Sent"
+msgstr "Odesláno"
+
+msgid "Connection time"
+msgstr "Čas připojení"
+
+msgid "Modem type"
+msgstr "Typ modemu"
+
+msgid "Hide data."
+msgstr "Skrýt data."
+
+msgid "Hide selected data"
+msgstr "Skrýt vybraná data"
+
+msgid "Additional information"
+msgstr "Dodatečné informace"
+
+msgid "Revision / FW"
+msgstr "Revize / FW"
+
+msgid "IP adress / Port"
+msgstr "IP adresa / Port"
+
+msgid "Chip Temperature"
+msgstr "Teplota čipu"
+
+msgid "Configuration modemdata package"
+msgstr "Konfigurace balíčku modemdata"
+
+msgid "Configuration panel for modemdata and gui application."
+msgstr "Konfigurační panel pro modemdata a GUI aplikaci."
+
+msgid "Add data to hide"
+msgstr "Přidat data ke skrytí"
+
+msgid "Enter the data you would like to hide, e.g. <code>IMEI, IMSI</code>."
+msgstr "Zadejte data, která chcete skrýt, např. <code>IMEI, IMSI</code>."
+
+msgid "Open page"
+msgstr "Otevřít stránku"
+
+msgid "Download data (experimental)"
+msgstr "Stáhnout data (experimentální)"
+
+msgid "Network"
+msgstr "Síť"
+
+msgid "IP adress / Port for communication with the modem"
+msgstr "IP adresa / Port pro komunikaci s modemem"
+
+msgid "Defined modems"
+msgstr "Definované modemy"
+
+msgid "Interface to define the available modems. The list of modems will make it easier for the user to switch between modems in LuCI."
+msgstr "Rozhraní pro definování dostupných modemů. Seznam modemů uživateli usnadní přepínání mezi modemy v LuCI."
+
+msgid "Settings"
+msgstr "Nastavení"
+
+msgid "Add new modem settings..."
+msgstr "Přidat nové nastavení modemu..."
+
+msgid "Modem Settings"
+msgstr "Nastavení modemu"
+
+msgid "Manufacturer / Product"
+msgstr "Výrobce / Produkt"
+
+msgid "Please select a modem"
+msgstr "Vyberte prosím modem"
+
+msgid "IP adress / Port for communication"
+msgstr "IP adresa / Port pro komunikaci"
+
+msgid "Protocol"
+msgstr "Protokol"
+
+msgid "Port for communication"
+msgstr "Port pro komunikaci"
+
+msgid "Please select a QMI/MBIM port"
+msgstr "Vyberte prosím QMI/MBIM port"
+
+msgid "Modem id"
+msgstr "ID modemu"
+
+msgid "Please select a modem id"
+msgstr "Vyberte prosím ID modemu"
+
+msgid "MBIM device"
+msgstr "Zařízení MBIM"
+
+msgid "Select if you want to read from MBIM."
+msgstr "Zaškrtněte, pokud chcete číst z MBIM."
+
+msgid "Assigned interface"
+msgstr "Přiřazené rozhraní"
+
+msgid "Interface assigned to modem."
+msgstr "Rozhraní přiřazené k modemu."
+
+msgid "Enter IP adress"
+msgstr "Zadejte IP adresu"
+
+msgid "IP adress"
+msgstr "IP adresa"
+
+msgid "Reading data via"
+msgstr "Čtení dat přes"
+
+msgid "Port / IP / Modem identifier"
+msgstr "Port / IP / Identifikátor modemu"
+
+msgid ""
+"Enter modem name manually if the suggested name is not "
+"obvious. <br /><br /><b>Important</b> <br />The modem name is only searched for modems connected via USB."
+msgstr ""
+"Pokud navrhovaný název není jednoznačný, zadejte název modemu ručně. <br /><br /><b>Důležité</b> <br />Název modemu se vyhledává pouze u modemů připojených přes USB."
+
+msgid ""
+"Select method for reading data from the modem. <br /> <br />serial port: <br /> Select one of the available "
+"ttyUSBX / ttyACMx / wwan0atX / mhi_DUN ports.<br /> <br />ecm: <br /> Enter the IP address 192.168.X.X under which the modem (Huawei) "
+"is available.<br /> <br />uqmi: <br /> Select one of the available cdc-wdmX ports.<br /> <br />ModemManager: <br /> Select "
+"one of the searched modem identifiers."
+msgstr ""
+"Vyberte metodu čtení dat z modemu. <br /> <br />sériový port: <br /> Vyberte jeden z dostupných "
+"portů ttyUSBX / ttyACMx / wwan0atX / mhi_DUN.<br /> <br />ecm: <br /> Zadejte IP adresu 192.168.X.X, pod kterou je modem (Huawei) "
+"dostupný.<br /> <br />uqmi: <br /> Vyberte jeden z dostupných portů cdc-wdmX.<br /> <br />ModemManager: <br /> Vyberte "
+"jeden z vyhledaných identifikátorů modemu."
+
+msgid "Please select a port"
+msgstr "Vyberte prosím port"
+
+msgid "User description"
+msgstr "Popis uživatele"
+
+msgid "Optional"
+msgstr "Volitelné"
+
+msgid "User description (optional)"
+msgstr "Popis uživatele (volitelný)"
+
+msgid "Excellent"
+msgstr "Vynikající"
+
+msgid "Good"
+msgstr "Dobrý"
+
+msgid "Fair"
+msgstr "Slušný"
+
+msgid "Poor"
+msgstr "Špatný"
+
+msgid "Physical cell ID"
+msgstr "Fyzické ID buňky"
+
+msgid "Bandwidth"
+msgstr "Šířka pásma"
+
+msgid "SIM status"
+msgstr "Stav SIM"
+
+msgid "Not registered"
+msgstr "Neregistrováno"
+
+msgid "Registered, home"
+msgstr "Registrováno, domácí síť"
+
+msgid "Registered (roaming)"
+msgstr "Registrováno (roaming)"
+
+msgid "Registered, only SMS"
+msgstr "Registrováno, pouze SMS"
+
+msgid "Registered (roaming), only SMS"
+msgstr "Registrováno (roaming), pouze SMS"
+
+msgid "Searching.."
+msgstr "Vyhledávání..."
+
+msgid "Connection state"
+msgstr "Stav připojení"
+
+msgid "Connected"
+msgstr "Připojeno"
+
+msgid "Disconnected"
+msgstr "Odpojeno"
+
+msgid "Registering denied"
+msgstr "Registrace odmítnuta"
+
+msgid "Waiting to read data from the modem..."
+msgstr "Čekání na čtení dat z modemu..."
+
+msgid "Waiting for data..."
+msgstr "Čekání na data..."
+
+msgid "BTS Search"
+msgstr "Vyhledávání BTS"
+
+msgid "BTS Information"
+msgstr "Informace o BTS"
+
+msgid "Search"
+msgstr "Hledat"
+
+msgid "Bands"
+msgstr "Pásma"
+
+msgid "Search BTS"
+msgstr "Vyhledat BTS"
+
+msgid "BTS search settings"
+msgstr "Nastavení vyhledávání BTS"
+
+msgid "Website to search for BTS"
+msgstr "Webová stránka pro vyhledávání BTS"
+
+msgid "Select a website for searching."
+msgstr "Vyberte webovou stránku pro vyhledávání."
+
+msgid "Install a package using package manager"
+msgstr "Nainstalujte balíček pomocí správce balíčků"
+
+msgid "Select an action after clicking the search button."
+msgstr "Vyberte akci po kliknutí na tlačítko vyhledávání."
+
+msgid "Install iconv"
+msgstr "Nainstalovat iconv"
+
+msgid "Install qmi-utils"
+msgstr "Nainstalovat qmi-utils"
+
+msgid "SIM Slot"
+msgstr "Slot SIM"
+
+msgid "SIM Card"
+msgstr "SIM karta"
+
+msgid "Slot in use"
+msgstr "Používaný slot"
+
+msgid "Problem with registering to the network, check the SIM card."
+msgstr "Problém s registrací do sítě, zkontrolujte SIM kartu."
+
+msgid "SIM PIN required"
+msgstr "Vyžadován SIM PIN"
+
+msgid "SIM PUK required"
+msgstr "Vyžadován SIM PUK"
+
+msgid "SIM failure"
+msgstr "Chyba SIM karty"
+
+msgid "SIM busy"
+msgstr "SIM karta je zaneprázdněna"
+
+msgid "SIM wrong"
+msgstr "Nesprávná SIM karta"
+
+msgid "SIM PIN2 required"
+msgstr "Vyžadován SIM PIN2"
+
+msgid "SIM PUK2 required"
+msgstr "Vyžadován SIM PUK2"
+
+msgid "Information read from the SIM card and device."
+msgstr "Informace načtené ze SIM karty a zařízení."
+
+msgid "No data"
+msgstr "Žádná data"
+
+msgid "Diagnostics"
+msgstr "Diagnostika"
+
+msgid "Modem(s) configuration"
+msgstr "Konfigurace modemu(ů)"
+
+msgid "Package configuration"
+msgstr "Konfigurace balíčku"
+
+msgid "Run various commands to verify data read from the modem and debug scripts."
+msgstr "Spusťte různé příkazy pro ověření dat načtených z modemu a ladění skriptů."
+
+msgid "USB debug information"
+msgstr "Ladící informace USB"
+
+msgid "Check ttyX ports"
+msgstr "Zkontrolovat porty ttyX"
+
+msgid "Check serial and ecm mode"
+msgstr "Zkontrolovat sériový a ecm režim"
+
+msgid "Check uqmi mode"
+msgstr "Zkontrolovat uqmi režim"
+
+msgid "Check ModemManager mode"
+msgstr "Zkontrolovat režim ModemManager"
+
+msgid "Clear"
+msgstr "Vyčistit"
+
+msgid "Download"
+msgstr "Stáhnout"
+
+msgid "Notes Update date"
+msgstr "Poznámky Datum aktualizace"
+
+msgid "Band"
+msgstr "Pásmo"
+
+msgid "Package update and support"
+msgstr "Aktualizace balíčku a podpora"
+
+msgid "Failed to download index.json file from external repository."
+msgstr "Nepodařilo se stáhnout soubor index.json z externího repozitáře."
+
+msgid "Failed to read downloaded file."
+msgstr "Nepodařilo se přečíst stažený soubor."
+
+msgid "Installed package is up to date."
+msgstr "Nainstalovaný balíček je aktuální."
+
+msgid "Update is available."
+msgstr "Aktualizace je k dispozici."
+
+msgid "The index.json file did not contain any package information."
+msgstr "Soubor index.json neobsahoval žádné informace o balíčku."
+
+msgid "Error parsing version."
+msgstr "Chyba při parsování verze."
+
+msgid "Check repository"
+msgstr "Zkontrolovat repozitář"
+
+msgid "Package update..."
+msgstr "Aktualizace balíčku..."
+
+msgid "Report a bug"
+msgstr "Nahlásit chybu"
+
+msgid "Write in the topic of the package on the forum eko.one.pl"
+msgstr "Napište do vlákna o balíčku na fóru eko.one.pl"
+
+msgid "Write on forum"
+msgstr "Napsat na fórum"
+
+msgid "Report a bug on the package Github page"
+msgstr "Nahlásit chybu na GitHub stránce balíčku"
+
+msgid "Open a package discussion on Github"
+msgstr "Otevřít diskusi o balíčku na GitHubu"
+
+msgid "Open discussion"
+msgstr "Otevřít diskusi"
+
+msgid "Buy a coffee if you want to support the development of the project and the author"
+msgstr "Kupte kávu, pokud chcete podpořit vývoj projektu a autora"
+
+msgid "Buy a coffee"
+msgstr "Koupit kávu"
+
+msgid "Become a sponsor if you want to support the development of the project and the author"
+msgstr "Staňte se sponzorem, pokud chcete podpořit vývoj projektu a autora"
+
+msgid "Become a sponsor"
+msgstr "Stát se sponzorem"
+
+msgid "Download package information from an external repository"
+msgstr "Stáhnout informace o balíčku z externího repozitáře"
+
+msgid "Add repository and download package update"
+msgstr "Přidat repozitář a stáhnout aktualizaci balíčku"
+
+msgid "Package Info"
+msgstr "Informace o balíčku"
+
+msgid "Compiled"
+msgstr "Zkompilováno"
+
+msgid "Repository Info"
+msgstr "Informace o repozitáři"
+
+msgid "Currently installed"
+msgstr "Aktuálně nainstalováno"
+
+msgid "Package in repository"
+msgstr "Balíček v repozitáři"
+
+msgid "Last repository check"
+msgstr "Poslední kontrola repozitáře"
+
+msgid "Poland"
+msgstr "Polsko"
+
+msgid "Force read by"
+msgstr "Vynutit čtení přes"
+
+msgid "Select method for reading data from the modem."
+msgstr "Vyberte metodu čtení dat z modemu."
+
+msgid "inactive"
+msgstr "neaktivní"
+
+msgid "ModemMenager"
+msgstr "ModemManager"
+
+msgid "Force PLMN"
+msgstr "Vynutit PLMN"
+
+msgid "Force reading PLMN from file."
+msgstr "Vynutit čtení PLMN ze souboru."
+
+msgid "Command result"
+msgstr "Výsledek příkazu"
+
+msgid "Check"
+msgstr "Zkontrolovat"
+
+msgid "Auto update every:"
+msgstr "Automatická aktualizace každé:"
+
+msgid "2 seconds"
+msgstr "2 sekundy"
+
+msgid "3 seconds"
+msgstr "3 sekundy"
+
+msgid "5 seconds"
+msgstr "5 sekund"
+
+msgid "10 seconds"
+msgstr "10 sekund"
+
+msgid "30 seconds"
+msgstr "30 sekund"
+
+msgid "45 seconds"
+msgstr "45 sekund"
+
+msgid "60 seconds"
+msgstr "60 sekund"
+
+msgid "Refresh rate"
+msgstr "Obnovovací frekvence"
+
+msgid "Set how often the data should be refreshed in the Modem(s) tab."
+msgstr "Nastavte, jak často se mají data na kartě Modem(y) obnovovat."
+
+msgid ""
+"Set how often the data should be refreshed in the Modem(s) tab. <br /><br /><b>Important</b> <br />Not "
+"every modem / protocol can communicate quickly with scripts. "
+"Too high a polling rate can freeze the modem. <br />ModemManager and uqmi need more time to respond."
+msgstr ""
+"Nastavte, jak často se mají data na kartě Modem(y) obnovovat. <br /><br /><b>Důležité</b> <br />Ne "
+"každý modem / protokol dokáže se skripty komunikovat rychle. "
+"Příliš vysoká frekvence dotazování může způsobit zamrznutí modemu. <br />ModemManager a uqmi potřebují na odpověď více času."
+
+msgid "Updating again in %s second(s)."
+msgstr "Opětovná aktualizace za %s sekund(u)."
+
+msgid "Please wait... data collection is in progress."
+msgstr "Čekejte prosím... probíhá sběr dat."
+
+msgid "Modems found"
+msgstr "Nalezené modemy"
+
+msgid "List of found modems. Not all modems may be shown."
+msgstr "Seznam nalezených modemů. Nemusí se zobrazit všechny modemy."
+
+msgid "Show modems found"
+msgstr "Zobrazit nalezené modemy"
+
+msgid "Show"
+msgstr "Zobrazit"
+
+msgid "Currently, only modems connected via USB are searched for."
+msgstr "V současné době jsou vyhledávány pouze modemy připojené přes USB."
+
+msgid "No Modems Detected..."
+msgstr "Nebyly detekovány žádné modemy..."
+
+msgid "Oops.. there are no modems in settings. You will be redirected to a tab where you can define the installed modem(s)."
+msgstr "Ups.. v nastavení nejsou žádné modemy. Budete přesměrováni na kartu, kde můžete nainstalované modemy definovat."
+
+msgid "Redirecting..."
+msgstr "Přesměrování..."
+
+msgid "Redirecting in"
+msgstr "Přesměrování za"
+
+msgid "seconds..."
+msgstr "sekund..."
+
+msgid "(no data)"
+msgstr "(žádná data)"
+
+msgid "Enter a valid IP address in the format 192.168.X.X"
+msgstr "Zadejte platnou IP adresu ve formátu 192.168.X.X"
+
+msgid "Only numbers and dots are allowed"
+msgstr "Povolena jsou pouze čísla a tečky"
+
+msgid "Each part must be a number from 0 to 255"
+msgstr "Každá část musí být číslo od 0 do 255"
+
+msgid "In the future tab will allow you to update the package from %sRafał (IceG) external repository%s."
+msgstr "V budoucnu vám tato karta umožní aktualizovat balíček z externího repozitáře %sRafał (IceG)%s."
+
+msgid "Option will appear after apk implementation."
+msgstr "Možnost se zobrazí po implementaci apk."
+
+msgid "Author (package maintainer)"
+msgstr "Autor (správce balíčku)"
+
+msgid "Modemdata Info"
+msgstr "Informace o modemdata"
+
+msgid "Modemdata Status"
+msgstr "Stav modemdata"
+
+msgid "Luci-app-modemdata Info"
+msgstr "Informace o luci-app-modemdata"
+
+msgid "Go to the Diagnostics tab and run a script check. Most often, the error is caused by a strange operator name. To fix this, select the Force PLMN from file option if it is available in the modem configuration options."
+msgstr "Přejděte na kartu Diagnostika a spusťte kontrolu skriptu. Nejčastěji je chyba způsobena neobvyklým názvem operátora. Chcete-li to napravit, vyberte možnost Vynutit PLMN ze souboru, pokud je k dispozici v možnostech konfigurace modemu."
+
+msgid "If data in LuCI is not visible, and we are 100% sure that the modem has been defined/configured correctly."
+msgstr "Pokud data v LuCI nejsou viditelná a jsme si stoprocentně jisti, že modem byl správně definován/nakonfigurován."
+
+msgid "Suggested solution"
+msgstr "Navrhované řešení"
+
+msgid "Troubleshooting / Hints"
+msgstr "Řešení problémů / Tipy"
+
+msgid "Problem"
+msgstr "Problém"
+
+msgid "Common problems that may arise when using the package, and ways to solve them."
+msgstr "Běžné problémy, které mohou nastat při používání balíčku, a způsoby jejich řešení."
+
+msgid "Package does not show data for the Fibocom FM350-GL modem."
+msgstr "Balíček nezobrazuje data pro modem Fibocom FM350-GL."
+
+msgid "The modem is very sensitive to data read by the communication port. Selecting the wrong communication port may cause the modem to freeze or restart."
+msgstr "Modem je velmi citlivý na data čtená komunikačním portem. Výběr nesprávného komunikačního portu může způsobit zamrznutí nebo restart modemu."
+
+msgid "and"
+msgstr "a"
+
+msgid "packages are recommended for proper modem support."
+msgstr "balíčky jsou doporučeny pro správnou podporu modemu."
+
+msgid "Please select method for reading data from the modem and install the necessary packages."
+msgstr "Vyberte prosím metodu čtení dat z modemu a nainstalujte potřebné balíčky."
+
+msgid "Required packages"
+msgstr "Vyžadované balíčky"
+
+msgid "Check required packages"
+msgstr "Zkontrolovat vyžadované balíčky"
+
+msgid "Before configuring the modem, check if all required packages are installed in the system."
+msgstr "Před konfigurací modemu zkontrolujte, zda jsou v systému nainstalovány všechny požadované balíčky."
+
+msgid "Loading package data…"
+msgstr "Načítání dat balíčku..."
+
+msgid "Waiting..."
+msgstr "Čekejte..."
+
+msgid "Show signal levels"
+msgstr "Zobrazit úrovně signálu"
+
+msgid "Primary band signal levels"
+msgstr "Úrovně signálu primárního pásma"
+
+msgid "Device is busy"
+msgstr "Zařízení je zaneprázdněno"
+
+msgid "Primary band"
+msgstr "Primární pásmo"
+
+msgid "Available options"
+msgstr "Dostupné možnosti"
+
+msgid "Device not found"
+msgstr "Zařízení nebylo nalezeno"
+
+msgid "Click to view Cell ID details"
+msgstr "Kliknutím zobrazíte podrobnosti o ID buňky"
+
+msgid "Cell ID (dec)"
+msgstr "Cell ID (dec)"
+
+msgid "Cell ID (hex)"
+msgstr "Cell ID (hex)"
+
+msgid "eNB ID (hex)"
+msgstr "eNB ID (hex)"
+
+msgid "Sector ID (hex)"
+msgstr "Sector ID (hex)"
+
+msgid "eNB ID (dec)"
+msgstr "eNB ID (dec)"
+
+msgid "Sector ID (dec)"
+msgstr "Sector ID (dec)"
+
+msgid "Cell ID (hex) for CellMapper"
+msgstr "Cell ID (hex) pro CellMapper"
+
+msgid "Cell ID (dec) for CellMapper"
+msgstr "Cell ID (dec) pro CellMapper"
+
+msgid "Cell ID Information"
+msgstr "Informace o ID buňky"
+
+msgid "Modem"
+msgstr "Modem"
+
+msgid "Detailed Cell ID information with formats for different tools and applications."
+msgstr "Podrobné informace o ID buňky s formáty pro různé nástroje a aplikace."
+
+msgid "Information about package authors and available support options."
+msgstr "Informace o autorech balíčku a dostupných možnostech podpory."
+
+msgid "Package name"
+msgstr "Název balíčku"
+
+msgid "Proper Modem Configuration."
+msgstr "Správná konfigurace modemu."
+
+msgid "User should remember:"
+msgstr "Uživatel by měl mít na paměti:"
+
+msgid "1. For a specific modem, only one protocol should be set for communication with modem."
+msgstr "1. Pro konkrétní modem by měl být nastaven pouze jeden protokol pro komunikaci s modemem."
+
+msgid "2. Only one package can read data from modem (at the same time)."
+msgstr "2. Pouze jeden balíček může číst data z modemu (ve stejnou dobu)."
+
+msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
+msgstr "3. Příliš časté čtení dat z modemu může způsobit jeho zamrznutí (MM a uqmi potřebují více času)."
+
+msgid "BTS search: no response from server."
+msgstr "Vyhledávání BTS: server neodpovídá."
+
+msgid "BTS search: no results found."
+msgstr "Vyhledávání BTS: nebyly nalezeny žádné výsledky."
+
+msgid "this month"
+msgstr "tento měsíc"
+
+msgid "month ago"
+msgstr "před měsícem"
+
+msgid "months ago"
+msgstr "měsíci"
+
+msgid "Station ID"
+msgstr "ID stanice"
+
+msgid "Confirmed"
+msgstr "Potvrzeno"
+
+msgid "Updated"
+msgstr "Aktualizováno"
+
+msgid "Show on map"
+msgstr "Zobrazit na mapě"
+
+msgid "Download data"
+msgstr "Stáhnout data"
+
+msgid "Install curl"
+msgstr "Nainstalovat curl"
+
+msgid "Note: The package is fully compatible with the latest, third-generation version of the BTSearch website."
+msgstr "Poznámka: Balíček je plně kompatibilní s nejnovější, třetí generací webu BTSearch."

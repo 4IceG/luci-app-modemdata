@@ -309,55 +309,55 @@ return view.extend({
 
   handleDBG: function(){
     let select = document.getElementById('mselect'); let value = select ? select.value : '';
-    let valueParts = value.split('_'); let device = valueParts[1] || ''; let network = valueParts[2] || '';
+    let valueParts = value.split('*'); let device = valueParts[1] || ''; let network = valueParts[2] || '';
     return this.handleCommand('/bin/sh', ['/usr/bin/md_serial_ecm', device, network]);
   },
 
   handleproduct: function(){
     let select = document.getElementById('mselect'); let value = select ? select.value : '';
-    let device = value.split('_')[1] || '';
+    let device = value.split('*')[1] || '';
     return this.handleCommand('/bin/sh', ['-x', '/usr/share/modemdata/product.sh', device]);
   },
 
   handlenetwork: function(){
     let select = document.getElementById('mselect'); let value = select ? select.value : '';
-    let network = value.split('_')[2] || '';
+    let network = value.split('*')[2] || '';
     return this.handleCommand('/bin/sh', ['-x', '/usr/share/modemdata/network.sh', network]);
   },
 
   handleparams: function(){
     let select = document.getElementById('mselect'); let value = select ? select.value : '';
-    let device = value.split('_')[1] || '';
+    let device = value.split('*')[1] || '';
     return this.handleCommand('/bin/sh', ['-x', '/usr/share/modemdata/params.sh', device]);
   },
 
   handleuqmi: function(){
     let select = document.getElementById('mselect'); let value = select ? select.value : '';
-    let valueParts = value.split('_'); let device = valueParts[1]||''; let network = valueParts[2]||''; let forced_plmn = valueParts[3]||''; let onproxy = (valueParts[4]||'').replace('undefined','0');
+    let valueParts = value.split('*'); let device = valueParts[1]||''; let network = valueParts[2]||''; let forced_plmn = valueParts[3]||''; let onproxy = (valueParts[4]||'').replace('undefined','0');
     return this.handleCommand('/bin/sh', ['/usr/bin/md_uqmi', device, network, forced_plmn, onproxy]);
   },
 
   handleparuqmi: function(){
     let select = document.getElementById('mselect'); let value = select ? select.value : '';
-    let valueParts = value.split('_'); let device = valueParts[1]||''; let forced_plmn = valueParts[3]||''; let onproxy = (valueParts[4]||'').replace('undefined','0');
+    let valueParts = value.split('*'); let device = valueParts[1]||''; let forced_plmn = valueParts[3]||''; let onproxy = (valueParts[4]||'').replace('undefined','0');
     return this.handleCommand('/bin/sh', ['-x', '/usr/share/modemdata/params_qmi.sh', device, forced_plmn, onproxy]);
   },
 
   handlemm: function(){
     let select = document.getElementById('mselect'); let value = select ? select.value : '';
-    let valueParts = value.split('_'); let device = valueParts[1]||''; let network = valueParts[2]||''; let forced_plmn = valueParts[3]||'';
+    let valueParts = value.split('*'); let device = valueParts[1]||''; let network = valueParts[2]||''; let forced_plmn = valueParts[3]||'';
     return this.handleCommand('/bin/sh', ['/usr/bin/md_modemmanager', device, network, forced_plmn]);
   },
 
   handleparamsmm: function(){
     let select = document.getElementById('mselect'); let value = select ? select.value : '';
-    let valueParts = value.split('_'); let device = valueParts[1]||''; let forced_plmn = valueParts[3]||'';
+    let valueParts = value.split('*'); let device = valueParts[1]||''; let forced_plmn = valueParts[3]||'';
     return this.handleCommand('/bin/sh', ['-x', '/usr/share/modemdata/params_modemmanager.sh', device, forced_plmn]);
   },
 
   handleprodmm: function(){
     let select = document.getElementById('mselect'); let value = select ? select.value : '';
-    let valueParts = value.split('_'); let device = valueParts[1]||'';
+    let valueParts = value.split('*'); let device = valueParts[1]||'';
     return this.handleCommand('/bin/sh', ['-x', '/usr/share/modemdata/product_modemmanager.sh', device]);
   },
 
@@ -404,7 +404,7 @@ return view.extend({
     addDiagnosticsStyles();
     
     let sections = uci.sections('defmodems','defmodems');
-    let result = sections.map(s=>`${s.modemdata}_${s.comm_port}_${s.network}_${s.forced_plmn}_${s.onproxy}_#[ ${s.modemdata} ] ${s.comm_port} - ${s.modem} (${s.user_desc})`).join(';');
+    let result = sections.map(s=>`${s.modemdata}*${s.comm_port}*${s.network}*${s.forced_plmn}*${s.onproxy}*#[ ${s.modemdata} ] ${s.comm_port} - ${s.modem} (${s.user_desc})`).join(';');
     result = result.replace("(undefined)","");
 
     let off_s1,off_s2,off_s3,off_u1,off_u2,off_m1,off_m2,off_m3;

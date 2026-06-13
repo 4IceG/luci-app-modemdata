@@ -1,0 +1,736 @@
+msgid ""
+msgstr ""
+"Language-Team: Rafał Wabik (IceG)\n"
+"Language: nl\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgid "For more information about the modemdata package, please visit: %shttps://github.com/obsy/modemdata%s."
+msgstr "Voor meer informatie over het modemdata-pakket, bezoek: %shttps://github.com/obsy/modemdata%s."
+
+msgid "Package allows the user to view the data read from the modem, to see the parameters of the connection to the mobile network."
+msgstr "Het pakket stelt de gebruiker in staat om de gegevens te bekijken die uit de modem zijn gelezen, om de parameters van de verbinding met het mobiele netwerk te zien."
+
+msgid "eko.one.pl forum"
+msgstr "eko.one.pl forum"
+
+msgid "Signal strength"
+msgstr "Signaalsterkte"
+
+msgid "Modem(s)"
+msgstr "Modem(s)"
+
+msgid "Ups.. no modems detected."
+msgstr "Oeps.. geen modems gedetecteerd."
+
+msgid "Configuration"
+msgstr "Configuratie"
+
+msgid "General Information"
+msgstr "Algemene informatie"
+
+msgid "Modem Information"
+msgstr "Modeminformatie"
+
+msgid "Cell Information"
+msgstr "Cel-informatie"
+
+msgid "Connection"
+msgstr "Verbinding"
+
+msgid "Technology"
+msgstr "Technologie"
+
+msgid "Operator"
+msgstr "Provider"
+
+msgid "Location"
+msgstr "Locatie"
+
+msgid "Sent"
+msgstr "Verzonden"
+
+msgid "Connection time"
+msgstr "Verbindungstijd"
+
+msgid "Modem type"
+msgstr "Modemtype"
+
+msgid "Hide data."
+msgstr "Gegevens verbergen."
+
+msgid "Hide selected data"
+msgstr "Geselecteerde gegevens verbergen"
+
+msgid "Additional information"
+msgstr "Aanvullende informatie"
+
+msgid "Revision / FW"
+msgstr "Revisie / FW"
+
+msgid "IP adress / Port"
+msgstr "IP-adres / Poort"
+
+msgid "Chip Temperature"
+msgstr "Chiptemperatuur"
+
+msgid "Configuration modemdata package"
+msgstr "Configuratie modemdata-pakket"
+
+msgid "Configuration panel for modemdata and gui application."
+msgstr "Configuratiepaneel voor modemdata en GUI-applicatie."
+
+msgid "Add data to hide"
+msgstr "Te verbergen gegevens toevoegen"
+
+msgid "Enter the data you would like to hide, e.g. <code>IMEI, IMSI</code>."
+msgstr "Voer de gegevens in die u wilt verbergen, bijv. <code>IMEI, IMSI</code>."
+
+msgid "Open page"
+msgstr "Pagina openen"
+
+msgid "Download data (experimental)"
+msgstr "Gegevens downloaden (experimenteel)"
+
+msgid "Network"
+msgstr "Netwerk"
+
+msgid "IP adress / Port for communication with the modem"
+msgstr "IP-adres / Poort voor communicatie met de modem"
+
+msgid "Defined modems"
+msgstr "Gedefinieerde modems"
+
+msgid "Interface to define the available modems. The list of modems will make it easier for the user to switch between modems in LuCI."
+msgstr "Interface om de beschikbare modems te definiëren. De lijst met modems maakt het voor de gebruiker gemakkelijker om in LuCI tussen modems te schakelen."
+
+msgid "Settings"
+msgstr "Instellingen"
+
+msgid "Add new modem settings..."
+msgstr "Nieuwe modeminstellingen toevoegen..."
+
+msgid "Modem Settings"
+msgstr "Modeminstellingen"
+
+msgid "Manufacturer / Product"
+msgstr "Fabrikant / Product"
+
+msgid "Please select a modem"
+msgstr "Selecteer een modem"
+
+msgid "IP adress / Port for communication"
+msgstr "IP-adres / Poort voor communicatie"
+
+msgid "Protocol"
+msgstr "Protocol"
+
+msgid "Port for communication"
+msgstr "Poort voor communicatie"
+
+msgid "Please select a QMI/MBIM port"
+msgstr "Selecteer een QMI/MBIM-poort"
+
+msgid "Modem id"
+msgstr "Modem-ID"
+
+msgid "Please select a modem id"
+msgstr "Selecteer een modem-ID"
+
+msgid "MBIM device"
+msgstr "MBIM-apparaat"
+
+msgid "Select if you want to read from MBIM."
+msgstr "Selecteer als u wilt lezen vanuit MBIM."
+
+msgid "Assigned interface"
+msgstr "Toegewezen interface"
+
+msgid "Interface assigned to modem."
+msgstr "Interface toegewezen aan modem."
+
+msgid "Enter IP adress"
+msgstr "Voer IP-adres in"
+
+msgid "IP adress"
+msgstr "IP-adres"
+
+msgid "Reading data via"
+msgstr "Gegevens lezen via"
+
+msgid "Port / IP / Modem identifier"
+msgstr "Poort / IP / Modem-identificatie"
+
+msgid ""
+"Enter modem name manually if the suggested name is not "
+"obvious. <br /><br /><b>Important</b> <br />The modem name is only searched for modems connected via USB."
+msgstr ""
+"Voer de modemnaam handmatig in als de voorgestelde naam niet "
+"duidelijk is. <br /><br /><b>Belangrijk</b> <br />De modemnaam wordt alleen gezocht voor via USB aangesloten modems."
+
+msgid ""
+"Select method for reading data from the modem. <br /> <br />serial port: <br /> Select one of the available "
+"ttyUSBX / ttyACMx / wwan0atX / mhi_DUN ports.<br /> <br />ecm: <br /> Enter the IP address 192.168.X.X under which the modem (Huawei) "
+"is available.<br /> <br />uqmi: <br /> Select one of the available cdc-wdmX ports.<br /> <br />ModemManager: <br /> Select "
+"one of the searched modem identifiers."
+msgstr ""
+"Selecteer de methode voor het lezen van gegevens uit de modem. <br /> <br />seriële poort: <br /> Selecteer een van de beschikbare "
+"ttyUSBX / ttyACMx / wwan0atX / mhi_DUN-poorten.<br /> <br />ecm: <br /> Voer het IP-adres 192.168.X.X in waaronder de modem (Huawei) "
+"beschikbaar is.<br /> <br />uqmi: <br /> Selecteer een van de beschikbare cdc-wdmX-poorten.<br /> <br />ModemManager: <br /> Selecteer "
+"een van de gezochte modem-identificaties."
+
+msgid "Please select a port"
+msgstr "Selecteer een poort"
+
+msgid "User description"
+msgstr "Gebruikersbeschrijving"
+
+msgid "Optional"
+msgstr "Optioneel"
+
+msgid "User description (optional)"
+msgstr "Gebruikersbeschrijving (optioneel)"
+
+msgid "Excellent"
+msgstr "Uitstekend"
+
+msgid "Good"
+msgstr "Goed"
+
+msgid "Fair"
+msgstr "Redelijk"
+
+msgid "Poor"
+msgstr "Slecht"
+
+msgid "Physical cell ID"
+msgstr "Fysieke cel-ID"
+
+msgid "Bandwidth"
+msgstr "Bandbreedte"
+
+msgid "SIM status"
+msgstr "SIM-status"
+
+msgid "Not registered"
+msgstr "Niet geregistreerd"
+
+msgid "Registered, home"
+msgstr "Geregistreerd, thuisnetwerk"
+
+msgid "Registered (roaming)"
+msgstr "Geregistreerd (roaming)"
+
+msgid "Registered, only SMS"
+msgstr "Geregistreerd, alleen SMS"
+
+msgid "Registered (roaming), only SMS"
+msgstr "Geregistreerd (roaming), alleen SMS"
+
+msgid "Searching.."
+msgstr "Zoeken..."
+
+msgid "Connection state"
+msgstr "Verbindingsstatus"
+
+msgid "Connected"
+msgstr "Verbonden"
+
+msgid "Disconnected"
+msgstr "Verbinding verbroken"
+
+msgid "Registering denied"
+msgstr "Registratie geweigerd"
+
+msgid "Waiting to read data from the modem..."
+msgstr "Wachten om gegevens uit de modem te lezen..."
+
+msgid "Waiting for data..."
+msgstr "Wachten op gegevens..."
+
+msgid "BTS Search"
+msgstr "BTS zoeken"
+
+msgid "BTS Information"
+msgstr "BTS-informatie"
+
+msgid "Search"
+msgstr "Zoeken"
+
+msgid "Bands"
+msgstr "Banden"
+
+msgid "Search BTS"
+msgstr "BTS zoeken"
+
+msgid "BTS search settings"
+msgstr "BTS-zoekinstellingen"
+
+msgid "Website to search for BTS"
+msgstr "Website om naar BTS te zoeken"
+
+msgid "Select a website for searching."
+msgstr "Selecteer een website om te zoeken."
+
+msgid "Install a package using package manager"
+msgstr "Installeer een pakket met behulp van de pakketbeheerder"
+
+msgid "Select an action after clicking the search button."
+msgstr "Selecteer een actie na het klikken op de zoekknop."
+
+msgid "Install iconv"
+msgstr "Installeer iconv"
+
+msgid "Install qmi-utils"
+msgstr "Installeer qmi-utils"
+
+msgid "SIM Slot"
+msgstr "SIM-slot"
+
+msgid "SIM Card"
+msgstr "SIM-kaart"
+
+msgid "Slot in use"
+msgstr "Slot in gebruik"
+
+msgid "Problem with registering to the network, check the SIM card."
+msgstr "Probleem met registreren op het netwerk, controleer de SIM-kaart."
+
+msgid "SIM PIN required"
+msgstr "SIM PIN vereist"
+
+msgid "SIM PUK required"
+msgstr "SIM PUK vereist"
+
+msgid "SIM failure"
+msgstr "SIM-storing"
+
+msgid "SIM busy"
+msgstr "SIM bezet"
+
+msgid "SIM wrong"
+msgstr "Onjuiste SIM-kaart"
+
+msgid "SIM PIN2 required"
+msgstr "SIM PIN2 vereist"
+
+msgid "SIM PUK2 required"
+msgstr "SIM PUK2 vereist"
+
+msgid "Information read from the SIM card and device."
+msgstr "Informatie uitgelezen uit de SIM-kaart en het apparaat."
+
+msgid "No data"
+msgstr "Geen gegevens"
+
+msgid "Diagnostics"
+msgstr "Diagnostiek"
+
+msgid "Modem(s) configuration"
+msgstr "Modem(s)configuratie"
+
+msgid "Package configuration"
+msgstr "Pakketconfiguratie"
+
+msgid "Run various commands to verify data read from the modem and debug scripts."
+msgstr "Voer verschillende opdrachten uit om de uit de modem gelezen gegevens te verifiëren en scripts te debuggen."
+
+msgid "USB debug information"
+msgstr "USB-foutopsporingsinformatie"
+
+msgid "Check ttyX ports"
+msgstr "Controleer ttyX-poorten"
+
+msgid "Check serial and ecm mode"
+msgstr "Controleer seriële en ecm-modus"
+
+msgid "Check uqmi mode"
+msgstr "Controleer uqmi-modus"
+
+msgid "Check ModemManager mode"
+msgstr "Controleer ModemManager-modus"
+
+msgid "Clear"
+msgstr "Wissen"
+
+msgid "Download"
+msgstr "Downloaden"
+
+msgid "Notes Update date"
+msgstr "Notities Updatetatum"
+
+msgid "Band"
+msgstr "Band"
+
+msgid "Package update and support"
+msgstr "Pakketupdate en ondersteuning"
+
+msgid "Failed to download index.json file from external repository."
+msgstr "Laden van index.json-bestand van externe repository mislukt."
+
+msgid "Failed to read downloaded file."
+msgstr "Lezen van gedownload bestand mislukt."
+
+msgid "Installed package is up to date."
+msgstr "Geïnstalleerd pakket is up-to-date."
+
+msgid "Update is available."
+msgstr "Update is beschikbaar."
+
+msgid "The index.json file did not contain any package information."
+msgstr "Het index.json-bestand bevatte geen pakketinformatie."
+
+msgid "Error parsing version."
+msgstr "Fout bij het parsen van de versie."
+
+msgid "Check repository"
+msgstr "Repository controleren"
+
+msgid "Package update..."
+msgstr "Pakketupdate..."
+
+msgid "Report a bug"
+msgstr "Een fout melden"
+
+msgid "Write in the topic of the package on the forum eko.one.pl"
+msgstr "Schrijf in het topic van het pakket op het eko.one.pl forum"
+
+msgid "Write on forum"
+msgstr "Schrijf op forum"
+
+msgid "Report a bug on the package Github page"
+msgstr "Meld een fout op de GitHub-pagina van het pakket"
+
+msgid "Open a package discussion on Github"
+msgstr "Open een pakketdiscussie op GitHub"
+
+msgid "Open discussion"
+msgstr "Discussie openen"
+
+msgid "Buy a coffee if you want to support the development of the project and the author"
+msgstr "Koop een kop koffie als je de ontwikkeling van het project en de auteur wilt ondersteunen"
+
+msgid "Buy a coffee"
+msgstr "Koop een kop koffie"
+
+msgid "Become a sponsor if you want to support the development of the project and the author"
+msgstr "Word sponsor als je de ontwikkeling van het project en de auteur wilt ondersteunen"
+
+msgid "Become a sponsor"
+msgstr "Word sponsor"
+
+msgid "Download package information from an external repository"
+msgstr "Download pakketinformatie van een externe repository"
+
+msgid "Add repository and download package update"
+msgstr "Repository toevoegen en pakketupdate downloaden"
+
+msgid "Package Info"
+msgstr "Pakketinfo"
+
+msgid "Compiled"
+msgstr "Gecompileerd"
+
+msgid "Repository Info"
+msgstr "Repository-info"
+
+msgid "Currently installed"
+msgstr "Momenteel geïnstalleerd"
+
+msgid "Package in repository"
+msgstr "Pakket in repository"
+
+msgid "Last repository check"
+msgstr "Laatste repository-controle"
+
+msgid "Poland"
+msgstr "Polen"
+
+msgid "Force read by"
+msgstr "Lezen afdwingen via"
+
+msgid "Select method for reading data from the modem."
+msgstr "Selecteer de methode om gegevens uit de modem te lezen."
+
+msgid "inactive"
+msgstr "inactief"
+
+msgid "ModemMenager"
+msgstr "ModemManager"
+
+msgid "Force PLMN"
+msgstr "PLMN afdwingen"
+
+msgid "Force reading PLMN from file."
+msgstr "Lezen van PLMN uit bestand afdwingen."
+
+msgid "Command result"
+msgstr "Opdrachtresultaat"
+
+msgid "Check"
+msgstr "Controleren"
+
+msgid "Auto update every:"
+msgstr "Automatisch bijwerken elke:"
+
+msgid "2 seconds"
+msgstr "2 seconden"
+
+msgid "3 seconds"
+msgstr "3 seconden"
+
+msgid "5 seconds"
+msgstr "5 seconden"
+
+msgid "10 seconds"
+msgstr "10 seconden"
+
+msgid "30 seconds"
+msgstr "30 seconden"
+
+msgid "45 seconds"
+msgstr "45 seconden"
+
+msgid "60 seconds"
+msgstr "60 seconden"
+
+msgid "Refresh rate"
+msgstr "Vernieuwingsfrequentie"
+
+msgid "Set how often the data should be refreshed in the Modem(s) tab."
+msgstr "Stel in hoe vaak de gegevens op het tabblad Modem(s) moeten worden vernieuwd."
+
+msgid ""
+"Set how often the data should be refreshed in the Modem(s) tab. <br /><br /><b>Important</b> <br />Not "
+"every modem / protocol can communicate quickly with scripts. "
+"Too high a polling rate can freeze the modem. <br />ModemManager and uqmi need more time to respond."
+msgstr ""
+"Stel in hoe vaak de gegevens op het tabblad Modem(s) moeten worden vernieuwd. <br /><br /><b>Belangrijk</b> <br />Niet "
+"elke modem / elk protocol kan snel met scripts communiceren. "
+"Een te hoge polling-snelheid kan de modem doen vastlopen. <br />ModemManager en uqmi hebben meer tijd nodig om te reageren."
+
+msgid "Updating again in %s second(s)."
+msgstr "Opnieuw bijwerken in %s seconde(n)."
+
+msgid "Please wait... data collection is in progress."
+msgstr "Even geduld a.u.b... gegevensverzameling is bezig."
+
+msgid "Modems found"
+msgstr "Modems gevonden"
+
+msgid "List of found modems. Not all modems may be shown."
+msgstr "Lijst met gevonden modems. Mogelijk worden niet alle modems weergegeven."
+
+msgid "Show modems found"
+msgstr "Gevonden modems tonen"
+
+msgid "Show"
+msgstr "Toon"
+
+msgid "Currently, only modems connected via USB are searched for."
+msgstr "Momenteel wordt er alleen gezocht naar modems die via USB zijn aangesloten."
+
+msgid "No Modems Detected..."
+msgstr "Geen modems gedetecteerd..."
+
+msgid "Oops.. there are no modems in settings. You will be redirected to a tab where you can define the installed modem(s)."
+msgstr "Oeps.. er zijn geen modems in de instellingen. Je wordt doorgestuurd naar een tabblad waar je de geïnstalleerde modem(s) kunt definiëren."
+
+msgid "Redirecting..."
+msgstr "Doorsturen..."
+
+msgid "Redirecting in"
+msgstr "Doorsturen over"
+
+msgid "seconds..."
+msgstr "seconden..."
+
+msgid "(no data)"
+msgstr "(geen gegevens)"
+
+msgid "Enter a valid IP address in the format 192.168.X.X"
+msgstr "Voer een geldig IP-adres in het formaat 192.168.X.X in"
+
+msgid "Only numbers and dots are allowed"
+msgstr "Alleen cijfers en punten zijn toegestaan"
+
+msgid "Each part must be a number from 0 to 255"
+msgstr "Elk deel moet een getal van 0 tot 255 zijn"
+
+msgid "In the future tab will allow you to update the package from %sRafał (IceG) external repository%s."
+msgstr "In de toekomst zal dit tabblad u in staat stellen om het pakket bij te werken vanuit de externe repository van %sRafał (IceG)%s."
+
+msgid "Option will appear after apk implementation."
+msgstr "Optie verschijnt na apk-implementatie."
+
+msgid "Author (package maintainer)"
+msgstr "Auteur (pakketbeheerder)"
+
+msgid "Modemdata Info"
+msgstr "Modemdata info"
+
+msgid "Modemdata Status"
+msgstr "Modemdata status"
+
+msgid "Luci-app-modemdata Info"
+msgstr "Luci-app-modemdata info"
+
+msgid "Go to the Diagnostics tab and run a script check. Most often, the error is caused by a strange operator name. To fix this, select the Force PLMN from file option if it is available in the modem configuration options."
+msgstr "Ga naar het tabblad Diagnostiek en voer een scriptcontrole uit. Meestal wordt de fout veroorzaakt door een vreemde providernaam. Om dit op te lossen, selecteert u de optie 'PLMN uit bestand afdwingen' als deze beschikbaar is in de modemconfiguratieopties."
+
+msgid "If data in LuCI is not visible, and we are 100% sure that the modem has been defined/configured correctly."
+msgstr "Als de gegevens in LuCI niet zichtbaar zijn, en we er 100% zeker van zijn dat de modem correct is gedefinieerd/geconfigureerd."
+
+msgid "Suggested solution"
+msgstr "Voorgestelde oplossing"
+
+msgid "Troubleshooting / Hints"
+msgstr "Probleemoplossing / Hints"
+
+msgid "Problem"
+msgstr "Probleem"
+
+msgid "Common problems that may arise when using the package, and ways to solve them."
+msgstr "Veelvoorkomende problemen die kunnen optreden bij het gebruik van het pakket, en manieren om ze op te lossen."
+
+msgid "Package does not show data for the Fibocom FM350-GL modem."
+msgstr "Pakket toont geen gegevens voor de Fibocom FM350-GL modem."
+
+msgid "The modem is very sensitive to data read by the communication port. Selecting the wrong communication port may cause the modem to freeze or restart."
+msgstr "De modem is erg gevoelig voor gegevens die via de communicatiepoort worden gelezen. Het selecteren van de verkeerde communicatiepoort kan ervoor zorgen dat de modem vastloopt of herstart."
+
+msgid "and"
+msgstr "en"
+
+msgid "packages are recommended for proper modem support."
+msgstr "-pakketten worden aanbevolen voor een juiste modem-ondersteuning."
+
+msgid "Please select method for reading data from the modem and install the necessary packages."
+msgstr "Selecteer de methode voor het lezen van gegevens uit de modem en installeer de benodigde pakketten."
+
+msgid "Required packages"
+msgstr "Vereiste pakketten"
+
+msgid "Check required packages"
+msgstr "Controleer vereiste pakketten"
+
+msgid "Before configuring the modem, check if all required packages are installed in the system."
+msgstr "Controleer voordat u de modem configureert of alle vereiste pakketten in het systeem zijn geïnstalleerd."
+
+msgid "Loading package data…"
+msgstr "Pakketgegevens laden…"
+
+msgid "Waiting..."
+msgstr "Wachten..."
+
+msgid "Show signal levels"
+msgstr "Signaalniveaus tonen"
+
+msgid "Primary band signal levels"
+msgstr "Signaalniveaus primaire band"
+
+msgid "Device is busy"
+msgstr "Apparaat is bezet"
+
+msgid "Primary band"
+msgstr "Primaire band"
+
+msgid "Available options"
+msgstr "Beschikbare opties"
+
+msgid "Device not found"
+msgstr "Apparaat niet gevonden"
+
+msgid "Click to view Cell ID details"
+msgstr "Klik om details van de Cel-ID te bekijken"
+
+msgid "Cell ID (dec)"
+msgstr "Cel-ID (dec)"
+
+msgid "Cell ID (hex)"
+msgstr "Cel-ID (hex)"
+
+msgid "eNB ID (hex)"
+msgstr "eNB ID (hex)"
+
+msgid "Sector ID (hex)"
+msgstr "Sector-ID (hex)"
+
+msgid "eNB ID (dec)"
+msgstr "eNB ID (dec)"
+
+msgid "Sector ID (dec)"
+msgstr "Sector-ID (dec)"
+
+msgid "Cell ID (hex) for CellMapper"
+msgstr "Cel-ID (hex) voor CellMapper"
+
+msgid "Cell ID (dec) for CellMapper"
+msgstr "Cel-ID (dec) voor CellMapper"
+
+msgid "Cell ID Information"
+msgstr "Cel-ID informatie"
+
+msgid "Modem"
+msgstr "Modem"
+
+msgid "Detailed Cell ID information with formats for different tools and applications."
+msgstr "Gedetailleerde Cel-ID informatie met formaten voor verschillende tools en applicaties."
+
+msgid "Information about package authors and available support options."
+msgstr "Informatie over auteurs van het pakket en beschikbare ondersteuningsopties."
+
+msgid "Package name"
+msgstr "Pakketnaam"
+
+msgid "Proper Modem Configuration."
+msgstr "Juiste modemconfiguratie."
+
+msgid "User should remember:"
+msgstr "De gebruiker moet onthouden:"
+
+msgid "1. For a specific modem, only one protocol should be set for communication with modem."
+msgstr "1. Voor een specifieke modem mag er slechts één protocol worden ingesteld voor communicatie met de modem."
+
+msgid "2. Only one package can read data from modem (at the same time)."
+msgstr "2. Slechts één pakket kan tegelijkertijd gegevens uit de modem lezen."
+
+msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
+msgstr "3. Te vaak gegevens uit de modem lezen kan ervoor zorgen dat deze vastloopt (MM en uqmi hebben meer tijd nodig)."
+
+msgid "BTS search: no response from server."
+msgstr "BTS zoeken: geen reactie van server."
+
+msgid "BTS search: no results found."
+msgstr "BTS zoeken: geen resultaten gevonden."
+
+msgid "this month"
+msgstr "deze maand"
+
+msgid "month ago"
+msgstr "maand geleden"
+
+msgid "months ago"
+msgstr "maanden geleden"
+
+msgid "Station ID"
+msgstr "Station-ID"
+
+msgid "Confirmed"
+msgstr "Bevestigd"
+
+msgid "Updated"
+msgstr "Bijgewerkt"
+
+msgid "Show on map"
+msgstr "Op kaart tonen"
+
+msgid "Download data"
+msgstr "Gegevens downloaden"
+
+msgid "Install curl"
+msgstr "Installeer curl"
+
+msgid "Note: The package is fully compatible with the latest, third-generation version of the BTSearch website."
+msgstr "Opmerking: Het pakket is volledig compatibel met de nieuwste, derde generatie versie van de BTSearch-website."

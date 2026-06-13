@@ -1,0 +1,601 @@
+msgid ""
+msgstr ""
+"Language: ko\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "For more information about the modemdata package, please visit: %shttps://github.com/obsy/modemdata%s."
+msgstr "modemdata 패키지에 대한 자세한 내용은 %shttps://github.com/obsy/modemdata%s를 방문하세요."
+
+msgid "Package allows the user to view the data read from the modem, to see the parameters of the connection to the mobile network."
+msgstr "이 패키지를 통해 사용자는 모뎀에서 읽은 데이터를 보고 모바일 네트워크에 대한 연결 매개변수를 확인할 수 있습니다."
+
+msgid "eko.one.pl forum"
+msgstr "eko.one.pl 포럼"
+
+msgid "Signal strength"
+msgstr "신호 강도"
+
+msgid "Modem(s)"
+msgstr "모뎀"
+
+msgid "Ups.. no modems detected."
+msgstr "오류.. 모뎀이 감지되지 않습니다."
+
+msgid "Configuration"
+msgstr "구성"
+
+msgid "General Information"
+msgstr "일반 정보"
+
+msgid "Modem Information"
+msgstr "모뎀 정보"
+
+msgid "Cell Information"
+msgstr "셀 정보"
+
+msgid "Connection"
+msgstr "연결"
+
+msgid "Technology"
+msgstr "기술"
+
+msgid "Operator"
+msgstr "운영자"
+
+msgid "Location"
+msgstr "위치"
+
+msgid "Sent"
+msgstr "전송됨"
+
+msgid "Signal strength"
+msgstr "신호 강도"
+
+msgid "Connection time"
+msgstr "연결 시간"
+
+msgid "Modem type"
+msgstr "모뎀 유형"
+
+msgid "Hide data."
+msgstr "데이터 숨기기."
+
+msgid "Hide selected data"
+msgstr "선택한 데이터 숨기기"
+
+msgid "Additional information"
+msgstr "추가 정보"
+
+msgid "Revision / FW"
+msgstr "수정 / 펌웨어"
+
+msgid "IP adress / Port"
+msgstr "IP 주소 / 포트"
+
+msgid "Chip Temperature"
+msgstr "칩 온도"
+
+msgid "Configuration modemdata package"
+msgstr "modemdata 패키지 구성"
+
+msgid "Configuration panel for modemdata and gui application."
+msgstr "modemdata 및 GUI 응용 프로그램의 구성 패널입니다."
+
+msgid "Add data to hide"
+msgstr "숨길 데이터 추가"
+
+msgid "Enter the data you would like to hide, e.g. <code>IMEI, IMSI</code>."
+msgstr "숨기려는 데이터를 입력하세요. 예: <code>IMEI, IMSI</code>."
+
+msgid "Open page"
+msgstr "페이지 열기"
+
+msgid "Download data (experimental)"
+msgstr "데이터 다운로드 (실험적)"
+
+msgid "Network"
+msgstr "네트워크"
+
+msgid "IP adress / Port for communication with the modem"
+msgstr "모뎀과 통신하기 위한 IP 주소 / 포트"
+
+msgid "Defined modems"
+msgstr "정의된 모뎀"
+
+msgid "Interface to define the available modems. The list of modems will make it easier for the user to switch between modems in LuCI."
+msgstr "사용 가능한 모뎀을 정의하는 인터페이스입니다. 모뎀 목록을 통해 사용자는 LuCI에서 모뎀 간에 쉽게 전환할 수 있습니다."
+
+msgid "Settings"
+msgstr "설정"
+
+msgid "Add new modem settings..."
+msgstr "새 모뎀 설정 추가..."
+
+msgid "Modem Settings"
+msgstr "모뎀 설정"
+
+msgid "Manufacturer / Product"
+msgstr "제조사 / 제품"
+
+msgid "Please select a modem"
+msgstr "모뎀을 선택하세요"
+
+msgid "IP adress / Port for communication"
+msgstr "통신용 IP 주소 / 포트"
+
+msgid "Protocol"
+msgstr "프로토콜"
+
+msgid "Port for communication"
+msgstr "통신 포트"
+
+msgid "Please select a QMI/MBIM port"
+msgstr "QMI/MBIM 포트를 선택하세요"
+
+msgid "Modem id"
+msgstr "모뎀 ID"
+
+msgid "Please select a modem id"
+msgstr "모뎀 ID를 선택하세요"
+
+msgid "MBIM device"
+msgstr "MBIM 장치"
+
+msgid "Select if you want to read from MBIM."
+msgstr "MBIM에서 읽으려면 선택하세요."
+
+msgid "Assigned interface"
+msgstr "할당된 인터페이스"
+
+msgid "Interface assigned to modem."
+msgstr "모뎀에 할당된 인터페이스입니다."
+
+msgid "Enter IP adress"
+msgstr "IP 주소 입력"
+
+msgid "IP adress"
+msgstr "IP 주소"
+
+msgid "Reading data via"
+msgstr "데이터 읽기 방법"
+
+msgid "Port / IP / Modem identifier"
+msgstr "포트 / IP / 모뎀 식별자"
+
+msgid "Interface assigned to modem."
+msgstr "모뎀에 할당된 인터페이스입니다."
+
+msgid ""
+"Enter modem name manually if the suggested name is not "
+"obvious. <br /><br /><b>Important</b> <br />The modem name is only searched for modems connected via USB."
+msgstr ""
+"제안된 이름이 명확하지 않으면 모뎀 이름을 수동으로 입력하세요. <br /><br /><b>중요</b> <br />모뎀 이름은 USB를 통해 연결된 모뎀에서만 검색됩니다."
+
+msgid ""
+"Select method for reading data from the modem. <br /> <br />serial port: <br /> Select one of the available "
+"ttyUSBX / ttyACMx / wwan0atX / mhi_DUN ports.<br /> <br />ecm: <br /> Enter the IP address 192.168.X.X under which the modem (Huawei) "
+"is available.<br /> <br />uqmi: <br /> Select one of the available cdc-wdmX ports.<br /> <br />ModemManager: <br /> Select "
+"one of the searched modem identifiers."
+msgstr ""
+"모뎀에서 데이터를 읽는 방법을 선택하세요. <br /> <br />직렬 포트: <br /> 사용 가능한 "
+"ttyUSBX / ttyACMx / wwan0atX / mhi_DUN 포트 중 하나를 선택하세요.<br /> <br />ecm: <br /> 모뎀 (Huawei)이 "
+"사용 가능한 IP 주소 192.168.X.X를 입력하세요.<br /> <br />uqmi: <br /> 사용 가능한 cdc-wdmX 포트 중 하나를 선택하세요.<br /> <br />ModemManager: <br /> 검색된 모뎀 식별자 중 하나를 "
+"선택하세요."
+
+msgid "Please select a port"
+msgstr "포트를 선택하세요"
+
+msgid "User description"
+msgstr "사용자 설명"
+
+msgid "Optional"
+msgstr "선택 사항"
+
+msgid "User description (optional)"
+msgstr "사용자 설명 (선택 사항)"
+
+msgid "Signal strength"
+msgstr "신호 강도"
+
+msgid "Excellent"
+msgstr "우수"
+
+msgid "Good"
+msgstr "좋음"
+
+msgid "Fair"
+msgstr "보통"
+
+msgid "Poor"
+msgstr "약함"
+
+msgid "Physical cell ID"
+msgstr "물리 셀 ID"
+
+msgid "Bandwidth"
+msgstr "대역폭"
+
+msgid "SIM status"
+msgstr "SIM 상태"
+
+msgid "Not registered"
+msgstr "등록되지 않음"
+
+msgid "Registered"
+msgstr "등록됨"
+
+msgid "Registered (roaming)"
+msgstr "등록됨 (로밍)"
+
+msgid "Registered, only SMS"
+msgstr "등록됨, SMS만"
+
+msgid "Registered (roaming), only SMS"
+msgstr "등록됨 (로밍), SMS만"
+
+msgid "Searching.."
+msgstr "검색 중.."
+
+msgid "Connection state"
+msgstr "연결 상태"
+
+msgid "Connected"
+msgstr "연결됨"
+
+msgid "Disconnected"
+msgstr "연결 해제됨"
+
+msgid "Registering denied"
+msgstr "등록이 거부됨"
+
+msgid "Waiting to read data from the modem..."
+msgstr "모뎀에서 데이터를 읽을 때까지 대기 중..."
+
+msgid "Waiting for data..."
+msgstr "데이터 대기 중..."
+
+msgid "BTS Search"
+msgstr "BTS 검색"
+
+msgid "BTS Information"
+msgstr "BTS 정보"
+
+msgid "Search"
+msgstr "검색"
+
+msgid "Bands"
+msgstr "대역"
+
+msgid "Search BTS"
+msgstr "BTS 검색"
+
+msgid "BTS search settings"
+msgstr "BTS 검색 설정"
+
+msgid "Website to search for BTS"
+msgstr "BTS를 검색할 웹사이트"
+
+msgid "Select a website for searching."
+msgstr "검색용 웹사이트를 선택하세요."
+
+msgid "Install a package using package manager"
+msgstr "패키지 관리자를 사용하여 패키지 설치"
+
+msgid "Select an action after clicking the search button."
+msgstr "검색 버튼을 클릭한 후 작업을 선택하세요."
+
+msgid "Install iconv"
+msgstr "iconv 설치"
+
+msgid "Install qmi-utils"
+msgstr "qmi-utils 설치"
+
+msgid "SIM Slot"
+msgstr "SIM 슬롯"
+
+msgid "SIM Card"
+msgstr "SIM 카드"
+
+msgid "Slot in use"
+msgstr "사용 중인 슬롯"
+
+msgid "Last repository check"
+msgstr "마지막 저장소 확인"
+
+msgid "Poland"
+msgstr "폴란드"
+
+msgid "Force read by"
+msgstr "읽기 강제"
+
+msgid "Select method for reading data from the modem."
+msgstr "모뎀에서 데이터를 읽는 방법을 선택하세요."
+
+msgid "inactive"
+msgstr "비활성"
+
+msgid "ModemMenager"
+msgstr "ModemManager"
+
+msgid "Force PLMN"
+msgstr "PLMN 강제"
+
+msgid "Force reading PLMN from file."
+msgstr "파일에서 PLMN 읽기를 강제하세요."
+
+msgid "Command result"
+msgstr "명령 결과"
+
+msgid "Check"
+msgstr "확인"
+
+msgid "Auto update every:"
+msgstr "자동 업데이트 간격:"
+
+msgid "2 seconds"
+msgstr "2초"
+
+msgid "3 seconds"
+msgstr "3초"
+
+msgid "5 seconds"
+msgstr "5초"
+
+msgid "10 seconds"
+msgstr "10초"
+
+msgid "30 seconds"
+msgstr "30초"
+
+msgid "45 seconds"
+msgstr "45초"
+
+msgid "60 seconds"
+msgstr "60초"
+
+msgid "Refresh rate"
+msgstr "새로 고침 빈도"
+
+msgid "Set how often the data should be refreshed in the Modem(s) tab."
+msgstr "모뎀 탭에서 데이터를 새로 고쳐야 하는 빈도를 설정합니다."
+
+msgid ""
+"Set how often the data should be refreshed in the Modem(s) tab. <br /><br /><b>Important</b> <br />Not "
+"every modem / protocol can communicate quickly with scripts. "
+"Too high a polling rate can freeze the modem. <br />ModemManager and uqmi need more time to respond."
+msgstr ""
+"모뎀 탭에서 데이터를 새로 고쳐야 하는 빈도를 설정합니다. <br /><br /><b>중요</b> <br />모든 모뎀 / 프로토콜이 스크립트와 빠르게 통신할 수 있는 것은 아닙니다. "
+"너무 높은 폴링 속도는 모뎀을 멈추게 할 수 있습니다. <br />ModemManager 및 uqmi는 응답하는 데 더 많은 시간이 필요합니다."
+
+msgid "Updating again in %s second(s)."
+msgstr "%s초 후에 다시 업데이트합니다."
+
+msgid "Please wait... data collection is in progress."
+msgstr "기다려주세요... 데이터 수집이 진행 중입니다."
+
+msgid "Modems found"
+msgstr "발견된 모뎀"
+
+msgid "List of found modems. Not all modems may be shown."
+msgstr "발견된 모뎀 목록입니다. 모든 모뎀이 표시되지 않을 수 있습니다."
+
+msgid "Show modems found"
+msgstr "발견된 모뎀 표시"
+
+msgid "Show"
+msgstr "표시"
+
+msgid "Currently, only modems connected via USB are searched for."
+msgstr "현재 USB를 통해 연결된 모뎀만 검색됩니다."
+
+msgid "No Modems Detected..."
+msgstr "감지된 모뎀이 없습니다..."
+
+msgid "Oops.. there are no modems in settings. You will be redirected to a tab where you can define the installed modem(s)."
+msgstr "오류.. 설정에 모뎀이 없습니다. 설치된 모뎀을 정의할 수 있는 탭으로 리디렉션됩니다."
+
+msgid "Redirecting..."
+msgstr "리디렉션 중..."
+
+msgid "Redirecting in"
+msgstr "리디렉션:"
+
+msgid "seconds..."
+msgstr "초..."
+
+msgid "(no data)"
+msgstr "(데이터 없음)"
+
+msgid "Enter a valid IP address in the format 192.168.X.X"
+msgstr "192.168.X.X 형식으로 유효한 IP 주소를 입력하세요"
+
+msgid "Only numbers and dots are allowed"
+msgstr "숫자와 점만 허용됩니다"
+
+msgid "Each part must be a number from 0 to 255"
+msgstr "각 부분은 0에서 255 사이의 숫자여야 합니다"
+
+msgid "In the future tab will allow you to update the package from %sRafał (IceG) external repository%s."
+msgstr "향후 탭에서 %sRafał (IceG) 외부 저장소%s에서 패키지를 업데이트할 수 있습니다."
+
+msgid "Option will appear after apk implementation."
+msgstr "apk 구현 후 옵션이 표시됩니다."
+
+msgid "Author (package maintainer)"
+msgstr "작성자 (패키지 관리자)"
+
+msgid "Modemdata Info"
+msgstr "Modemdata 정보"
+
+msgid "Modemdata Status"
+msgstr "Modemdata 상태"
+
+msgid "Luci-app-modemdata Info"
+msgstr "Luci-app-modemdata 정보"
+
+msgid "Go to the Diagnostics tab and run a script check. Most often, the error is caused by a strange operator name. To fix this, select the Force PLMN from file option if it is available in the modem configuration options."
+msgstr "진단 탭으로 이동하여 스크립트 확인을 실행합니다. 대부분의 경우 오류는 이상한 운영자 이름으로 인해 발생합니다. 이를 수정하려면 모뎀 구성 옵션에서 사용 가능한 경우 파일에서 PLMN 강제 옵션을 선택합니다."
+
+msgid "If data in LuCI is not visible, and we are 100% sure that the modem has been defined/configured correctly."
+msgstr "LuCI의 데이터가 표시되지 않고 모뎀이 올바르게 정의/구성되었다고 100% 확신하는 경우."
+
+msgid "Suggested solution"
+msgstr "제안 솔루션"
+
+msgid "Troubleshooting / Hints"
+msgstr "문제 해결 / 힌트"
+
+msgid "Problem"
+msgstr "문제"
+
+msgid "Common problems that may arise when using the package, and ways to solve them."
+msgstr "패키지를 사용할 때 발생할 수 있는 일반적인 문제와 해결 방법입니다."
+
+msgid "Package does not show data for the Fibocom FM350-GL modem."
+msgstr "패키지가 Fibocom FM350-GL 모뎀의 데이터를 표시하지 않습니다."
+
+msgid "The modem is very sensitive to data read by the communication port. Selecting the wrong communication port may cause the modem to freeze or restart."
+msgstr "모뎀은 통신 포트에서 읽은 데이터에 매우 민감합니다. 잘못된 통신 포트를 선택하면 모뎀이 멈추거나 재시작될 수 있습니다."
+
+msgid "and"
+msgstr "및"
+
+msgid "packages are recommended for proper modem support."
+msgstr "패키지는 적절한 모뎀 지원을 위해 권장됩니다."
+
+msgid "Please select method for reading data from the modem and install the necessary packages."
+msgstr "모뎀에서 데이터를 읽는 방법을 선택하고 필요한 패키지를 설치하세요."
+
+msgid "Required packages"
+msgstr "필요한 패키지"
+
+msgid "Check required packages"
+msgstr "필요한 패키지 확인"
+
+msgid "Before configuring the modem, check if all required packages are installed in the system."
+msgstr "모뎀을 구성하기 전에 필요한 모든 패키지가 시스템에 설치되어 있는지 확인하세요."
+
+msgid "Loading package data…"
+msgstr "패키지 데이터 로드 중…"
+
+msgid "Waiting..."
+msgstr "대기 중..."
+
+msgid "Show signal levels for the primary band"
+msgstr "주 대역의 신호 레벨 표시"
+
+msgid "Primary band signal levels"
+msgstr "주 대역 신호 레벨"
+
+msgid "Device is busy"
+msgstr "장치가 바쁩니다"
+
+msgid "Primary band"
+msgstr "주 대역"
+
+msgid "Available options"
+msgstr "사용 가능한 옵션"
+
+msgid "Device not found"
+msgstr "장치를 찾을 수 없습니다"
+
+msgid "Registered, home"
+msgstr "등록됨, 홈"
+
+msgid "Show signal levels"
+msgstr "신호 레벨 표시"
+
+msgid "Click to view Cell ID details"
+msgstr "셀 ID 세부 정보를 보려면 클릭하세요"
+
+msgid "Cell ID (dec)"
+msgstr "셀 ID (10진)"
+
+msgid "Cell ID (hex)"
+msgstr "셀 ID (16진)"
+
+msgid "eNB ID (hex)"
+msgstr "eNB ID (16진)"
+
+msgid "Sector ID (hex)"
+msgstr "섹터 ID (16진)"
+
+msgid "eNB ID (dec)"
+msgstr "eNB ID (10진)"
+
+msgid "Sector ID (dec)"
+msgstr "섹터 ID (10진)"
+
+msgid "Cell ID (hex) for CellMapper"
+msgstr "CellMapper의 셀 ID (16진)"
+
+msgid "Cell ID (dec) for CellMapper"
+msgstr "CellMapper의 셀 ID (10진)"
+
+msgid "Cell ID Information"
+msgstr "셀 ID 정보"
+
+msgid "Modem"
+msgstr "모뎀"
+
+msgid "Detailed Cell ID information with formats for different tools and applications."
+msgstr "다양한 도구 및 응용 프로그램을 위한 형식이 포함된 자세한 셀 ID 정보입니다."
+
+msgid "Information about package authors and available support options."
+msgstr "패키지 작성자 및 사용 가능한 지원 옵션에 대한 정보입니다."
+
+msgid "Package name"
+msgstr "패키지 이름"
+
+msgid "Proper Modem Configuration."
+msgstr "적절한 모뎀 구성입니다."
+
+msgid "User should remember:"
+msgstr "사용자가 기억해야 할 사항:"
+
+msgid "1. For a specific modem, only one protocol should be set for communication with modem."
+msgstr "1. 특정 모뎀의 경우 모뎀과 통신하기 위해 하나의 프로토콜만 설정해야 합니다."
+
+msgid "2. Only one package can read data from modem (at the same time)."
+msgstr "2. 하나의 패키지만 모뎀에서 데이터를 읽을 수 있습니다 (동시에)."
+
+msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
+msgstr "3. 모뎀에서 너무 자주 데이터를 읽으면 멈을 수 있습니다 (MM과 uqmi는 더 많은 시간이 필요합니다)."
+
+msgid "BTS search: no response from server."
+msgstr "BTS 검색: 서버에서 응답이 없습니다."
+
+msgid "BTS search: no results found."
+msgstr "BTS 검색: 결과를 찾을 수 없습니다."
+
+msgid "this month"
+msgstr "이번 달"
+
+msgid "month ago"
+msgstr "1개월 전"
+
+msgid "months ago"
+msgstr "개월 전"
+
+msgid "Station ID"
+msgstr "스테이션 ID"
+
+msgid "Confirmed"
+msgstr "확인됨"
+
+msgid "Updated"
+msgstr "업데이트됨"
+
+msgid "Show on map"
+msgstr "지도에 표시"
+
+msgid "Download data"
+msgstr "데이터 다운로드"
+
+msgid "Install curl"
+msgstr "curl 설치"
+
+msgid "Note: The package is fully compatible with the latest, third-generation version of the BTSearch website."
+msgstr "참고: 이 패키지는 BTSearch 웹사이트의 최신 제3세대 버전과 완전히 호환됩니다."
