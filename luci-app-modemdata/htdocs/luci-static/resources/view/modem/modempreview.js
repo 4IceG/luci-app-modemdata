@@ -1434,10 +1434,19 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
           const primaryBandFromAddon = addonArr.find(item => item && isPrimaryBand(item['key']));
           const primaryBandValue = primaryBandFromAddon ? primaryBandFromAddon['value'] : null;
 
+          const extractBandFromMode = (mode) => {
+            const str = String(mode || '').trim();
+            if (!str) return null;
+            const m = str.match(/^\S*(?:LTE)\S*\s+(\S.*)$/i);
+            return m ? m[1].trim() : null;
+          };
+
           if (bands.length === 0 && primaryBandValue)
             bands.push({ 'key': 'Primary band', 'value': primaryBandValue });
-          if (bands.length === 0)
-            bands.push({ 'key': 'Primary band', 'value': _('(no data)') });
+          if (bands.length === 0) {
+            const modeBand = extractBandFromMode(modeRaw);
+            bands.push({ 'key': 'Primary band', 'value': modeBand || _('(no data)') });
+          }
 
           const getFirstValueWithUnit = function (key) {
             let raw = getAddon(key) || '-';
