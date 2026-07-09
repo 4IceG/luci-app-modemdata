@@ -963,3 +963,9 @@ msgstr "安裝curl"
 
 msgid "Note: The package is fully compatible with the latest, third-generation version of the BTSearch website."
 msgstr "注意：此套件與最新的第三代 BTSearch 網站完全相容。"
+
+msgid "Skip package verification"
+msgstr "跳過套件驗證"
+
+msgid "Enable this option to skip checking for installed packages and allow selecting any method from the list below."
+msgstr "啟用此選項可跳過已安裝套件的檢查，並允許從下方清單中選擇任意方式。"

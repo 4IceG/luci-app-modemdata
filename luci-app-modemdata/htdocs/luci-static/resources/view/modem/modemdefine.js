@@ -423,6 +423,39 @@ packageDialog: baseclass.extend({
     o.textvalue = getmodem.bind(o);
     o.rmempty = false;
 
+    o = s.taboption('general', form.Flag, 'skip_pkgcheck', _('Skip package verification'),
+      _('Enable this option to skip checking for installed packages and allow selecting any method from the list below.')
+    );
+    o.rmempty = false;
+    o.default = '0';
+    o.modalonly = true;
+    o.write = function (section_id, value) {
+      uci.set('defmodems', section_id, 'skip_pkgcheck', value);
+      return form.Flag.prototype.write.apply(this, [section_id, value]);
+    };
+    o.onchange = function (ev, section_id, value) {
+      let selectEl = document.getElementById('widget.cbid.defmodems.' + section_id + '.modemdata');
+      if (!selectEl) return;
+
+      let skip = (value == '1');
+      let keys = skip ? modemdata_all_keys : modemdata_base_keylist;
+      let labels = skip ? modemdata_all_labels : modemdata_base_vallist;
+      let current = selectEl.value;
+
+      selectEl.innerHTML = '';
+      for (let i = 0; i < keys.length; i++) {
+        selectEl.appendChild(E('option', { 'value': keys[i] }, [ labels[i] ]));
+      }
+
+      if (keys.indexOf(current) !== -1) {
+        selectEl.value = current;
+      } else if (keys.length) {
+        selectEl.value = keys[0];
+      }
+
+      selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+    };
+
     o = s.taboption('general', form.ListValue, 'modemdata', _('Reading data via'),
       _('Select method for reading data from the modem. <br /> \
         <br />serial port: <br /> \
@@ -462,6 +495,23 @@ packageDialog: baseclass.extend({
     o.exclude = s.section;
     o.nocreate = true;
     o.rmempty = false;
+
+    let modemdata_base_keylist = (o.keylist || []).slice();
+    let modemdata_base_vallist = (o.vallist || []).slice();
+    let modemdata_all_keys = ['serial', 'ecm', 'uqmi', 'mm'];
+    let modemdata_all_labels = [_('serial'), _('ecm'), _('uqmi'), _('modemmanager')];
+
+    o.renderWidget = function (section_id, option_index, cfgvalue) {
+      let skip = (uci.get('defmodems', section_id, 'skip_pkgcheck') == '1');
+      if (skip) {
+        this.keylist = modemdata_all_keys.slice();
+        this.vallist = modemdata_all_labels.slice();
+      } else {
+        this.keylist = modemdata_base_keylist.slice();
+        this.vallist = modemdata_base_vallist.slice();
+      }
+      return form.ListValue.prototype.renderWidget.apply(this, arguments);
+    };
 
     o = s.taboption('general', form.Value, 'comm_port', _('Port / IP / Modem identifier'));
     o.rmempty = false;

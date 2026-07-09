@@ -599,3 +599,9 @@ msgstr "curl 설치"
 
 msgid "Note: The package is fully compatible with the latest, third-generation version of the BTSearch website."
 msgstr "참고: 이 패키지는 BTSearch 웹사이트의 최신 제3세대 버전과 완전히 호환됩니다."
+
+msgid "Skip package verification"
+msgstr "패키지 확인 건너뛰기"
+
+msgid "Enable this option to skip checking for installed packages and allow selecting any method from the list below."
+msgstr "이 옵션을 활성화하면 설치된 패키지 확인을 건너뛰고 아래 목록에서 원하는 방법을 선택할 수 있습니다."

@@ -756,3 +756,9 @@ msgstr "Установить curl"
 
 msgid "Note: The package is fully compatible with the latest, third-generation version of the BTSearch website."
 msgstr "Примечание: Пакет полностью совместим с последней версией сайта BTSearch третьего поколения."
+
+msgid "Skip package verification"
+msgstr "Пропустить проверку пакетов"
+
+msgid "Enable this option to skip checking for installed packages and allow selecting any method from the list below."
+msgstr "Включите эту опцию, чтобы пропустить проверку установленных пакетов и разрешить выбор любого метода из списка ниже."

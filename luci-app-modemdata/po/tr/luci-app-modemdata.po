@@ -1,0 +1,760 @@
+msgid ""
+msgstr ""
+"Language-Team: Rafał Wabik (IceG)\n"
+"Language: tr\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgid "For more information about the modemdata package, please visit: %shttps://github.com/obsy/modemdata%s."
+msgstr "Modemdata paketi hakkında daha fazla bilgi için lütfen ziyaret edin: %shttps://github.com/obsy/modemdata%s."
+
+msgid "Package allows the user to view the data read from the modem, to see the parameters of the connection to the mobile network."
+msgstr "Paket, kullanıcının modemden okunan verileri görüntülemesine ve mobil ağ bağlantı parametrelerini görmesine olanak tanır."
+
+msgid "eko.one.pl forum"
+msgstr "eko.one.pl forumu"
+
+msgid "Signal strength"
+msgstr "Sinyal gücü"
+
+msgid "Modem(s)"
+msgstr "Modem(ler)"
+
+msgid "Ups.. no modems detected."
+msgstr "Hata.. modem tespit edilemedi."
+
+msgid "Configuration"
+msgstr "Yapılandırma"
+
+msgid "General Information"
+msgstr "Genel Bilgiler"
+
+msgid "Modem Information"
+msgstr "Modem Bilgileri"
+
+msgid "Cell Information"
+msgstr "Hücre Bilgileri"
+
+msgid "Connection"
+msgstr "Bağlantı"
+
+msgid "Technology"
+msgstr "Teknoloji"
+
+msgid "Operator"
+msgstr "Operatör"
+
+msgid "Location"
+msgstr "Konum"
+
+msgid "Sent"
+msgstr "Gönderildi"
+
+msgid "Signal strength"
+msgstr "Sinyal gücü"
+
+msgid "Connection time"
+msgstr "Bağlantı süresi"
+
+msgid "Modem type"
+msgstr "Modem tipi"
+
+msgid "Hide data."
+msgstr "Verileri gizle."
+
+msgid "Hide selected data"
+msgstr "Seçilen verileri gizle"
+
+msgid "Additional information"
+msgstr "Ek bilgiler"
+
+msgid "Revision / FW"
+msgstr "Revizyon / FW"
+
+msgid "IP adress / Port"
+msgstr "IP adresi / Port"
+
+msgid "Chip Temperature"
+msgstr "Çip sıcaklığı"
+
+msgid "Configuration modemdata package"
+msgstr "Modemdata paketi yapılandırması"
+
+msgid "Configuration panel for modemdata and gui application."
+msgstr "Modemdata ve arayüz uygulaması için yapılandırma paneli."
+
+msgid "Add data to hide"
+msgstr "Gizlenecek veri ekle"
+
+msgid "Enter the data you would like to hide, e.g. <code>IMEI, IMSI</code>."
+msgstr "Gizlemek istediğiniz verileri girin, örn. <code>IMEI, IMSI</code>."
+
+msgid "Open page"
+msgstr "Sayfayı aç"
+
+msgid "Download data (experimental)"
+msgstr "Verileri indir (deneysel)"
+
+msgid "Network"
+msgstr "Ağ"
+
+msgid "IP adress / Port for communication with the modem"
+msgstr "Modemle iletişim için IP adresi / Port"
+
+msgid "Defined modems"
+msgstr "Tanımlı modemler"
+
+msgid "Interface to define the available modems. The list of modems will make it easier for the user to switch between modems in LuCI."
+msgstr "Mevcut modemleri tanımlamak için arayüz. Modem listesi, kullanıcının LuCI içinde modemler arasında geçiş yapmasını kolaylaştıracaktır."
+
+msgid "Settings"
+msgstr "Ayarlar"
+
+msgid "Add new modem settings..."
+msgstr "Yeni modem ayarları ekle..."
+
+msgid "Modem Settings"
+msgstr "Modem Ayarları"
+
+msgid "Manufacturer / Product"
+msgstr "Üretici / Ürün"
+
+msgid "Please select a modem"
+msgstr "Lütfen bir modem seçin"
+
+msgid "IP adress / Port for communication"
+msgstr "İletişim için IP adresi / Port"
+
+msgid "Protocol"
+msgstr "Protokol"
+
+msgid "Port for communication"
+msgstr "İletişim için port"
+
+msgid "Please select a QMI/MBIM port"
+msgstr "Lütfen bir QMI/MBIM portu seçin"
+
+msgid "Modem id"
+msgstr "Modem kimliği"
+
+msgid "Please select a modem id"
+msgstr "Lütfen bir modem kimliği seçin"
+
+msgid "MBIM device"
+msgstr "MBIM cihazı"
+
+msgid "Select if you want to read from MBIM."
+msgstr "MBIM üzerinden okuma yapmak istiyorsanız seçin."
+
+msgid "Assigned interface"
+msgstr "Atanmış arayüz"
+
+msgid "Interface assigned to modem."
+msgstr "Interface assigned to modem."
+
+msgid "Enter IP adress"
+msgstr "Modemin IP adresini girin"
+
+msgid "IP adress"
+msgstr "IP adresi"
+
+msgid "Reading data via"
+msgstr "Veri okuma yöntemi"
+
+msgid "Port / IP / Modem identifier"
+msgstr "Port / IP adresi / Modem kimliği"
+
+msgid "Interface assigned to modem."
+msgstr "Modeme atanmış arayüz."
+
+msgid ""
+"Enter modem name manually if the suggested name is not "
+"obvious. <br /><br /><b>Important</b> <br />The modem name is only searched for modems connected via USB."
+msgstr ""
+"Önerilen ad belirgin değilse modem adını manuel olarak "
+"girin. <br /><br /><b>Önemli</b> <br />Modem adı yalnızca USB üzerinden bağlı modemler için aranır."
+
+msgid ""
+"Select method for reading data from the modem. <br /> <br />serial port: <br /> Select one of the available "
+"ttyUSBX / ttyACMx / wwan0atX / mhi_DUN ports.<br /> <br />ecm: <br /> Enter the IP address 192.168.X.X under which the modem (Huawei) "
+"is available.<br /> <br />uqmi: <br /> Select one of the available cdc-wdmX ports.<br /> <br />ModemManager: <br /> Select "
+"one of the searched modem identifiers."
+msgstr ""
+"Modemden veri okumak için bir yöntem seçin. <br /> <br />seri port: <br /> Mevcut "
+"ttyUSBX / ttyACMx / wwan0atX / mhi_DUN portlarından birini seçin.<br /> <br />ecm: <br /> Modemin (Huawei) erişilebilir olduğu "
+"192.168.X.X IP adresini girin.<br /> <br />uqmi: <br /> Mevcut cdc-wdmX portlarından birini seçin.<br /> <br />ModemManager: <br /> "
+"Bulunan modem kimliklerinden birini seçin."
+
+msgid "Please select a port"
+msgstr "Lütfen bir port seçin"
+
+msgid "User description"
+msgstr "Kullanıcı açıklaması"
+
+msgid "Optional"
+msgstr "İsteğe bağlı"
+
+msgid "User description (optional)"
+msgstr "Kullanıcı açıklaması (isteğe bağlı)"
+
+msgid "Signal strength"
+msgstr "Sinyal gücü"
+
+msgid "Excellent"
+msgstr "Mükemmel"
+
+msgid "Good"
+msgstr "İyi"
+
+msgid "Fair"
+msgstr "Orta"
+
+msgid "Poor"
+msgstr "Zayıf"
+
+msgid "Physical cell ID"
+msgstr "Fiziksel hücre kimliği"
+
+msgid "Bandwidth"
+msgstr "Bant genişliği"
+
+msgid "SIM status"
+msgstr "SIM durumu"
+
+msgid "Not registered"
+msgstr "Ağa kayıtlı değil"
+
+msgid "Registered, home"
+msgstr "Ana ağa kayıtlı"
+
+msgid "Registered (roaming)"
+msgstr "Ağa kayıtlı (roaming)"
+
+msgid "Registered, only SMS"
+msgstr "Ağa kayıtlı, yalnızca SMS"
+
+msgid "Registered (roaming), only SMS"
+msgstr "Ağa kayıtlı (roaming), yalnızca SMS"
+
+msgid "Searching.."
+msgstr "Aranıyor.."
+
+msgid "Connection state"
+msgstr "Bağlantı durumu"
+
+msgid "Connected"
+msgstr "Bağlı"
+
+msgid "Disconnected"
+msgstr "Bağlantı kesildi"
+
+msgid "Registering denied"
+msgstr "Ağ kaydı reddedildi"
+
+msgid "Waiting to read data from the modem..."
+msgstr "Modemden veri okunması bekleniyor..."
+
+msgid "Waiting for data..."
+msgstr "Veri bekleniyor..."
+
+msgid "BTS Search"
+msgstr "BTS Arama"
+
+msgid "BTS Information"
+msgstr "BTS Bilgileri"
+
+msgid "Search"
+msgstr "Ara"
+
+msgid "Bands"
+msgstr "Bantlar"
+
+msgid "Search BTS"
+msgstr "BTS Ara"
+
+msgid "BTS search settings"
+msgstr "BTS arama ayarları"
+
+msgid "Website to search for BTS"
+msgstr "BTS aramak için web sitesi"
+
+msgid "Select a website for searching."
+msgstr "Arama için bir web sitesi seçin."
+
+msgid "Install a package using package manager"
+msgstr "Paket yöneticisi kullanarak bir paket kurun"
+
+msgid "Select an action after clicking the search button."
+msgstr "Arama düğmesine tıkladıktan sonra yapılacak işlemi seçin."
+
+msgid "Install iconv"
+msgstr "iconv kurun"
+
+msgid "Install qmi-utils"
+msgstr "qmi-utils kurun"
+
+msgid "SIM Slot"
+msgstr "SIM Yuvası"
+
+msgid "SIM Card"
+msgstr "SIM Kart"
+
+msgid "Slot in use"
+msgstr "Kullanılan yuva"
+
+msgid "Problem with registering to the network, check the SIM card."
+msgstr "Ağa kayıt sorunu var, SIM kartı kontrol edin."
+
+msgid "SIM PIN required"
+msgstr "SIM PIN kodu gerekli"
+
+msgid "SIM PUK required"
+msgstr "SIM PUK kodu gerekli"
+
+msgid "SIM failure"
+msgstr "SIM hatası"
+
+msgid "SIM busy"
+msgstr "SIM meşgul"
+
+msgid "SIM wrong"
+msgstr "SIM hatalı"
+
+msgid "SIM PIN2 required"
+msgstr "SIM PIN2 kodu gerekli"
+
+msgid "SIM PUK2 required"
+msgstr "SIM PUK2 kodu gerekli"
+
+msgid "Defined modems"
+msgstr "Tanımlı modemler"
+
+msgid "Information read from the SIM card and device."
+msgstr "SIM karttan ve cihazdan okunan bilgiler."
+
+msgid "No data"
+msgstr "Veri yok"
+
+msgid "Diagnostics"
+msgstr "Tanılama"
+
+msgid "Modem(s) configuration"
+msgstr "Modem(ler) yapılandırması"
+
+msgid "Package configuration"
+msgstr "Paket yapılandırması"
+
+msgid "Run various commands to verify data read from the modem and debug scripts."
+msgstr "Modemden okunan verileri doğrulamak ve betikleri hata ayıklamak için çeşitli komutlar çalıştırın."
+
+msgid "USB debug information"
+msgstr "USB hata ayıklama bilgileri"
+
+msgid "Check ttyX ports"
+msgstr "ttyX portlarının kullanılabilirliğini kontrol edin"
+
+msgid "Check serial and ecm mode"
+msgstr "Seri ve ecm modunu kontrol edin"
+
+msgid "Check uqmi mode"
+msgstr "uqmi modunu kontrol edin"
+
+msgid "Check ModemManager mode"
+msgstr "ModemManager modunu kontrol edin"
+
+msgid "Clear"
+msgstr "Temizle"
+
+msgid "Download"
+msgstr "İndir"
+
+msgid "Location"
+msgstr "Konum"
+
+msgid "Notes Update date"
+msgstr "Notlar Güncelleme tarihi"
+
+msgid "Band"
+msgstr "Bant"
+
+msgid "Network"
+msgstr "Ağ"
+
+msgid "Package update and support"
+msgstr "Paket güncellemesi ve destek"
+
+msgid "Failed to download index.json file from external repository."
+msgstr "Harici depodan index.json dosyası indirilemedi."
+
+msgid "Failed to read downloaded file."
+msgstr "İndirilen dosya okunamadı."
+
+msgid "Installed package is up to date."
+msgstr "Kurulu paket güncel."
+
+msgid "Update is available."
+msgstr "Güncelleme mevcut."
+
+msgid "The index.json file did not contain any package information."
+msgstr "index.json dosyası herhangi bir paket bilgisi içermiyordu."
+
+msgid "Error parsing version."
+msgstr "Sürüm ayrıştırma hatası."
+
+msgid "Check repository"
+msgstr "Depoyu kontrol et"
+
+msgid "Package update..."
+msgstr "Paket güncelleniyor..."
+
+msgid "Report a bug"
+msgstr "Hata bildir"
+
+msgid "Write in the topic of the package on the forum eko.one.pl"
+msgstr "eko.one.pl forumundaki paket konusuna yazın"
+
+msgid "Write on forum"
+msgstr "Forumda yaz"
+
+msgid "Report a bug on the package Github page"
+msgstr "Paketin Github sayfasında hata bildirin"
+
+msgid "Open a package discussion on Github"
+msgstr "Github'da paket tartışması açın"
+
+msgid "Open discussion"
+msgstr "Tartışmayı aç"
+
+msgid "Buy a coffee if you want to support the development of the project and the author"
+msgstr "Projenin geliştirilmesini ve yazarı desteklemek isterseniz bir kahve ısmarlayın"
+
+msgid "Buy a coffee"
+msgstr "Kahve ısmarla"
+
+msgid "Become a sponsor if you want to support the development of the project and the author"
+msgstr "Projenin geliştirilmesini ve yazarı desteklemek isterseniz sponsor olun"
+
+msgid "Become a sponsor"
+msgstr "Sponsor ol"
+
+msgid "Download package information from an external repository"
+msgstr "Harici bir depodan paket bilgilerini indirin"
+
+msgid "Add repository and download package update"
+msgstr "Depo ekleyin ve paket güncellemesini indirin"
+
+msgid "Package Info"
+msgstr "Paket Bilgisi"
+
+msgid "Compiled"
+msgstr "Derlendi"
+
+msgid "Repository Info"
+msgstr "Depo Bilgisi"
+
+msgid "Currently installed"
+msgstr "Şu anda kurulu"
+
+msgid "Package in repository"
+msgstr "Depodaki sürüm"
+
+msgid "Last repository check"
+msgstr "Son depo kontrolü"
+
+msgid "Poland"
+msgstr "Polonya"
+
+msgid "Force read by"
+msgstr "Şununla zorla oku"
+
+msgid "Select method for reading data from the modem."
+msgstr "Modemden veri okuma yöntemini seçin."
+
+msgid "inactive"
+msgstr "etkin değil"
+
+msgid "ModemMenager"
+msgstr "ModemManager"
+
+msgid "Force PLMN"
+msgstr "PLMN'yi zorla"
+
+msgid "Force reading PLMN from file."
+msgstr "PLMN'yi dosyadan zorla oku."
+
+msgid "Command result"
+msgstr "Komut sonucu"
+
+msgid "Check"
+msgstr "Kontrol et"
+
+msgid "Auto update every:"
+msgstr "Otomatik güncelleme sıklığı:"
+
+msgid "2 seconds"
+msgstr "2 saniye"
+
+msgid "3 seconds"
+msgstr "3 saniye"
+
+msgid "5 seconds"
+msgstr "5 saniye"
+
+msgid "10 seconds"
+msgstr "10 saniye"
+
+msgid "30 seconds"
+msgstr "30 saniye"
+
+msgid "45 seconds"
+msgstr "45 saniye"
+
+msgid "60 seconds"
+msgstr "60 saniye"
+
+msgid "Refresh rate"
+msgstr "Yenileme sıklığı"
+
+msgid "Set how often the data should be refreshed in the Modem(s) tab."
+msgstr "Modem(ler) sekmesindeki verilerin ne sıklıkla yenileneceğini ayarlayın."
+
+msgid ""
+"Set how often the data should be refreshed in the Modem(s) tab. <br /><br /><b>Important</b> <br />Not "
+"every modem / protocol can communicate quickly with scripts. "
+"Too high a polling rate can freeze the modem. <br />ModemManager and uqmi need more time to respond."
+msgstr ""
+"Modem(ler) sekmesindeki verilerin ne sıklıkla yenileneceğini ayarlayın. <br /><br /><b>Önemli</b> <br />Her "
+"modem / protokol, betiklerle hızlı bir şekilde iletişim kuramaz. "
+"Çok yüksek bir sorgulama sıklığı modemin kilitlenmesine neden olabilir. <br />ModemManager ve uqmi yanıt vermek için daha fazla zamana ihtiyaç duyar."
+
+msgid "Updating again in %s second(s)."
+msgstr "%s saniye sonra tekrar güncellenecek."
+
+msgid "Please wait... data collection is in progress."
+msgstr "Lütfen bekleyin... veri toplama işlemi devam ediyor."
+
+msgid "Modems found"
+msgstr "Bulunan modemler"
+
+msgid "List of found modems. Not all modems may be shown."
+msgstr "Bulunan modemlerin listesi. Tüm modemler burada gösterilmeyebilir."
+
+msgid "Show modems found"
+msgstr "Bulunan modemleri göster"
+
+msgid "Show"
+msgstr "Göster"
+
+msgid "Currently, only modems connected via USB are searched for."
+msgstr "Şu anda yalnızca USB üzerinden bağlı modemler aranmaktadır."
+
+msgid "No Modems Detected..."
+msgstr "Modem Tespit Edilemedi..."
+
+msgid "Oops.. there are no modems in settings. You will be redirected to a tab where you can define the installed modem(s)."
+msgstr "Hata.. ayarlarda hiç modem yok. Kurulu modem(ler)i tanımlayabileceğiniz bir sekmeye yönlendirileceksiniz."
+
+msgid "Redirecting..."
+msgstr "Yönlendiriliyor..."
+
+msgid "Redirecting in"
+msgstr "Yönlendirme süresi"
+
+msgid "seconds..."
+msgstr "saniye..."
+
+msgid "(no data)"
+msgstr "(veri yok)"
+
+msgid "Enter a valid IP address in the format 192.168.X.X"
+msgstr "192.168.X.X formatında geçerli bir IP adresi girin"
+
+msgid "Only numbers and dots are allowed"
+msgstr "Yalnızca rakamlara ve noktalara izin verilir"
+
+msgid "Each part must be a number from 0 to 255"
+msgstr "Her bölüm 0 ile 255 arasında bir sayı olmalıdır"
+
+msgid "In the future tab will allow you to update the package from %sRafał (IceG) external repository%s."
+msgstr "Gelecekte bu sekme, paketi %sRafał (IceG) harici deposundan%s güncellemenize olanak tanıyacak."
+
+msgid "Option will appear after apk implementation."
+msgstr "Bu seçenek apk uygulaması sonrasında görünecek."
+
+msgid "Author (package maintainer)"
+msgstr "Yazar (paket sorumlusu)"
+
+msgid "Modemdata Info"
+msgstr "Modemdata Bilgisi"
+
+msgid "Modemdata Status"
+msgstr "Modemdata Durumu"
+
+msgid "Luci-app-modemdata Info"
+msgstr "Luci-app-modemdata Bilgisi"
+
+msgid "Go to the Diagnostics tab and run a script check. Most often, the error is caused by a strange operator name. To fix this, select the Force PLMN from file option if it is available in the modem configuration options."
+msgstr "Tanılama sekmesine gidin ve bir betik kontrolü çalıştırın. Hata çoğunlukla garip bir operatör adından kaynaklanır. Bunu düzeltmek için, modem yapılandırma seçeneklerinde mevcutsa PLMN'yi dosyadan zorla okuma seçeneğini işaretleyin."
+
+msgid "If data in LuCI is not visible, and we are 100% sure that the modem has been defined/configured correctly."
+msgstr "LuCI'de veriler görünmüyorsa ve modemin doğru şekilde tanımlandığından/yapılandırıldığından %100 eminsek."
+
+msgid "Suggested solution"
+msgstr "Önerilen çözüm"
+
+msgid "Troubleshooting / Hints"
+msgstr "Sorun Giderme / İpuçları"
+
+msgid "Problem"
+msgstr "Sorun"
+
+msgid "Common problems that may arise when using the package, and ways to solve them."
+msgstr "Paketi kullanırken ortaya çıkabilecek yaygın sorunlar ve çözüm yolları."
+
+msgid "Package does not show data for the Fibocom FM350-GL modem."
+msgstr "Paket, Fibocom FM350-GL modemi için veri göstermiyor."
+
+msgid "The modem is very sensitive to data read by the communication port. Selecting the wrong communication port may cause the modem to freeze or restart."
+msgstr "Modem, iletişim portu üzerinden okunan verilere karşı çok hassastır. Yanlış iletişim portunun seçilmesi modemin kilitlenmesine veya yeniden başlamasına neden olabilir."
+
+msgid "and"
+msgstr "ve"
+
+msgid "packages are recommended for proper modem support."
+msgstr "modemin düzgün çalışması için önerilen paketler."
+
+msgid "Please select method for reading data from the modem and install the necessary packages."
+msgstr "Lütfen modemden veri okuma yöntemini seçin ve gerekli paketleri kurun."
+
+msgid "Required packages"
+msgstr "Gerekli paketler"
+
+msgid "Check required packages"
+msgstr "Gerekli paketleri kontrol et"
+
+msgid "Before configuring the modem, check if all required packages are installed in the system."
+msgstr "Modemi yapılandırmadan önce, gerekli tüm paketlerin sistemde kurulu olup olmadığını kontrol edin."
+
+msgid "Loading package data…"
+msgstr "Paket verileri yükleniyor…"
+
+msgid "Waiting..."
+msgstr "Bekleniyor..."
+
+msgid "Show signal levels"
+msgstr "Sinyal seviyelerini göster"
+
+msgid "Primary band signal levels"
+msgstr "Birincil bant sinyal seviyeleri"
+
+msgid "Device is busy"
+msgstr "Cihaz meşgul"
+
+msgid "Primary band"
+msgstr "Birincil bant"
+
+msgid "Available options"
+msgstr "Mevcut seçenekler"
+
+msgid "Device not found"
+msgstr "Cihaz bulunamadı"
+
+msgid "Click to view Cell ID details"
+msgstr "Hücre kimliği ayrıntılarını görüntülemek için tıklayın"
+
+msgid "Cell ID (dec)"
+msgstr "Hücre kimliği (ondalık)"
+
+msgid "Cell ID (hex)"
+msgstr "Hücre kimliği (onaltılık)"
+
+msgid "eNB ID (hex)"
+msgstr "eNB kimliği (onaltılık)"
+
+msgid "Sector ID (hex)"
+msgstr "Sektör kimliği (onaltılık)"
+
+msgid "eNB ID (dec)"
+msgstr "eNB kimliği (ondalık)"
+
+msgid "Sector ID (dec)"
+msgstr "Sektör kimliği (ondalık)"
+
+msgid "Cell ID (hex) for CellMapper"
+msgstr "CellMapper için hücre kimliği (onaltılık)"
+
+msgid "Cell ID (dec) for CellMapper"
+msgstr "CellMapper için hücre kimliği (ondalık)"
+
+msgid "Cell ID Information"
+msgstr "Hücre Kimliği Bilgileri"
+
+msgid "Modem"
+msgstr "Modem"
+
+msgid "Detailed Cell ID information with formats for different tools and applications."
+msgstr "Farklı araçlar ve uygulamalar için formatlanmış ayrıntılı hücre kimliği bilgileri."
+
+msgid "Information about package authors and available support options."
+msgstr "Paket yazarları ve mevcut destek seçenekleri hakkında bilgi."
+
+msgid "Package name"
+msgstr "Paket adı"
+
+msgid "Proper Modem Configuration."
+msgstr "Doğru Modem Yapılandırması."
+
+msgid "User should remember:"
+msgstr "Kullanıcının hatırlaması gerekenler:"
+
+msgid "1. For a specific modem, only one protocol should be set for communication with modem."
+msgstr "1. Belirli bir modem için, modemle iletişim üzerine yalnızca tek bir protokol ayarlanmalıdır."
+
+msgid "2. Only one package can read data from modem (at the same time)."
+msgstr "2. Modemden aynı anda yalnızca bir paket veri okuyabilir."
+
+msgid "3. Reading data from modem too often may cause it to freeze (MM and uqmi need more time)."
+msgstr "3. Modemden çok sık veri okumak kilitlenmesine neden olabilir (MM ve uqmi daha fazla zamana ihtiyaç duyar)."
+
+msgid "BTS search: no response from server."
+msgstr "BTS arama: sunucudan yanıt alınamadı."
+
+msgid "BTS search: no results found."
+msgstr "BTS arama: sonuç bulunamadı."
+
+msgid "this month"
+msgstr "bu ay"
+
+msgid "month ago"
+msgstr "ay önce"
+
+msgid "months ago"
+msgstr "ay önce"
+
+msgid "Station ID"
+msgstr "İstasyon kimliği"
+
+msgid "Confirmed"
+msgstr "Onaylandı"
+
+msgid "Updated"
+msgstr "Güncellendi"
+
+msgid "Show on map"
+msgstr "Haritada göster"
+
+msgid "Download data"
+msgstr "Verileri indir"
+
+msgid "Install curl"
+msgstr "curl kurun"
+
+msgid "Note: The package is fully compatible with the latest, third-generation version of the BTSearch website."
+msgstr "Not: Paket, BTSearch web sitesinin en yeni, üçüncü nesil sürümüyle tamamen uyumludur."
+
+msgid "Skip package verification"
+msgstr "Paket doğrulamasını atla"
+
+msgid "Enable this option to skip checking for installed packages and allow selecting any method from the list below."
+msgstr "Yüklü paketlerin kontrolünü atlamak ve aşağıdaki listeden herhangi bir yöntemi seçebilmek için bu seçeneği etkinleştirin."
