@@ -122,7 +122,26 @@ iccid_encode() {
 # AT / APDU transport
 ##############################################################################
 
-at() { sms_tool -d "$DEV" at "$1" 2>/dev/null | tr -d '\r'; }
+# Talk to the AT endpoint directly rather than through the sms_tool shim: that
+# shim gives up after 3s, which is fine for queries but too short for ES10
+# writes. DeleteProfile in particular answers later than that, and the reply
+# then lands in a closed socket and surfaces as an empty status word.
+# -T is an idle timeout and awk stops at the final result code, so a fast
+# command still returns immediately.
+at() {
+	if [ -S "$DEV" ]; then
+		__target="UNIX-CONNECT:$DEV"
+	elif [ -c "$DEV" ]; then
+		__target="$DEV,raw,echo=0,b115200"
+	else
+		return 1
+	fi
+	printf '%s\r' "$1" | socat -T"${AT_TIMEOUT:-20}" - "$__target" 2>/dev/null | tr -d '\r' | awk '
+		{ print }
+		/^(OK|ERROR)$/  { exit }
+		/^\+CME ERROR:/ { exit }
+		/^\+CMS ERROR:/ { exit }'
+}
 
 # CLA byte for a logical channel (GlobalPlatform / ISO 7816-4)
 cla_for() {
@@ -396,8 +415,32 @@ profile_op() {
 	fi
 	__req=$(printf '%s%02X%s' "$__op" $(( ${#__body} / 2 )) "$__body")
 
-	with_isdr "$__req"
-	__res=$(tlv_first "$(tlv_first "$ES10_RESP" "$__op")" 80)
+	__o=$(isdr_open) || die "no eUICC found: ISD-R could not be selected"
+	__ch=${__o%% *}
+	CUR_CH="$__ch"
+	__r=$(es10 "$__ch" "$__req")
+	isdr_close "$__ch"
+	__sw=${__r##*:}
+	__resp=${__r%:*}
+
+	# A state change makes the card issue REFRESH, and it sometimes never
+	# answers the command that caused it - delete does this reliably here.
+	# The operation still took effect, so ask the card what happened rather
+	# than reporting a failure that did not occur.
+	if ! sw_ok "$__sw" || [ -z "$__resp" ]; then
+		sleep 8
+		__state=$(profile_state "$__iccid")
+		case "$__label:$__state" in
+		delete: | enable:enabled | disable:disabled)
+			printf '{"result":"ok","operation":"%s","iccid":"%s","verified":true}\n' \
+				"$__label" "$__iccid"
+			return 0
+			;;
+		esac
+		die "$__label failed: no answer from the card (SW=${__sw:-none}) and the profile is still ${__state:-absent}"
+	fi
+
+	__res=$(tlv_first "$(tlv_first "$__resp" "$__op")" 80)
 	case "$__res" in
 	00) printf '{"result":"ok","operation":"%s","iccid":"%s"}\n' "$__label" "$__iccid" ;;
 	01) die "$__label failed: ICCID or AID not found" ;;
@@ -407,6 +450,28 @@ profile_op() {
 	05) die "$__label failed: CAT busy" ;;
 	*) die "$__label failed: eUICC result code 0x$__res" ;;
 	esac
+}
+
+# Current state of one profile: "enabled", "disabled", or empty if it is not
+# on the card. Used to confirm an operation whose response went missing.
+profile_state() {
+	__want=$1
+	__o=$(isdr_open) || return 1
+	__ch=${__o%% *}
+	CUR_CH="$__ch"
+	__r=$(es10 "$__ch" "BF2D00")
+	isdr_close "$__ch"
+	sw_ok "${__r##*:}" || return 1
+	__seq=$(tlv_first "$(tlv_first "${__r%:*}" BF2D)" A0)
+	for __p in $(tlv_dump "$__seq" | awk -F'\t' '$1 == 0 && $2 == "E3" { print $4 }'); do
+		[ "$(iccid_decode "$(tlv_first "$__p" 5A)")" = "$__want" ] || continue
+		case "$(tlv_first "$__p" 9F70)" in
+		01) printf 'enabled' ;;
+		*) printf 'disabled' ;;
+		esac
+		return 0
+	done
+	return 0
 }
 
 cmd_nickname() {
@@ -478,11 +543,25 @@ cmd_switch() {
 	printf '{"result":"ok","slot":"%s","changed":true}\n' "$__new"
 }
 
+# Ask the modem until it answers. For ~30s after a slot switch the card is
+# re-initialising and every query comes back empty; reporting those blanks
+# would show the UI a card with no ICCID and no slot, which reads as a fault.
+at_retry() { # at_retry <AT command> <sed script>
+	__i=0
+	while [ "$__i" -lt "${AT_TRIES:-3}" ]; do
+		__v=$(at "$1" | sed -n "$2" | head -1)
+		[ -n "$__v" ] && { printf '%s' "$__v"; return 0; }
+		__i=$(( __i + 1 ))
+		[ "$__i" -lt "${AT_TRIES:-3}" ] && sleep 2
+	done
+	return 1
+}
+
 cmd_status() {
-	__map=$(at "AT+ESIMMAP?" | sed -n 's/^+ESIMMAP:[[:space:]]*\([0-9]*\).*/\1/p' | head -1)
-	__pin=$(at "AT+CPIN?" | sed -n 's/^+CPIN:[[:space:]]*\(.*\)/\1/p' | head -1)
-	__iccid=$(at "AT+CCID" | sed -n 's/^+CCID:[[:space:]]*\([0-9A-Fa-f]*\).*/\1/p' | head -1)
-	__imsi=$(at "AT+CIMI" | sed -n 's/^\([0-9][0-9]*\)$/\1/p' | head -1)
+	__map=$(at_retry "AT+ESIMMAP?" 's/^+ESIMMAP:[[:space:]]*\([0-9]*\).*/\1/p')
+	__pin=$(at_retry "AT+CPIN?" 's/^+CPIN:[[:space:]]*\(.*\)/\1/p')
+	__iccid=$(at_retry "AT+CCID" 's/^+CCID:[[:space:]]*\([0-9A-Fa-f]*\).*/\1/p')
+	__imsi=$(at_retry "AT+CIMI" 's/^\([0-9][0-9]*\)$/\1/p')
 
 	# The modem's label for the slot - a hint for the UI, not evidence.
 	case "$__map" in
@@ -537,7 +616,7 @@ while [ $# -gt 0 ]; do
 	esac
 done
 
-command -v sms_tool >/dev/null 2>&1 || die "sms_tool not found in PATH"
+command -v socat >/dev/null 2>&1 || die "socat not found in PATH"
 
 case "$CMD" in
 probe)    cmd_probe ;;

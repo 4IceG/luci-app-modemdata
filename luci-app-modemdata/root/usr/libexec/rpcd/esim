@@ -1,0 +1,147 @@
+#!/bin/sh
+#
+# rpcd plugin exposing eSIM management as a ubus object.
+#
+# This exists so the ACL can be written per method. The `file` object can only
+# grant "may exec this binary", not "may exec it with these arguments", so
+# reaching the helpers through it would let a read-only session run
+# `md_esim delete <ICCID> -y`.
+#
+# Reads are cached briefly: every status/list call opens a logical channel on
+# the card, and the card only has five.
+
+. /usr/share/libubox/jshn.sh
+
+ESIM=/usr/bin/md_esim
+LPA=/usr/bin/md_lpa
+CACHE=/tmp/.esim-cache
+CACHE_TTL=5
+
+fail() { printf '{"error":"%s"}\n' "$1"; exit 0; }
+
+# Guard against anything reaching the helpers as an option or shell word.
+valid_iccid() {
+	case "$1" in
+	"" | *[!0-9]*) return 1 ;;
+	esac
+	[ ${#1} -ge 10 ] && [ ${#1} -le 20 ]
+}
+
+cached() { # cached <key> <command...>
+	__key="$CACHE.$1"
+	shift
+	if [ -f "$__key" ]; then
+		__age=$(( $(date +%s) - $(date -r "$__key" +%s 2>/dev/null || echo 0) ))
+		if [ "$__age" -ge 0 ] && [ "$__age" -lt "$CACHE_TTL" ]; then
+			cat "$__key"
+			return 0
+		fi
+	fi
+	__out=$("$@" 2>/dev/null)
+	[ -n "$__out" ] || fail "no response from the modem helper"
+	printf '%s\n' "$__out"
+	# Do not cache an answer taken while the card was still coming up, or the
+	# UI keeps showing the blanks for the whole TTL.
+	case "$__out" in
+	*'"slot":""'* | *'"error"'*) : ;;
+	*) printf '%s\n' "$__out" > "$__key" ;;
+	esac
+}
+
+drop_cache() { rm -f "$CACHE".* 2>/dev/null; }
+
+case "$1" in
+list)
+	json_init
+	json_add_object "status"; json_close_object
+	json_add_object "list"; json_close_object
+	json_add_object "info"; json_close_object
+	json_add_object "capabilities"; json_close_object
+	json_add_object "gc"; json_close_object
+	json_add_object "switch"; json_add_int "slot" 0; json_close_object
+	json_add_object "enable"; json_add_string "iccid" ""; json_close_object
+	json_add_object "disable"; json_add_string "iccid" ""; json_close_object
+	json_add_object "delete"; json_add_string "iccid" ""; json_close_object
+	json_add_object "nickname"
+		json_add_string "iccid" ""
+		json_add_string "name" ""
+	json_close_object
+	json_add_object "download"
+		json_add_string "code" ""
+		json_add_string "confirmation_code" ""
+	json_close_object
+	json_dump
+	;;
+
+call)
+	read -r __input
+	[ -n "$__input" ] && json_load "$__input" 2>/dev/null
+
+	case "$2" in
+	status) cached status "$ESIM" status ;;
+	list) cached list "$ESIM" list ;;
+	info) cached info "$ESIM" info ;;
+
+	capabilities)
+		# Lets the UI hide Install when the LPA binary is not installed,
+		# without having to probe the filesystem itself.
+		if [ -x "$LPA" ]; then
+			printf '{"download":true}\n'
+		else
+			printf '{"download":false}\n'
+		fi
+		;;
+
+	gc)
+		drop_cache
+		"$ESIM" gc 2>/dev/null || fail "gc failed"
+		;;
+
+	switch)
+		json_get_var slot slot
+		case "$slot" in
+		1 | 2) ;;
+		*) fail "slot must be 1 or 2" ;;
+		esac
+		drop_cache
+		"$ESIM" switch "$slot" -y 2>/dev/null || true
+		drop_cache
+		;;
+
+	enable | disable | delete)
+		json_get_var iccid iccid
+		valid_iccid "$iccid" || fail "invalid ICCID"
+		drop_cache
+		"$ESIM" "$2" "$iccid" -y 2>/dev/null || true
+		drop_cache
+		;;
+
+	nickname)
+		json_get_var iccid iccid
+		json_get_var name name
+		valid_iccid "$iccid" || fail "invalid ICCID"
+		drop_cache
+		"$ESIM" nickname "$iccid" "$name" 2>/dev/null || true
+		drop_cache
+		;;
+
+	download)
+		json_get_var code code
+		json_get_var cc confirmation_code
+		[ -n "$code" ] || fail "activation code is required"
+		[ -x "$LPA" ] || fail "md_lpa is not installed"
+		drop_cache
+		# The activation code arrives on stdin so it never reaches the
+		# process list, where it would be readable by any local user.
+		if [ -n "$cc" ]; then
+			printf '%s' "$code" | "$LPA" download - -cc "$cc" 2>/dev/null || true
+		else
+			printf '%s' "$code" | "$LPA" download - 2>/dev/null || true
+		fi
+		drop_cache
+		;;
+
+	*) fail "unknown method" ;;
+	esac
+	;;
+esac

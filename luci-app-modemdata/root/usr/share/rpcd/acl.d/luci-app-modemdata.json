@@ -1,58 +1,157 @@
 {
-	"luci-app-modemdata": {
-		"description": "Grant access to LuCI JS app modemdata",
-		"read": {
-   			"cgi-io": [ "exec" ],
-    			"file": {
-				"/usr/share/modemdata/network.sh": [ "exec" ],
-				"/usr/share/modemdata/params.sh": [ "exec" ],
-				"/usr/share/modemdata/params_modemmanager.sh": [ "exec" ],
-				"/usr/share/modemdata/params_qmi.sh": [ "exec" ],
-				"/usr/share/modemdata/product.sh": [ "exec" ],
-				"/usr/share/modemdata/product_modemmanager.sh": [ "exec" ],
-				"/usr/share/modemdata/addon/ecm/huawei.sh": [ "exec" ],
-				"/usr/bin/mmcli": [ "exec" ],
-				"/bin/sh": [ "exec" ],
-				"/usr/bin/md_serial_ecm": [ "exec" ],
-				"/usr/bin/md_modemmanager": [ "exec" ],
-				"/usr/bin/md_uqmi": [ "exec" ],
-				"/usr/bin/md_esim": [ "exec" ],
-				"/usr/bin/md_lpa": [ "exec" ],
-				"/bin/sh -x /usr/share/modemdata/network.sh": [ "exec" ],
-				"/bin/sh -x /usr/share/modemdata/params.sh": [ "exec" ],
-				"/bin/sh -x /usr/share/modemdata/params_modemmanager.sh": [ "exec" ],
-				"/bin/sh -x /usr/share/modemdata/product.sh": [ "exec" ],
-				"/bin/sh -x /usr/share/modemdata/product_modemmanager.sh": [ "exec" ],
-				"/bin/sh -x /usr/share/modemdata/addon/ecm/huawei.sh": [ "exec" ],
-				"/tmp/debug_result.txt": [ "read" ],
-				"/etc/modemdata": [ "read" ],
-				"/sys/kernel/debug/usb/devices": [ "read" ],
-				"/dev": [ "list" ],
-				"/etc/defmodems": [ "read" ],
-				"/etc/modem/modemlist.json": [ "read" ],
-				"/bin/uclient-fetch": [ "exec" ],
-				"/usr/libexec/package-manager-call list-installed": [ "exec" ],
-				"/usr/libexec/opkg-list installed": [ "exec" ],
-				"/usr/libexec/opkg-call list-installed": [ "exec" ],
-				"/etc/opkg.conf": [ "read" ]
-			},
-			"uci": [ "modemdata" , "defmodems" ]
-		},
-		"write": {
-			"file": {
-				"/bin/cat": [ "exec" ],
-				"/bin/sh": [ "exec" ],
-				"/bin/uclient-fetch": [ "exec" ],
-				"/bin/ls /dev": [ "exec" ],
-				"/bin/sh /usr/bin/md_serial_ecm": [ "exec" ],
-				"/usr/bin/md_esim": [ "exec" ],
-				"/usr/bin/md_lpa": [ "exec" ],
-				"/etc/defmodems": [ "write" ],
-				"/tmp/debug_result.txt": [ "write" ],
-				"/etc/modemdata": [ "write" ],
-				"/etc/modem/modemlist.json": [ "write" ]
-			},
-			"uci": [ "modemdata" , "defmodems" ]
-		}
-	}
+    "luci-app-modemdata": {
+        "description": "Grant access to LuCI JS app modemdata",
+        "read": {
+            "cgi-io": [
+                "exec"
+            ],
+            "file": {
+                "/usr/share/modemdata/network.sh": [
+                    "exec"
+                ],
+                "/usr/share/modemdata/params.sh": [
+                    "exec"
+                ],
+                "/usr/share/modemdata/params_modemmanager.sh": [
+                    "exec"
+                ],
+                "/usr/share/modemdata/params_qmi.sh": [
+                    "exec"
+                ],
+                "/usr/share/modemdata/product.sh": [
+                    "exec"
+                ],
+                "/usr/share/modemdata/product_modemmanager.sh": [
+                    "exec"
+                ],
+                "/usr/share/modemdata/addon/ecm/huawei.sh": [
+                    "exec"
+                ],
+                "/usr/bin/mmcli": [
+                    "exec"
+                ],
+                "/bin/sh": [
+                    "exec"
+                ],
+                "/usr/bin/md_serial_ecm": [
+                    "exec"
+                ],
+                "/usr/bin/md_modemmanager": [
+                    "exec"
+                ],
+                "/usr/bin/md_uqmi": [
+                    "exec"
+                ],
+                "/bin/sh -x /usr/share/modemdata/network.sh": [
+                    "exec"
+                ],
+                "/bin/sh -x /usr/share/modemdata/params.sh": [
+                    "exec"
+                ],
+                "/bin/sh -x /usr/share/modemdata/params_modemmanager.sh": [
+                    "exec"
+                ],
+                "/bin/sh -x /usr/share/modemdata/product.sh": [
+                    "exec"
+                ],
+                "/bin/sh -x /usr/share/modemdata/product_modemmanager.sh": [
+                    "exec"
+                ],
+                "/bin/sh -x /usr/share/modemdata/addon/ecm/huawei.sh": [
+                    "exec"
+                ],
+                "/tmp/debug_result.txt": [
+                    "read"
+                ],
+                "/etc/modemdata": [
+                    "read"
+                ],
+                "/sys/kernel/debug/usb/devices": [
+                    "read"
+                ],
+                "/dev": [
+                    "list"
+                ],
+                "/etc/defmodems": [
+                    "read"
+                ],
+                "/etc/modem/modemlist.json": [
+                    "read"
+                ],
+                "/bin/uclient-fetch": [
+                    "exec"
+                ],
+                "/usr/libexec/package-manager-call list-installed": [
+                    "exec"
+                ],
+                "/usr/libexec/opkg-list installed": [
+                    "exec"
+                ],
+                "/usr/libexec/opkg-call list-installed": [
+                    "exec"
+                ],
+                "/etc/opkg.conf": [
+                    "read"
+                ]
+            },
+            "uci": [
+                "modemdata",
+                "defmodems"
+            ],
+            "ubus": {
+                "esim": [
+                    "status",
+                    "list",
+                    "info",
+                    "capabilities"
+                ]
+            }
+        },
+        "write": {
+            "file": {
+                "/bin/cat": [
+                    "exec"
+                ],
+                "/bin/sh": [
+                    "exec"
+                ],
+                "/bin/uclient-fetch": [
+                    "exec"
+                ],
+                "/bin/ls /dev": [
+                    "exec"
+                ],
+                "/bin/sh /usr/bin/md_serial_ecm": [
+                    "exec"
+                ],
+                "/etc/defmodems": [
+                    "write"
+                ],
+                "/tmp/debug_result.txt": [
+                    "write"
+                ],
+                "/etc/modemdata": [
+                    "write"
+                ],
+                "/etc/modem/modemlist.json": [
+                    "write"
+                ]
+            },
+            "uci": [
+                "modemdata",
+                "defmodems"
+            ],
+            "ubus": {
+                "esim": [
+                    "switch",
+                    "enable",
+                    "disable",
+                    "delete",
+                    "nickname",
+                    "download",
+                    "gc"
+                ]
+            }
+        }
+    }
 }

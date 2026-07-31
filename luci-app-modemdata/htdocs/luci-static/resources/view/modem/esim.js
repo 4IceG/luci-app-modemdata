@@ -1,38 +1,49 @@
 'use strict';
 'require view';
-'require fs';
+'require rpc';
 'require ui';
 
 /*
 	eSIM / SIM slot management.
 
-	Two back-ends, both of which talk SGP.22 ES10 to the card over the modem's
-	AT interface (AT+CCHO / AT+CGLA / AT+CCHC):
+	Everything goes through the `esim` ubus object (/usr/libexec/rpcd/esim),
+	not fs.exec. The `file` object can only grant "may exec this binary", not
+	which arguments are allowed, so exposing the helpers that way would let a
+	read-only session run `md_esim delete <ICCID> -y`. Going through rpcd lets
+	the ACL name individual methods, and gives the plugin somewhere to cache
+	reads - each status/list call opens a logical channel on the card, and the
+	card has only five.
 
-	  md_esim  shell, no dependencies - slot switching and local operations
-	  md_lpa   Go binary - the same, plus ES9+ profile download, which needs
-	           TLS and ECDSA and so cannot be done in shell
-
-	md_lpa is optional: if it is missing everything still works except Install.
+	Behind the plugin:
+	  md_esim  shell - slot switching and local ES10 operations
+	  md_lpa   Go binary - ES9+ profile download, which needs TLS and ECDSA
+	           and so cannot be done in shell. Optional; `capabilities`
+	           reports whether it is installed.
 */
 
-var ESIM = '/usr/bin/md_esim';
-var LPA = '/usr/bin/md_lpa';
+function declare(method, params) {
+	return rpc.declare({ object: 'esim', method: method, params: params });
+}
 
-function run(cmd, args) {
-	return fs.exec(cmd, args).then(function (res) {
-		var data = null;
-		try {
-			data = JSON.parse((res.stdout || '').trim().split('\n').pop());
-		} catch (e) { /* fall through to the raw-output error below */ }
+var api = {
+	status: declare('status'),
+	list: declare('list'),
+	capabilities: declare('capabilities'),
+	switch: declare('switch', ['slot']),
+	enable: declare('enable', ['iccid']),
+	disable: declare('disable', ['iccid']),
+	'delete': declare('delete', ['iccid']),
+	download: declare('download', ['code', 'confirmation_code'])
+};
 
-		if (data && data.error)
-			return Promise.reject(new Error(data.error));
-		if (data)
-			return data;
-		return Promise.reject(new Error(
-			(res.stderr || res.stdout || _('no output')).trim() || _('command failed')));
-	});
+// The plugin reports faults in-band so that a card error is not indistinguishable
+// from a broken ubus call.
+function unwrap(data) {
+	if (data && data.error)
+		return Promise.reject(new Error(data.error));
+	if (data == null)
+		return Promise.reject(new Error(_('no response')));
+	return data;
 }
 
 function badge(text, kind) {
@@ -54,18 +65,17 @@ return view.extend({
 	hasLPA: false,
 
 	load: function () {
-		// stat() rather than exec(): probing for the optional binary must not
-		// look like a failed command.
-		return fs.stat(LPA).then(function () { return true; })
-			.catch(function () { return false; });
+		return api.capabilities().then(function (c) {
+			return !!(c && c.download);
+		}).catch(function () { return false; });
 	},
 
 	refresh: function () {
 		var self = this;
-		return run(ESIM, ['status']).then(function (st) {
+		return api.status().then(unwrap).then(function (st) {
 			self.status = st;
 			if (!st.euicc) { self.profiles = []; return null; }
-			return run(ESIM, ['list']).then(function (r) { self.profiles = r.profiles || []; })
+			return api.list().then(unwrap).then(function (r) { self.profiles = r.profiles || []; })
 				.catch(function () { self.profiles = []; });
 		}).catch(function (e) {
 			self.status = { error: e.message };
@@ -115,7 +125,7 @@ return view.extend({
 			]),
 			E('p', {}, _('The modem is reset, so the connection drops for about half a minute.'))
 		], function () {
-			self.busy(_('Switching SIM…'), run(ESIM, ['switch', String(target), '-y']));
+			self.busy(_('Switching SIM…'), api.switch(target).then(unwrap));
 		});
 	},
 
@@ -123,7 +133,7 @@ return view.extend({
 		var self = this;
 		var name = p.nickname || p.name || p.iccid;
 		var go = function () {
-			self.busy(_('Working…'), run(ESIM, [op, p.iccid, '-y']));
+			self.busy(_('Working…'), api[op](p.iccid).then(unwrap));
 		};
 		if (op != 'delete') return go();
 
@@ -140,9 +150,7 @@ return view.extend({
 		if (!code)
 			return ui.addNotification(null, E('p', _('Enter an activation code first.')), 'error');
 
-		var args = ['download', code];
-		if (cc) args.push('-cc', cc);
-		this.busy(_('Downloading profile…'), run(LPA, args).then(function (r) {
+		this.busy(_('Downloading profile…'), api.download(code, cc).then(unwrap).then(function (r) {
 			document.getElementById('ac').value = '';
 			document.getElementById('cc').value = '';
 			return r;
