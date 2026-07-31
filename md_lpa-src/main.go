@@ -36,7 +36,13 @@ var (
 	confirm = flag.String("cc", "", "confirmation code, when the profile requires one")
 	// md_esim probes six ISD-R AIDs; euicc-go defaults to the standard GSMA
 	// one. Cards such as eSIM.me or 5ber use their own, hence this escape hatch.
-	aidHex = flag.String("aid", "", "ISD-R AID in hex (default: standard GSMA ISD-R)")
+	aidHex  = flag.String("aid", "", "ISD-R AID in hex (default: standard GSMA ISD-R)")
+	verbose = flag.Bool("v", false, "log the APDU exchange to stderr")
+	// Each STORE DATA block becomes one AT+CGLA line of roughly
+	// 2*(5+mss)+20 characters. atcid drops the connection when a line gets
+	// too long, which shows up as an empty response and EOF partway through
+	// a profile download, so keep blocks well under its buffer.
+	mss = flag.Int("mss", 120, "bytes per APDU block")
 )
 
 type out struct {
@@ -50,7 +56,16 @@ func emit(v any) {
 	_ = e.Encode(v)
 }
 
+// Set once the eUICC is open. os.Exit skips deferred calls, so every error
+// path has to release the logical channel itself - otherwise the channel stays
+// open on the card (they outlive the AT session) and CCHO starts failing after
+// a handful of leaks.
+var release func()
+
 func fail(format string, a ...any) {
+	if release != nil {
+		release()
+	}
 	emit(out{Error: fmt.Sprintf(format, a...)})
 	os.Exit(1)
 }
@@ -59,7 +74,13 @@ func main() {
 	flag.Usage = usage
 	flag.Parse()
 	// Keep the library quiet: stdout must stay valid JSON for the GUI.
-	slog.SetDefault(slog.New(slog.NewTextHandler(io.Discard, nil)))
+	// -v sends its APDU trace to stderr, which leaves stdout parseable.
+	logTo := io.Discard
+	level := slog.LevelInfo
+	if *verbose {
+		logTo, level = os.Stderr, slog.LevelDebug
+	}
+	slog.SetDefault(slog.New(slog.NewTextHandler(logTo, &slog.HandlerOptions{Level: level})))
 
 	// flag stops at the first non-flag argument, so "download CODE -cc 1234"
 	// would leave the options unparsed. Re-scan the remainder so options may
@@ -70,8 +91,19 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Resolve the IMEI before the LPA client exists: atcid drops the first
+	// connection if a second one is opened while it is in use, so the query
+	// must not overlap with the LPA's own session.
+	if args[0] == "download" && *imei == "" {
+		v, err := NewATChannel(*device).IMEI()
+		if err != nil {
+			fail("could not read the IMEI from the modem (%v); pass -imei", err)
+		}
+		*imei = v
+	}
+
 	ch := NewATChannel(*device)
-	opts := &lpa.Options{Channel: ch}
+	opts := &lpa.Options{Channel: ch, MSS: *mss}
 	if *aidHex != "" {
 		aid, err := hex.DecodeString(strings.TrimSpace(*aidHex))
 		if err != nil {
@@ -83,7 +115,12 @@ func main() {
 	if err != nil {
 		fail("cannot open the eUICC: %v", err)
 	}
-	defer client.Close()
+	release = func() { client.Close(); release = nil }
+	defer func() {
+		if release != nil {
+			release()
+		}
+	}()
 
 	switch args[0] {
 	case "info":
@@ -252,9 +289,7 @@ func cmdDownload(client *lpa.Client, args []string) {
 	if err != nil {
 		fail("%v", err)
 	}
-	if *imei != "" {
-		ac.IMEI = *imei
-	}
+	ac.IMEI = *imei
 	if *confirm != "" {
 		ac.ConfirmationCode = *confirm
 	}
@@ -268,6 +303,9 @@ func cmdDownload(client *lpa.Client, args []string) {
 	}
 
 	if _, err := client.DownloadProfile(context.Background(), ac, opts); err != nil {
+		if release != nil {
+			release()
+		}
 		emit(map[string]any{"error": fmt.Sprintf("download failed: %v", err), "stages": stages})
 		os.Exit(1)
 	}

@@ -6,10 +6,12 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"net"
 	"os"
 	"strconv"
 	"strings"
+	"syscall"
 	"time"
 )
 
@@ -74,7 +76,30 @@ func (c *ATChannel) Disconnect() error {
 }
 
 // command sends one AT command and collects lines until a final result code.
+//
+// atcid drops a long-lived connection now and then, especially while the modem
+// is busy, which surfaces as a broken pipe or EOF partway through a download.
+// Logical channels outlive the AT session on this modem, so reconnecting and
+// re-issuing the command is safe and invisible to the caller.
 func (c *ATChannel) command(cmd string) ([]string, error) {
+	lines, err := c.commandOnce(cmd)
+	if err == nil || !isDisconnect(err) {
+		return lines, err
+	}
+	slog.Debug("[AT] reconnecting after transport error", "err", err)
+	_ = c.Disconnect()
+	if err := c.Connect(); err != nil {
+		return nil, fmt.Errorf("reconnect: %w", err)
+	}
+	return c.commandOnce(cmd)
+}
+
+func isDisconnect(err error) bool {
+	return errors.Is(err, io.EOF) || errors.Is(err, syscall.EPIPE) ||
+		errors.Is(err, syscall.ECONNRESET) || errors.Is(err, net.ErrClosed)
+}
+
+func (c *ATChannel) commandOnce(cmd string) ([]string, error) {
 	if c.conn == nil {
 		return nil, errors.New("channel is not connected")
 	}
@@ -85,15 +110,19 @@ func (c *ATChannel) command(cmd string) ([]string, error) {
 		return nil, fmt.Errorf("write %q: %w", cmd, err)
 	}
 
+	slog.Debug("[AT] >", "len", len(cmd), "cmd", cmd)
+
 	var lines []string
 	for {
 		line, err := c.reader.ReadString('\n')
 		if err != nil {
+			slog.Debug("[AT] read error", "err", err, "collected", lines)
 			if len(lines) > 0 {
 				return lines, nil
 			}
 			return nil, fmt.Errorf("read after %q: %w", cmd, err)
 		}
+		slog.Debug("[AT] <", "line", strings.TrimRight(line, "\r\n"))
 		line = strings.TrimRight(line, "\r\n")
 		if line == "" {
 			continue
@@ -106,6 +135,29 @@ func (c *ATChannel) command(cmd string) ([]string, error) {
 		}
 		lines = append(lines, line)
 	}
+}
+
+// IMEI asks the modem for its IMEI. SM-DP+ authentication requires one, and
+// making the user type it in would be silly when the modem knows it.
+func (c *ATChannel) IMEI() (string, error) {
+	if c.conn == nil {
+		if err := c.Connect(); err != nil {
+			return "", err
+		}
+		defer c.Disconnect()
+	}
+	lines, err := c.command("AT+CGSN")
+	if err != nil {
+		return "", err
+	}
+	for _, l := range lines {
+		l = strings.TrimSpace(strings.TrimPrefix(l, "+CGSN:"))
+		l = strings.Trim(l, "\"")
+		if len(l) == 15 && strings.IndexFunc(l, func(r rune) bool { return r < '0' || r > '9' }) < 0 {
+			return l, nil
+		}
+	}
+	return "", fmt.Errorf("no IMEI in AT+CGSN response: %v", lines)
 }
 
 func (c *ATChannel) OpenLogicalChannel(AID []byte) (byte, error) {
@@ -128,10 +180,43 @@ func (c *ATChannel) CloseLogicalChannel(channel byte) error {
 	return err
 }
 
-// Transmit sends one APDU and returns the response WITH the status word
-// appended. Chaining (61xx GET RESPONSE, command chunking) is handled by
-// euicc-go's transmitter, so it must not be duplicated here.
+// Transmit sends one APDU and returns the complete response with the status
+// word appended.
+//
+// 61xx chaining is resolved here rather than left to euicc-go: this card only
+// answers GET RESPONSE when the CLA carries the bare logical channel (01), and
+// euicc-go issues it with its ES10 CLA (81), which returns 9000 and no data.
+// A large AuthenticateServer response would otherwise arrive truncated.
 func (c *ATChannel) Transmit(command []byte) ([]byte, error) {
+	var data []byte
+	for {
+		b, err := c.exchange(command)
+		if err != nil {
+			return nil, err
+		}
+		sw1, sw2 := b[len(b)-2], b[len(b)-1]
+		data = append(data, b[:len(b)-2]...)
+
+		switch {
+		case sw1 == 0x61:
+			// GET RESPONSE on the bare channel CLA, not the ES10 one.
+			command = []byte{c.channel & 0x0f, 0xC0, 0x00, 0x00, sw2}
+		case sw1 == 0x6C:
+			// Wrong Le: repeat the original command with the length the card asked for.
+			command = append(append([]byte{}, command[:len(command)-1]...), sw2)
+			data = data[:0]
+		case sw1 == 0x91:
+			// Success with a proactive command (REFRESH) pending; upstream
+			// only accepts 9000, so present it as plain success.
+			return append(data, 0x90, 0x00), nil
+		default:
+			return append(data, sw1, sw2), nil
+		}
+	}
+}
+
+// exchange runs a single AT+CGLA round trip.
+func (c *ATChannel) exchange(command []byte) ([]byte, error) {
 	h := strings.ToUpper(hex.EncodeToString(command))
 	lines, err := c.command(fmt.Sprintf("AT+CGLA=%d,%d,%q", c.channel, len(h), h))
 	if err != nil {
@@ -151,12 +236,6 @@ func (c *ATChannel) Transmit(command []byte) ([]byte, error) {
 		}
 		if len(b) < 2 {
 			return nil, fmt.Errorf("response too short: %q", l)
-		}
-		// 91xx means the command succeeded and the card has a proactive
-		// command (REFRESH) queued. Upstream only accepts 9000/61xx, so
-		// present it as plain success.
-		if b[len(b)-2] == 0x91 {
-			b[len(b)-2], b[len(b)-1] = 0x90, 0x00
 		}
 		return b, nil
 	}
