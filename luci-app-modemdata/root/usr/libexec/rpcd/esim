@@ -16,6 +16,7 @@ ESIM=/usr/bin/md_esim
 LPA=/usr/bin/md_lpa
 CACHE=/tmp/.esim-cache
 CACHE_TTL=5
+DL_STATE=/tmp/.esim-download.json
 
 fail() { printf '{"error":"%s"}\n' "$1"; exit 0; }
 
@@ -58,6 +59,7 @@ list)
 	json_add_object "info"; json_close_object
 	json_add_object "capabilities"; json_close_object
 	json_add_object "gc"; json_close_object
+	json_add_object "reset"; json_close_object
 	json_add_object "switch"; json_add_int "slot" 0; json_close_object
 	json_add_object "enable"; json_add_string "iccid" ""; json_close_object
 	json_add_object "disable"; json_add_string "iccid" ""; json_close_object
@@ -70,6 +72,7 @@ list)
 		json_add_string "code" ""
 		json_add_string "confirmation_code" ""
 	json_close_object
+	json_add_object "download_status"; json_close_object
 	json_dump
 	;;
 
@@ -95,6 +98,12 @@ call)
 	gc)
 		drop_cache
 		"$ESIM" gc 2>/dev/null || fail "gc failed"
+		;;
+
+	reset)
+		drop_cache
+		"$ESIM" reset -y 2>/dev/null || fail "reset failed"
+		drop_cache
 		;;
 
 	switch)
@@ -126,19 +135,49 @@ call)
 		;;
 
 	download)
+		# Downloading takes ~23s against a nearby SM-DP+ and longer on a slow
+		# link, while LuCI gives an RPC call 20s. So this starts the job and
+		# returns immediately; the UI polls download_status. Raising the RPC
+		# timeout instead would only move the cliff.
 		json_get_var code code
 		json_get_var cc confirmation_code
 		[ -n "$code" ] || fail "activation code is required"
 		[ -x "$LPA" ] || fail "md_lpa is not installed"
-		drop_cache
-		# The activation code arrives on stdin so it never reaches the
-		# process list, where it would be readable by any local user.
-		if [ -n "$cc" ]; then
-			printf '%s' "$code" | "$LPA" download - -cc "$cc" 2>/dev/null || true
-		else
-			printf '%s' "$code" | "$LPA" download - 2>/dev/null || true
+
+		if [ -f "$DL_STATE" ] && grep -q '"running":true' "$DL_STATE" 2>/dev/null; then
+			fail "a download is already in progress"
 		fi
+
 		drop_cache
+		# Written here, not in the child, so a poll arriving immediately after
+		# this call cannot see "no download running".
+		printf '{"running":true}\n' > "$DL_STATE"
+
+		# The activation code goes in on stdin so it never reaches the process
+		# list, where any local user could read it.
+		(
+			if [ -n "$cc" ]; then
+				__out=$(printf '%s' "$code" | "$LPA" download - -cc "$cc" 2>&1)
+			else
+				__out=$(printf '%s' "$code" | "$LPA" download - 2>&1)
+			fi
+			case "$__out" in
+			\{*) printf '%s\n' "$__out" > "$DL_STATE" ;;
+			*) printf '{"error":"%s"}\n' \
+				"$(printf '%s' "$__out" | tr -d '"\\' | tr '\n' ' ')" > "$DL_STATE" ;;
+			esac
+			rm -f "$CACHE".*
+		) >/dev/null 2>&1 &
+
+		printf '{"started":true}\n'
+		;;
+
+	download_status)
+		if [ -f "$DL_STATE" ]; then
+			cat "$DL_STATE"
+		else
+			printf '{"running":false}\n'
+		fi
 		;;
 
 	*) fail "unknown method" ;;

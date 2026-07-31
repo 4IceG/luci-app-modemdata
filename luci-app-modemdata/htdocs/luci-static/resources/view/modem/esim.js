@@ -33,7 +33,9 @@ var api = {
 	enable: declare('enable', ['iccid']),
 	disable: declare('disable', ['iccid']),
 	'delete': declare('delete', ['iccid']),
-	download: declare('download', ['code', 'confirmation_code'])
+	download: declare('download', ['code', 'confirmation_code']),
+	downloadStatus: declare('download_status'),
+	reset: declare('reset')
 };
 
 // The plugin reports faults in-band so that a card error is not indistinguishable
@@ -150,11 +152,45 @@ return view.extend({
 		if (!code)
 			return ui.addNotification(null, E('p', _('Enter an activation code first.')), 'error');
 
-		this.busy(_('Downloading profile…'), api.download(code, cc).then(unwrap).then(function (r) {
-			document.getElementById('ac').value = '';
-			document.getElementById('cc').value = '';
-			return r;
-		}));
+		// The download outlives LuCI's 20s RPC timeout, so the call only
+		// starts it and the result is collected by polling.
+		this.busy(_('Downloading profile…'),
+			api.download(code, cc).then(unwrap).then(function () {
+				return self.awaitDownload();
+			}).then(function (r) {
+				document.getElementById('ac').value = '';
+				document.getElementById('cc').value = '';
+				return r;
+			}));
+	},
+
+	awaitDownload: function () {
+		var deadline = Date.now() + 300000;
+
+		function poll() {
+			return api.downloadStatus().then(function (s) {
+				if (s && s.error)
+					return Promise.reject(new Error(s.error));
+				if (s && s.result)
+					return s;
+				if (!s || s.running !== true)
+					return Promise.reject(new Error(_('The download stopped without reporting a result.')));
+				if (Date.now() > deadline)
+					return Promise.reject(new Error(_('The download is taking too long; giving up watching it.')));
+				return new Promise(function (resolve) { window.setTimeout(resolve, 2000); }).then(poll);
+			});
+		}
+		return poll();
+	},
+
+	resetModem: function () {
+		var self = this;
+		this.confirm(_('Reset modem'), [
+			E('p', {}, _('Power-cycle the modem to unstick the card.')),
+			E('p', {}, _('Use this if the card reports errors, or if the EID is readable but the profile list is not. The modem is unavailable for about 40 seconds.'))
+		], function () {
+			self.busy(_('Resetting modem…'), api.reset().then(unwrap));
+		});
 	},
 
 	render_body: function () {
@@ -325,7 +361,12 @@ return view.extend({
 			E('button', {
 				'class': 'btn cbi-button-neutral',
 				'click': ui.createHandlerFn(this, 'refresh')
-			}, _('Refresh'))
+			}, _('Refresh')),
+			' ',
+			E('button', {
+				'class': 'btn cbi-button-reset',
+				'click': ui.createHandlerFn(this, 'resetModem')
+			}, _('Reset modem'))
 		]));
 		return E('div', {}, body);
 	},

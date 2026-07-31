@@ -557,6 +557,23 @@ at_retry() { # at_retry <AT command> <sed script>
 	return 1
 }
 
+# Power-cycle the modem, which resets the card.
+#
+# After a run of profile operations the eUICC can end up refusing ES10 with
+# 6985/6A82 while still answering GetEuiccData, so the EID reads fine and
+# everything else fails. Switching slots is not enough; taking the modem down
+# to CFUN=0 and back clears it.
+cmd_reset() {
+	[ "$ASSUME_YES" = 1 ] || die "reset drops the modem for ~40s; pass -y to confirm"
+	close_all_channels
+	at "AT+CFUN=0" >/dev/null
+	sleep 6
+	at "AT+CFUN=1" >/dev/null
+	sim_wait_ready || die "the modem did not come back after the reset"
+	close_all_channels
+	printf '{"result":"ok","operation":"reset"}\n'
+}
+
 cmd_status() {
 	__map=$(at_retry "AT+ESIMMAP?" 's/^+ESIMMAP:[[:space:]]*\([0-9]*\).*/\1/p')
 	__pin=$(at_retry "AT+CPIN?" 's/^+CPIN:[[:space:]]*\(.*\)/\1/p')
@@ -623,6 +640,7 @@ probe)    cmd_probe ;;
 status)   cmd_status ;;
 switch)   cmd_switch "$ARG1" ;;
 gc)       cmd_gc ;;
+reset)    cmd_reset ;;
 info)     cmd_info ;;
 list)     cmd_list ;;
 enable)   profile_op BF31 "$ARG1" enable ;;
@@ -645,6 +663,7 @@ md_esim - eUICC (eSIM) profile manager over the AT APDU bridge
   md_esim [-d DEV] nickname <ICCID> <NAME> set the profile nickname
   md_esim [-d DEV] apdu <HEX>              raw ES10 request (debug)
   md_esim [-d DEV] gc                      close every open logical channel
+  md_esim [-d DEV] reset -y                power-cycle the modem to unstick the card
 
 Write operations require -y. --no-refresh skips the REFRESH proactive command
 on enable/disable (the modem may not re-read the card until it is reset).

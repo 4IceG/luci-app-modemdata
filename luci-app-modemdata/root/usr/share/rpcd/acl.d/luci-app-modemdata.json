@@ -149,7 +149,9 @@
                     "delete",
                     "nickname",
                     "download",
-                    "gc"
+                    "gc",
+                    "download_status",
+                    "reset"
                 ]
             }
         }
