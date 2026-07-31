@@ -139,8 +139,7 @@ cla_for() {
 # Retries: enable/disable make the card REFRESH, and it rejects CCHO while it
 # re-initialises.
 isdr_open() {
-	__try=0
-	while [ "$__try" -lt "${ISDR_RETRIES:-6}" ]; do
+	try_aids() {
 		for __aid in $AIDS; do
 			__out=$(at "AT+CCHO=\"$__aid\"")
 			# the modem here answers with a bare number; accept "+CCHO: n" too
@@ -152,8 +151,27 @@ isdr_open() {
 				return 0
 			fi
 		done
+		return 1
+	}
+
+	try_aids && return 0
+
+	# The card allows 5 logical channels. Anything that leaks one - a killed
+	# process, a crashed LPA run - eats into that, and once they are gone CCHO
+	# simply fails and the card looks like it is not an eUICC at all. Reclaim
+	# them and retry straight away, so a leak elsewhere cannot leave the UI
+	# permanently reporting "ordinary SIM". This costs nothing when the real
+	# reason is that there is no eUICC.
+	close_all_channels
+	try_aids && return 0
+
+	# Still nothing: the card may be re-initialising after a REFRESH, which
+	# follows every profile state change. That is worth waiting for.
+	__try=2
+	while [ "$__try" -lt "${ISDR_RETRIES:-6}" ]; do
+		sleep 5
+		try_aids && return 0
 		__try=$(( __try + 1 ))
-		[ "$__try" -lt "${ISDR_RETRIES:-6}" ] && sleep 5
 	done
 	return 1
 }
@@ -170,16 +188,29 @@ CUR_CH=""
 cleanup() { [ -n "$CUR_CH" ] && at "AT+CCHC=$CUR_CH" >/dev/null 2>&1; CUR_CH=""; }
 trap cleanup EXIT INT TERM
 
-# Close every channel the card will admit to having open (recovery helper).
-cmd_gc() {
-	__n=1; __closed=0
-	while [ "$__n" -le 19 ]; do
-		case "$(at "AT+CCHC=$__n")" in
-		*OK*) __closed=$(( __closed + 1 )) ;;
-		esac
+# Close every logical channel, whoever opened it.
+#
+# NB: AT+CCHC answers OK for any channel number the card supports, open or
+# not, so the number of OKs says nothing about how many were really in use -
+# do not report it as a count.
+close_all_channels() {
+	__n=1
+	while [ "$__n" -le 5 ]; do
+		at "AT+CCHC=$__n" >/dev/null 2>&1
 		__n=$(( __n + 1 ))
 	done
-	printf '{"closed":%d}\n' "$__closed"
+}
+
+cmd_gc() {
+	close_all_channels
+	# Report what is actually usable afterwards, which is the useful figure.
+	__free=0
+	while [ "$__free" -lt 5 ]; do
+		__o=$(ISDR_RETRIES=1 isdr_open) || break
+		__free=$(( __free + 1 ))
+	done
+	close_all_channels
+	printf '{"result":"ok","channels_free":%d}\n' "$__free"
 }
 
 # cgla <ch> <apdu-hex> -> "<data><sw>"

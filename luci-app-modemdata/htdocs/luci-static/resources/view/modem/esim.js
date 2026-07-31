@@ -105,8 +105,14 @@ return view.extend({
 
 	switchSlot: function (target) {
 		var self = this;
+		// E() sets textContent, so markup passed as a string would be shown
+		// literally - build emphasis as real nodes instead.
 		this.confirm(_('Switch SIM'), [
-			E('p', {}, _('Switch to %s?').format('<strong>' + _('SIM %s').format(target) + '</strong>')),
+			E('p', {}, [
+				_('Switch to') + ' ',
+				E('strong', {}, _('SIM %s').format(target)),
+				'?'
+			]),
 			E('p', {}, _('The modem is reset, so the connection drops for about half a minute.'))
 		], function () {
 			self.busy(_('Switching SIM…'), run(ESIM, ['switch', String(target), '-y']));
@@ -122,7 +128,7 @@ return view.extend({
 		if (op != 'delete') return go();
 
 		this.confirm(_('Delete profile'), [
-			E('p', {}, _('Permanently delete <strong>%s</strong>?').format(name)),
+			E('p', {}, [_('Permanently delete') + ' ', E('strong', {}, name), '?']),
 			E('p', {}, _('This cannot be undone. The profile can only be restored if the operator issues a new activation code.'))
 		], go);
 	},
@@ -290,8 +296,10 @@ return view.extend({
 			return E('div', {}, [
 				E('p', { 'class': 'alert-message error' },
 					_('Cannot talk to the modem: %s').format(st.error)),
-				E('p', {}, _('Check that socat and the sms_tool shim are installed and that %s exists.')
-					.format('<code>/dev/adb_atci_socket</code>'))
+				E('p', {}, [
+					_('Check that socat and the sms_tool shim are installed and that this exists:') + ' ',
+					E('code', {}, '/dev/adb_atci_socket')
+				])
 			]);
 		}
 
