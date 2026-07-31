@@ -1,0 +1,547 @@
+#!/bin/sh
+#
+# md_esim - eUICC (eSIM) profile manager, speaking SGP.22 ES10 over the
+# standard 3GPP TS 27.007 logical-channel commands (AT+CCHO/CGLA/CCHC).
+#
+# Measured quirks this depends on (docs/ESIM_PROBE_RESULTS.md):
+#   - AT+CCHO answers with a bare channel number, not "+CCHO: n"
+#   - the <length> argument of AT+CGLA/AT+CSIM counts hex characters, not bytes
+#   - logical channels outlive the AT session and must be closed explicitly
+#   - SELECT-by-AID fails through AT+CSIM; AT+CCHO is the only way in
+#   - AT+ESIMMAP's "uSIM"/"eSIM" name the slots, not their contents, so slots
+#     are addressed by number and eSIM-ness comes from probing the card
+#
+# Usage:
+#   md_esim [-d DEV] probe                   is an eUICC reachable?
+#   md_esim [-d DEV] info                    EID + eUICC info
+#   md_esim [-d DEV] list                    profile list
+#   md_esim [-d DEV] enable   <ICCID> [-y]   enable a profile
+#   md_esim [-d DEV] disable  <ICCID> [-y]   disable a profile
+#   md_esim [-d DEV] delete   <ICCID> [-y]   delete a profile (irreversible)
+#   md_esim [-d DEV] nickname <ICCID> <NAME> set the profile nickname
+#   md_esim [-d DEV] apdu <HEX>              raw ES10 request (debug)
+#
+# All output is JSON on stdout. Exit status is non-zero on failure.
+#
+
+DEV="/dev/adb_atci_socket"
+NOREFRESH=0
+ASSUME_YES=0
+
+# Standard GSMA ISD-R AID first, then known vendor variants.
+AIDS="A0000005591010FFFFFFFF8900000100
+A06573746B6D65FFFF4953442D522030
+A06573746B6D65FFFF4953442D522031
+A0000005591010FFFFFFFF8900000177
+A0000005591010000000008900000300
+A0000005591010000000008900000200"
+
+##############################################################################
+# helpers
+##############################################################################
+
+die() { printf '{"error":"%s"}\n' "$(json_escape "$1")"; exit 1; }
+
+json_escape() {
+	printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/\t/\\t/g'
+}
+
+# awk helpers shared by the TLV routines
+AWKLIB='
+function h2d(h,   i,c,v,n) {
+	n = 0; h = toupper(h)
+	for (i = 1; i <= length(h); i++) {
+		c = substr(h, i, 1)
+		v = index("0123456789ABCDEF", c) - 1
+		if (v < 0) return -1
+		n = n * 16 + v
+	}
+	return n
+}
+function constructed(tag) { return int(h2d(substr(tag, 1, 2)) / 32) % 2 }
+'
+
+# tlv_dump <hex> -> lines of "<depth>\t<tag>\t<len>\t<value-hex>"
+tlv_dump() {
+	awk -v HEX="$1" "$AWKLIB"'
+	function dump(hex, depth,   pos, n, b, v, tag, l, k, i, val) {
+		pos = 1; n = length(hex)
+		while (pos + 3 <= n) {
+			b = substr(hex, pos, 2); v = h2d(b); tag = b; pos += 2
+			if (v % 32 == 31) {                       # multi-byte tag
+				while (pos + 1 <= n) {
+					b = substr(hex, pos, 2); tag = tag b; pos += 2
+					if (h2d(b) < 128) break
+				}
+			}
+			b = substr(hex, pos, 2); l = h2d(b); pos += 2
+			if (l >= 128) {                           # long-form length
+				k = l - 128; l = 0
+				for (i = 0; i < k; i++) { l = l * 256 + h2d(substr(hex, pos, 2)); pos += 2 }
+			}
+			val = substr(hex, pos, l * 2); pos += l * 2
+			printf "%d\t%s\t%d\t%s\n", depth, tag, l, val
+			if (constructed(tag)) dump(val, depth + 1)
+		}
+	}
+	BEGIN { dump(HEX, 0) }'
+}
+
+# tlv_first <hex> <tag> -> value of the first top-level TLV with that tag
+tlv_first() {
+	tlv_dump "$1" | awk -F'\t' -v t="$2" '$1 == 0 && $2 == t { print $4; exit }'
+}
+
+hex2ascii() {
+	awk -v HEX="$1" "$AWKLIB"'
+	BEGIN {
+		s = ""
+		for (i = 1; i + 1 <= length(HEX); i += 2) s = s sprintf("%c", h2d(substr(HEX, i, 2)))
+		printf "%s", s
+	}'
+}
+
+# NB: busybox on this device has no `od`, so the reverse direction is awk too.
+ascii2hex() {
+	awk -v S="$1" '
+	BEGIN {
+		for (i = 0; i < 256; i++) ord[sprintf("%c", i)] = i
+		for (i = 1; i <= length(S); i++) printf "%02X", ord[substr(S, i, 1)]
+	}'
+}
+
+# ICCIDs travel nibble-swapped; trailing F is padding.
+iccid_decode() { printf '%s' "$1" | sed 's/\(.\)\(.\)/\2\1/g' | tr -d 'fF'; }
+iccid_encode() {
+	d="$1"
+	[ $(( ${#d} % 2 )) -eq 1 ] && d="${d}F"
+	printf '%s' "$d" | sed 's/\(.\)\(.\)/\2\1/g'
+}
+
+##############################################################################
+# AT / APDU transport
+##############################################################################
+
+at() { sms_tool -d "$DEV" at "$1" 2>/dev/null | tr -d '\r'; }
+
+# CLA byte for a logical channel (GlobalPlatform / ISO 7816-4)
+cla_for() {
+	__base=$1; __ch=$2
+	if [ "$__ch" -le 3 ]; then
+		printf '%02X' $(( (__base & 0x9C) | __ch ))
+	else
+		printf '%02X' $(( (__base & 0xB0) | 0x40 | (__ch - 4) ))
+	fi
+}
+
+# Prints "<channel> <aid>" - results travel on stdout because callers wrap this
+# in $( ), which would discard anything assigned to a variable.
+# Retries: enable/disable make the card REFRESH, and it rejects CCHO while it
+# re-initialises.
+isdr_open() {
+	__try=0
+	while [ "$__try" -lt "${ISDR_RETRIES:-6}" ]; do
+		for __aid in $AIDS; do
+			__out=$(at "AT+CCHO=\"$__aid\"")
+			# the modem here answers with a bare number; accept "+CCHO: n" too
+			__ch=$(printf '%s\n' "$__out" | sed -n \
+				-e 's/^+CCHO:[[:space:]]*\([0-9][0-9]*\).*$/\1/p' \
+				-e 's/^\([0-9][0-9]*\)$/\1/p' | head -1)
+			if [ -n "$__ch" ]; then
+				printf '%s %s' "$__ch" "$__aid"
+				return 0
+			fi
+		done
+		__try=$(( __try + 1 ))
+		[ "$__try" -lt "${ISDR_RETRIES:-6}" ] && sleep 5
+	done
+	return 1
+}
+
+isdr_close() {
+	[ -n "$1" ] || return 0
+	at "AT+CCHC=$1" >/dev/null 2>&1
+	CUR_CH=""
+}
+
+# A channel we fail to close stays open until the card resets, and CCHO starts
+# failing after ~4 leaks. Close ours on every exit path, including die().
+CUR_CH=""
+cleanup() { [ -n "$CUR_CH" ] && at "AT+CCHC=$CUR_CH" >/dev/null 2>&1; CUR_CH=""; }
+trap cleanup EXIT INT TERM
+
+# Close every channel the card will admit to having open (recovery helper).
+cmd_gc() {
+	__n=1; __closed=0
+	while [ "$__n" -le 19 ]; do
+		case "$(at "AT+CCHC=$__n")" in
+		*OK*) __closed=$(( __closed + 1 )) ;;
+		esac
+		__n=$(( __n + 1 ))
+	done
+	printf '{"closed":%d}\n' "$__closed"
+}
+
+# cgla <ch> <apdu-hex> -> "<data><sw>"
+cgla() {
+	__r=$(at "AT+CGLA=$1,${#2},\"$2\"")
+	printf '%s\n' "$__r" | sed -n 's/^+CGLA:[[:space:]]*[0-9]*,[[:space:]]*"\(.*\)".*$/\1/p' | head -1
+}
+
+# apdu_xchg <ch> <apdu-hex> -> prints "<data-hex>:<sw>"
+# Handles 61xx (GET RESPONSE) and 6Cxx (wrong Le) chaining.
+apdu_xchg() {
+	__ch=$1; __apdu=$2; __data=""
+	__r=$(cgla "$__ch" "$__apdu")
+	[ -z "$__r" ] && { printf ':'; return 1; }
+	while :; do
+		__sw=${__r#"${__r%????}"}
+		__body=${__r%????}
+		case "$__sw" in
+		61??)
+			__data="$__data$__body"
+			__le=${__sw#??}
+			__r=$(cgla "$__ch" "$(cla_for 0 "$__ch")C00000$__le")
+			[ -z "$__r" ] && { printf ':'; return 1; }
+			;;
+		6C??)
+			__le=${__sw#??}
+			__r=$(cgla "$__ch" "${__apdu%??}$__le")
+			__data=""
+			[ -z "$__r" ] && { printf ':'; return 1; }
+			;;
+		*)
+			printf '%s:%s' "$__data$__body" "$__sw"
+			return 0
+			;;
+		esac
+	done
+}
+
+# es10 <ch> <payload-hex> -> prints "<response-tlv-hex>:<sw>"
+# Wraps the payload in the ES10 STORE DATA command (CLA 8x, INS E2, P1 91).
+es10() {
+	__ch=$1; __pl=$2
+	__lc=$(( ${#__pl} / 2 ))
+	[ "$__lc" -gt 255 ] && die "ES10 request too long ($__lc bytes); command chaining is not implemented"
+	apdu_xchg "$__ch" "$(printf '%sE29100%02X%s' "$(cla_for 128 "$__ch")" "$__lc" "$__pl")"
+}
+
+# Run an ES10 request, opening/closing the channel around it.
+# Sets ES10_RESP and ES10_SW.
+with_isdr() {
+	__o=$(isdr_open) || die "no eUICC found: ISD-R could not be selected"
+	__ch=${__o%% *}
+	CUR_CH="$__ch"
+	ISDR_AID_USED=${__o##* }
+	__r=$(es10 "$__ch" "$1")
+	isdr_close "$__ch"
+	ES10_RESP=${__r%:*}
+	ES10_SW=${__r##*:}
+	sw_ok "$ES10_SW" || die "card returned SW=${ES10_SW:-none} for request $1"
+	[ -n "$ES10_RESP" ] || die "empty response from card for request $1"
+}
+
+# 91xx is success too - "normal ending, proactive command pending" (ETSI TS
+# 102 221), which the card returns after a profile state change. The response
+# TLV comes with it (enable answers "BF3103800100" + SW "910B"), so rejecting
+# 91xx would fail an operation that worked.
+sw_ok() {
+	case "$1" in
+	9000 | 91??) return 0 ;;
+	*) return 1 ;;
+	esac
+}
+
+##############################################################################
+# commands
+##############################################################################
+
+cmd_probe() {
+	__map=$(at "AT+ESIMMAP?" | sed -n 's/^+ESIMMAP:[[:space:]]*\([0-9]*\).*/\1/p' | head -1)
+	__o=$(isdr_open)
+	if [ -z "$__o" ]; then
+		printf '{"euicc":false,"slot":"%s","reason":"ISD-R not selectable"}\n' "$__map"
+		return 1
+	fi
+	__ch=${__o%% *}
+	isdr_close "$__ch"
+	printf '{"euicc":true,"slot":"%s","isdr_aid":"%s","channel":"%s"}\n' \
+		"$__map" "${__o##* }" "$__ch"
+}
+
+cmd_info() {
+	with_isdr "BF3E035C015A"
+	__eid=$(tlv_first "$(tlv_first "$ES10_RESP" BF3E)" 5A)
+
+	__o=$(isdr_open) || die "no eUICC found"
+	__ch=${__o%% *}
+	__r=$(es10 "$__ch" "BF2000")
+	isdr_close "$__ch"
+
+	__svn=""
+	sw_ok "${__r##*:}" && __svn=$(tlv_first "$(tlv_first "${__r%:*}" BF20)" 82)
+
+	printf '{"eid":"%s","svn":"%s","isdr_aid":"%s"}\n' \
+		"$__eid" "$(svn_fmt "$__svn")" "$ISDR_AID_USED"
+}
+
+svn_fmt() {
+	[ -z "$1" ] && return
+	awk -v HEX="$1" "$AWKLIB"'
+	BEGIN {
+		n = length(HEX) / 2
+		for (i = 0; i < n; i++) {
+			printf "%s%d", (i ? "." : ""), h2d(substr(HEX, i * 2 + 1, 2))
+		}
+	}'
+}
+
+cmd_list() {
+	with_isdr "BF2D00"
+	__inner=$(tlv_first "$ES10_RESP" BF2D)
+	__err=$(tlv_first "$__inner" 81)
+	[ -n "$__err" ] && die "eUICC refused GetProfilesInfo (error code 0x$__err)"
+	__seq=$(tlv_first "$__inner" A0)
+
+	# NB: build the list with a for-loop, not `... | while read`, so the
+	# accumulator survives (a pipeline would run the loop in a subshell).
+	__out=""
+	for __p in $(tlv_dump "$__seq" | awk -F'\t' '$1 == 0 && $2 == "E3" { print $4 }'); do
+		[ -z "$__p" ] && continue
+		__j=$(profile_json "$__p")
+		if [ -z "$__out" ]; then __out="$__j"; else __out="$__out,$__j"; fi
+	done
+	printf '{"profiles":[%s]}\n' "$__out"
+}
+
+profile_json() {
+	__p="$1"
+	__iccid=$(iccid_decode "$(tlv_first "$__p" 5A)")
+	__aid=$(tlv_first "$__p" 4F)
+	__state=$(tlv_first "$__p" 9F70)
+	__nick=$(hex2ascii "$(tlv_first "$__p" 90)")
+	__spn=$(hex2ascii "$(tlv_first "$__p" 91)")
+	__name=$(hex2ascii "$(tlv_first "$__p" 92)")
+	__class=$(tlv_first "$__p" 95)
+
+	case "$__state" in
+	00|"") __st="disabled" ;;
+	01) __st="enabled" ;;
+	*) __st="unknown($__state)" ;;
+	esac
+	case "$__class" in
+	00) __cl="test" ;;
+	01) __cl="provisioning" ;;
+	02) __cl="operational" ;;
+	*) __cl="unknown" ;;
+	esac
+
+	printf '{"iccid":"%s","isdp_aid":"%s","state":"%s","class":"%s","nickname":"%s","provider":"%s","name":"%s"}' \
+		"$__iccid" "$__aid" "$__st" "$__cl" \
+		"$(json_escape "$__nick")" "$(json_escape "$__spn")" "$(json_escape "$__name")"
+}
+
+# Build the identifier TLV (5A <iccid>) for a profile operation.
+ident_tlv() {
+	__e=$(iccid_encode "$1")
+	printf '5A%02X%s' $(( ${#__e} / 2 )) "$__e"
+}
+
+# profile_op <BF31|BF32|BF33> <iccid> <label>
+profile_op() {
+	__op=$1; __iccid=$2; __label=$3
+	[ -n "$__iccid" ] || die "usage: md_esim $__label <ICCID> [-y]"
+	[ "$ASSUME_YES" = 1 ] || die "$__label on $__iccid refused: pass -y to confirm"
+
+	__id=$(ident_tlv "$__iccid")
+	if [ "$__op" = "BF33" ]; then
+		# DeleteProfile takes the identifier directly, with no refresh flag.
+		__body="$__id"
+	else
+		__rf=FF
+		[ "$NOREFRESH" = 1 ] && __rf=00
+		__body=$(printf 'A0%02X%s8101%s' $(( ${#__id} / 2 )) "$__id" "$__rf")
+	fi
+	__req=$(printf '%s%02X%s' "$__op" $(( ${#__body} / 2 )) "$__body")
+
+	with_isdr "$__req"
+	__res=$(tlv_first "$(tlv_first "$ES10_RESP" "$__op")" 80)
+	case "$__res" in
+	00) printf '{"result":"ok","operation":"%s","iccid":"%s"}\n' "$__label" "$__iccid" ;;
+	01) die "$__label failed: ICCID or AID not found" ;;
+	02) die "$__label failed: profile not in the required state" ;;
+	03) die "$__label failed: disallowed by profile policy rules" ;;
+	04) die "$__label failed: wrong profile re-enabling" ;;
+	05) die "$__label failed: CAT busy" ;;
+	*) die "$__label failed: eUICC result code 0x$__res" ;;
+	esac
+}
+
+cmd_nickname() {
+	__iccid=$1; __name=$2
+	[ -n "$__iccid" ] || die "usage: md_esim nickname <ICCID> <NAME>"
+	__e=$(iccid_encode "$__iccid")
+	__nhex=$(ascii2hex "$__name")
+	__body=$(printf '5A%02X%s90%02X%s' \
+		$(( ${#__e} / 2 )) "$__e" $(( ${#__nhex} / 2 )) "$__nhex")
+	__req=$(printf 'BF29%02X%s' $(( ${#__body} / 2 )) "$__body")
+
+	with_isdr "$__req"
+	__res=$(tlv_first "$(tlv_first "$ES10_RESP" BF29)" 80)
+	case "$__res" in
+	00) printf '{"result":"ok","operation":"nickname","iccid":"%s","nickname":"%s"}\n' \
+		"$__iccid" "$(json_escape "$__name")" ;;
+	01) die "nickname failed: ICCID not found" ;;
+	*) die "nickname failed: eUICC result code 0x$__res" ;;
+	esac
+}
+
+# --- SIM slot selection -----------------------------------------------------
+#
+# AT+ESIMMAP picks which of the two slots the modem talks to. Switching resets
+# the card, so AT goes quiet for 20-30s, and the radio must be dropped first:
+# the vendor's own /bin/usim requires AT+CFUN=4 before switching.
+
+sim_wait_ready() {
+	__i=0
+	while [ "$__i" -lt "${SIM_READY_TRIES:-15}" ]; do
+		sleep 3
+		case "$(at "AT+CPIN?")" in
+		*READY*) return 0 ;;
+		esac
+		__i=$(( __i + 1 ))
+	done
+	return 1
+}
+
+cmd_switch() {
+	case "$1" in
+	1 | usim | external | physical) __want=1 ;;
+	2 | esim | internal) __want=2 ;;
+	*) die "usage: md_esim switch <1|2>" ;;
+	esac
+
+	__cur=$(at "AT+ESIMMAP?" | sed -n 's/^+ESIMMAP:[[:space:]]*\([0-9]*\).*/\1/p' | head -1)
+	if [ "$__cur" = "$__want" ]; then
+		printf '{"result":"ok","slot":"%s","changed":false}\n' "$__cur"
+		return 0
+	fi
+	[ "$ASSUME_YES" = 1 ] || die "switching SIM resets the modem; pass -y to confirm"
+
+	if [ "$__want" = 1 ] && [ -x /bin/usim ]; then
+		# Vendor tool: tries the physical slot and falls back to the eSIM if
+		# no card is detected. Safer than forcing the mapping by hand.
+		/bin/usim >/dev/null 2>&1
+	else
+		at "AT+CFUN=4" >/dev/null
+		sleep 3
+		at "AT+ESIMMAP=$__want" >/dev/null
+		sleep 3
+		at "AT+CFUN=1" >/dev/null
+	fi
+
+	sim_wait_ready || die "SIM did not become ready after switching"
+	__new=$(at "AT+ESIMMAP?" | sed -n 's/^+ESIMMAP:[[:space:]]*\([0-9]*\).*/\1/p' | head -1)
+	[ "$__new" = "$__want" ] || die "switch failed: ESIMMAP is $__new, wanted $__want"
+	printf '{"result":"ok","slot":"%s","changed":true}\n' "$__new"
+}
+
+cmd_status() {
+	__map=$(at "AT+ESIMMAP?" | sed -n 's/^+ESIMMAP:[[:space:]]*\([0-9]*\).*/\1/p' | head -1)
+	__pin=$(at "AT+CPIN?" | sed -n 's/^+CPIN:[[:space:]]*\(.*\)/\1/p' | head -1)
+	__iccid=$(at "AT+CCID" | sed -n 's/^+CCID:[[:space:]]*\([0-9A-Fa-f]*\).*/\1/p' | head -1)
+	__imsi=$(at "AT+CIMI" | sed -n 's/^\([0-9][0-9]*\)$/\1/p' | head -1)
+
+	# The modem's label for the slot - a hint for the UI, not evidence.
+	case "$__map" in
+	1) __at_name="uSIM" ;;
+	2) __at_name="eSIM" ;;
+	*) __at_name="" ;;
+	esac
+
+	# The only trustworthy eSIM test: can the LPA entry point be selected?
+	__o=$(ISDR_RETRIES=1 isdr_open)
+	if [ -n "$__o" ]; then
+		isdr_close "${__o%% *}"
+		__euicc=true
+	else
+		__euicc=false
+	fi
+
+	printf '{"slot":"%s","slots":2,"at_name":"%s","euicc":%s,"pin":"%s","iccid":"%s","imsi":"%s"}\n' \
+		"$__map" "$__at_name" "$__euicc" \
+		"$(json_escape "$__pin")" "$(json_escape "${__iccid%[Ff]}")" "$(json_escape "$__imsi")"
+}
+
+cmd_apdu() {
+	[ -n "$1" ] || die "usage: md_esim apdu <HEX>"
+	with_isdr "$1"
+	printf '{"response":"%s","sw":"%s"}\n' "$ES10_RESP" "$ES10_SW"
+}
+
+##############################################################################
+# argument handling
+##############################################################################
+
+# Options may appear anywhere. Positional arguments are kept in ARG1/ARG2 so
+# that a nickname containing spaces survives (no arrays in POSIX sh).
+CMD=""; ARG1=""; ARG2=""; __np=0
+while [ $# -gt 0 ]; do
+	case "$1" in
+	-d) DEV="$2"; shift 2 ;;
+	-y|--yes) ASSUME_YES=1; shift ;;
+	--no-refresh) NOREFRESH=1; shift ;;
+	--) shift ;;
+	-*) die "unknown option: $1" ;;
+	*)
+		__np=$(( __np + 1 ))
+		case "$__np" in
+		1) CMD="$1" ;;
+		2) ARG1="$1" ;;
+		3) ARG2="$1" ;;
+		esac
+		shift
+		;;
+	esac
+done
+
+command -v sms_tool >/dev/null 2>&1 || die "sms_tool not found in PATH"
+
+case "$CMD" in
+probe)    cmd_probe ;;
+status)   cmd_status ;;
+switch)   cmd_switch "$ARG1" ;;
+gc)       cmd_gc ;;
+info)     cmd_info ;;
+list)     cmd_list ;;
+enable)   profile_op BF31 "$ARG1" enable ;;
+disable)  profile_op BF32 "$ARG1" disable ;;
+delete)   profile_op BF33 "$ARG1" delete ;;
+nickname) cmd_nickname "$ARG1" "$ARG2" ;;
+apdu)     cmd_apdu "$ARG1" ;;
+*)
+	cat >&2 <<'EOF'
+md_esim - eUICC (eSIM) profile manager over the AT APDU bridge
+
+  md_esim [-d DEV] status                  which SIM slot is active, and is it an eUICC?
+  md_esim [-d DEV] switch <1|2> -y         select the SIM slot
+  md_esim [-d DEV] probe                   is an eUICC reachable?
+  md_esim [-d DEV] info                    EID + eUICC info
+  md_esim [-d DEV] list                    profile list
+  md_esim [-d DEV] enable   <ICCID> -y     enable a profile
+  md_esim [-d DEV] disable  <ICCID> -y     disable a profile
+  md_esim [-d DEV] delete   <ICCID> -y     delete a profile (irreversible)
+  md_esim [-d DEV] nickname <ICCID> <NAME> set the profile nickname
+  md_esim [-d DEV] apdu <HEX>              raw ES10 request (debug)
+  md_esim [-d DEV] gc                      close every open logical channel
+
+Write operations require -y. --no-refresh skips the REFRESH proactive command
+on enable/disable (the modem may not re-read the card until it is reset).
+
+Downloading a profile needs ES9+ (TLS + ECDSA), which is out of scope for a
+shell script - use md_lpa for that.
+EOF
+	exit 1
+	;;
+esac
