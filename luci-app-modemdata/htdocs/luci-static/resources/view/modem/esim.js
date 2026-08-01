@@ -352,7 +352,7 @@ return view.extend({
 						_('Check that socat is installed and that this AT port exists:') + ' ',
 						E('code', {}, this.device)
 					])
-					: E('p', {}, _('The AT port in use could not be determined. Check that md_esim is installed and that rpcd was restarted after the ACL was added.'))
+					: E('p', {}, _('No usable AT port was found. Define a modem with a serial port under Modem Configuration, or check that socat is installed.'))
 			]);
 		}
 

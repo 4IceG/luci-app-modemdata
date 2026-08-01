@@ -25,7 +25,8 @@
 # All output is JSON on stdout. Exit status is non-zero on failure.
 #
 
-DEV="/dev/adb_atci_socket"
+ATCI_SOCKET="/dev/adb_atci_socket"
+DEV=""
 DEV_EXPLICIT=0
 NOREFRESH=0
 ASSUME_YES=0
@@ -124,8 +125,11 @@ iccid_encode() {
 # device resolution
 ##############################################################################
 
-# Without -d, use the port modemdata is already configured with instead of the
-# built-in default, so this works on a box whose AT port is not this one's.
+# Without -d, use the port modemdata is already configured with, so this works
+# on a box whose AT port is not the one this was written on. ATCI_SOCKET is
+# only a last resort: it is the AT entry point of the SoftBank Air 6 (atcid's
+# unix socket) and does not exist anywhere else, so it is tried like any other
+# candidate rather than assumed.
 #
 # Every candidate is checked, because comm_port is free text ("Port / IP /
 # Modem identifier"): with modemdata=ecm it holds an IP address and with mm a
@@ -141,21 +145,28 @@ usable_dev() {
 
 resolve_device() {
 	[ "$DEV_EXPLICIT" = 1 ] && return 0
-	command -v uci >/dev/null 2>&1 || return 0
 
+	DEV=""
 	__fallback=""
-	for __sec in $(uci -q show defmodems 2>/dev/null |
-			sed -n 's/^defmodems\.\([^.=]*\)=defmodems$/\1/p'); do
-		__port=$(uci -q get "defmodems.$__sec.comm_port")
-		usable_dev "$__port" || continue
-		# Only the serial reader names an AT port; take the first one.
-		if [ "$(uci -q get "defmodems.$__sec.modemdata")" = "serial" ]; then
-			DEV="$__port"
-			return 0
-		fi
-		[ -n "$__fallback" ] || __fallback="$__port"
-	done
-	[ -n "$__fallback" ] && DEV="$__fallback"
+	if command -v uci >/dev/null 2>&1; then
+		for __sec in $(uci -q show defmodems 2>/dev/null |
+				sed -n 's/^defmodems\.\([^.=]*\)=defmodems$/\1/p'); do
+			__port=$(uci -q get "defmodems.$__sec.comm_port")
+			usable_dev "$__port" || continue
+			# Only the serial reader names an AT port; take the first one.
+			if [ "$(uci -q get "defmodems.$__sec.modemdata")" = "serial" ]; then
+				DEV="$__port"
+				return 0
+			fi
+			[ -n "$__fallback" ] || __fallback="$__port"
+		done
+	fi
+
+	if [ -n "$__fallback" ]; then
+		DEV="$__fallback"
+	elif usable_dev "$ATCI_SOCKET"; then
+		DEV="$ATCI_SOCKET"
+	fi
 	return 0
 }
 
@@ -677,6 +688,10 @@ done
 resolve_device
 
 command -v socat >/dev/null 2>&1 || die "socat not found in PATH"
+
+# device reports the outcome, so it must answer even when nothing resolved.
+[ -n "$DEV" ] || [ "$CMD" = device ] ||
+	die "no usable AT port; set the serial port of a modem in Modem Configuration"
 
 case "$CMD" in
 device)   printf '{"device":"%s"}\n' "$(json_escape "$DEV")" ;;
