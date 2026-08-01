@@ -29,6 +29,7 @@ var api = {
 	status: declare('status'),
 	list: declare('list'),
 	capabilities: declare('capabilities'),
+	device: declare('device'),
 	switch: declare('switch', ['slot']),
 	enable: declare('enable', ['iccid']),
 	disable: declare('disable', ['iccid']),
@@ -65,11 +66,17 @@ return view.extend({
 	status: null,
 	profiles: [],
 	hasLPA: false,
+	device: '',
 
 	load: function () {
-		return api.capabilities().then(function (c) {
-			return !!(c && c.download);
-		}).catch(function () { return false; });
+		return Promise.all([
+			api.capabilities().then(function (c) {
+				return !!(c && c.download);
+			}).catch(function () { return false; }),
+			api.device().then(function (d) {
+				return (d && d.device) || '';
+			}).catch(function () { return ''; })
+		]);
 	},
 
 	refresh: function () {
@@ -340,10 +347,12 @@ return view.extend({
 			return E('div', {}, [
 				E('p', { 'class': 'alert-message error' },
 					_('Cannot talk to the modem: %s').format(st.error)),
-				E('p', {}, [
-					_('Check that socat and the sms_tool shim are installed and that this exists:') + ' ',
-					E('code', {}, '/dev/adb_atci_socket')
-				])
+				this.device
+					? E('p', {}, [
+						_('Check that socat is installed and that this AT port exists:') + ' ',
+						E('code', {}, this.device)
+					])
+					: E('p', {}, _('The AT port in use could not be determined. Check that md_esim is installed and that rpcd was restarted after the ACL was added.'))
 			]);
 		}
 
@@ -371,9 +380,10 @@ return view.extend({
 		return E('div', {}, body);
 	},
 
-	render: function (hasLPA) {
+	render: function (data) {
 		var self = this;
-		this.hasLPA = hasLPA;
+		this.hasLPA = data[0];
+		this.device = data[1];
 		var container = E('div', {}, [
 			E('h2', {}, _('SIM(s) Configurations')),
 			E('div', { 'id': 'esim-body' }, E('p', { 'class': 'spinning' }, _('Reading the card…')))

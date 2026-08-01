@@ -12,6 +12,7 @@
 #     are addressed by number and eSIM-ness comes from probing the card
 #
 # Usage:
+#   md_esim [-d DEV] device                  which AT port would be used
 #   md_esim [-d DEV] probe                   is an eUICC reachable?
 #   md_esim [-d DEV] info                    EID + eUICC info
 #   md_esim [-d DEV] list                    profile list
@@ -25,6 +26,7 @@
 #
 
 DEV="/dev/adb_atci_socket"
+DEV_EXPLICIT=0
 NOREFRESH=0
 ASSUME_YES=0
 
@@ -116,6 +118,45 @@ iccid_encode() {
 	d="$1"
 	[ $(( ${#d} % 2 )) -eq 1 ] && d="${d}F"
 	printf '%s' "$d" | sed 's/\(.\)\(.\)/\2\1/g'
+}
+
+##############################################################################
+# device resolution
+##############################################################################
+
+# Without -d, use the port modemdata is already configured with instead of the
+# built-in default, so this works on a box whose AT port is not this one's.
+#
+# Every candidate is checked, because comm_port is free text ("Port / IP /
+# Modem identifier"): with modemdata=ecm it holds an IP address and with mm a
+# modem identifier, neither of which can be opened. cdc-wdm is a character
+# device but speaks QMI, not AT. A candidate that fails the check is skipped
+# rather than used, so a misconfigured section cannot take out a working setup.
+usable_dev() {
+	case "$1" in
+	"" | *cdc-wdm*) return 1 ;;
+	esac
+	[ -S "$1" ] || [ -c "$1" ]
+}
+
+resolve_device() {
+	[ "$DEV_EXPLICIT" = 1 ] && return 0
+	command -v uci >/dev/null 2>&1 || return 0
+
+	__fallback=""
+	for __sec in $(uci -q show defmodems 2>/dev/null |
+			sed -n 's/^defmodems\.\([^.=]*\)=defmodems$/\1/p'); do
+		__port=$(uci -q get "defmodems.$__sec.comm_port")
+		usable_dev "$__port" || continue
+		# Only the serial reader names an AT port; take the first one.
+		if [ "$(uci -q get "defmodems.$__sec.modemdata")" = "serial" ]; then
+			DEV="$__port"
+			return 0
+		fi
+		[ -n "$__fallback" ] || __fallback="$__port"
+	done
+	[ -n "$__fallback" ] && DEV="$__fallback"
+	return 0
 }
 
 ##############################################################################
@@ -616,7 +657,7 @@ cmd_apdu() {
 CMD=""; ARG1=""; ARG2=""; __np=0
 while [ $# -gt 0 ]; do
 	case "$1" in
-	-d) DEV="$2"; shift 2 ;;
+	-d) DEV="$2"; DEV_EXPLICIT=1; shift 2 ;;
 	-y|--yes) ASSUME_YES=1; shift ;;
 	--no-refresh) NOREFRESH=1; shift ;;
 	--) shift ;;
@@ -633,9 +674,12 @@ while [ $# -gt 0 ]; do
 	esac
 done
 
+resolve_device
+
 command -v socat >/dev/null 2>&1 || die "socat not found in PATH"
 
 case "$CMD" in
+device)   printf '{"device":"%s"}\n' "$(json_escape "$DEV")" ;;
 probe)    cmd_probe ;;
 status)   cmd_status ;;
 switch)   cmd_switch "$ARG1" ;;
@@ -652,6 +696,7 @@ apdu)     cmd_apdu "$ARG1" ;;
 	cat >&2 <<'EOF'
 md_esim - eUICC (eSIM) profile manager over the AT APDU bridge
 
+  md_esim [-d DEV] device                  which AT port would be used
   md_esim [-d DEV] status                  which SIM slot is active, and is it an eUICC?
   md_esim [-d DEV] switch <1|2> -y         select the SIM slot
   md_esim [-d DEV] probe                   is an eUICC reachable?

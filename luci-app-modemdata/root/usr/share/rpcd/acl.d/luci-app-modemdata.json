@@ -103,7 +103,8 @@
                     "status",
                     "list",
                     "info",
-                    "capabilities"
+                    "capabilities",
+                    "device"
                 ]
             }
         },

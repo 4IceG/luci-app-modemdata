@@ -58,6 +58,7 @@ list)
 	json_add_object "list"; json_close_object
 	json_add_object "info"; json_close_object
 	json_add_object "capabilities"; json_close_object
+	json_add_object "device"; json_close_object
 	json_add_object "gc"; json_close_object
 	json_add_object "reset"; json_close_object
 	json_add_object "switch"; json_add_int "slot" 0; json_close_object
@@ -84,6 +85,7 @@ call)
 	status) cached status "$ESIM" status ;;
 	list) cached list "$ESIM" list ;;
 	info) cached info "$ESIM" info ;;
+	device) "$ESIM" device 2>/dev/null || fail "no response from the modem helper" ;;
 
 	capabilities)
 		# Lets the UI hide Install when the LPA binary is not installed,
@@ -148,6 +150,12 @@ call)
 			fail "a download is already in progress"
 		fi
 
+		# md_lpa has its own built-in default, so hand it the port md_esim
+		# resolved or the two would talk to different modems.
+		json_load "$("$ESIM" device 2>/dev/null)" 2>/dev/null
+		json_get_var __dev device
+		[ -n "$__dev" ] || fail "could not resolve the AT port"
+
 		drop_cache
 		# Written here, not in the child, so a poll arriving immediately after
 		# this call cannot see "no download running".
@@ -157,9 +165,9 @@ call)
 		# list, where any local user could read it.
 		(
 			if [ -n "$cc" ]; then
-				__out=$(printf '%s' "$code" | "$LPA" download - -cc "$cc" 2>&1)
+				__out=$(printf '%s' "$code" | "$LPA" -d "$__dev" download - -cc "$cc" 2>&1)
 			else
-				__out=$(printf '%s' "$code" | "$LPA" download - 2>&1)
+				__out=$(printf '%s' "$code" | "$LPA" -d "$__dev" download - 2>&1)
 			fi
 			case "$__out" in
 			\{*) printf '%s\n' "$__out" > "$DL_STATE" ;;
