@@ -267,6 +267,9 @@ LuCI JS interface for [modemdata](https://github.com/obsy/modemdata) package. In
 # Dell DW5930e
 # Foxconn T99W175
 
+17cb0306
+# Quectel RM500Q-AE
+
 17cb0308
 # Quectel RG500Q-EA
 # Quectel RG502Q-EA
