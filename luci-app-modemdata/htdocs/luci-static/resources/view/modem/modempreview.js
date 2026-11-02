@@ -268,6 +268,17 @@ function addDarkModeStyles() {
       max-width: 600px !important;             /* Limit modal width to 600px */
     }
 
+    /* On narrow screens themes turn table rows into wrapping flex cards with
+       about 10% per cell, which squeezes the band tables' 5-8 cells and their
+       signal badges onto one line. Give each cell room for a badge and its
+       label: two per line on phones, four on tablets. Ignored while the row
+       is a normal table row. */
+    .table[id^="lteTable_"] .tr .td,
+    .table[id^="wcdmaTable_"] .tr .td {
+      flex: 1 1 22%;
+      min-width: 150px;
+    }
+
     /* Increase label width to prevent text wrapping on desktop */
     @media screen and (min-width: 481px) {
       .cbi-modal .cbi-value-title {
@@ -1588,9 +1599,9 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
           }
           let title = _('Signal strength') + ': ' + p + '%';
           signalView.appendChild(
-            E('div', { 'class': 'ifacebadge', 'style': 'width:92px;', 'title': title }, [
-              E('img', { 'src': icon, 'style': 'padding:0 auto;height:32px;width:auto;display:inline-block;margin:0 auto;' }),
-              E('normal', {'style': 'margin-left:.2em;display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:85%;vertical-align:middle;'}, p > 0 ? (p + '%') : '')
+            E('div', { 'class': 'ifacebadge', 'style': 'display:inline-flex;align-items:center;white-space:nowrap;', 'title': title }, [
+              E('img', { 'src': icon, 'style': 'padding:0 auto;height:32px;width:auto;display:inline-block;margin:0 auto;flex-shrink:0;' }),
+              E('normal', {'style': 'margin-left:.2em;display:inline-block;white-space:nowrap;'}, p > 0 ? (p + '%') : '')
             ])
           );
         }
@@ -1617,9 +1628,9 @@ function CreateModemMultiverse(modemTabs, sectionsxt) {
             connstView.innerHTML = '';
             let title2 = _('Time') + ': ' + formatDuration(json[1].conn_time_sec);
             connstView.appendChild(
-              E('div', { 'class': 'ifacebadge', 'title': title2 }, [
-                E('img', { 'src': L.resource('icons/ctime_new.svg'), 'style': 'height:16px;width:auto;display:inline-block;vertical-align:middle;' }),
-                E('normal', { 'style': 'margin-left:.5em;display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:85%;vertical-align:middle;' }, [ formatDuration(json[1].conn_time_sec) || '-' ])
+              E('div', { 'class': 'ifacebadge', 'style': 'display:inline-flex;align-items:center;white-space:nowrap;', 'title': title2 }, [
+                E('img', { 'src': L.resource('icons/ctime_new.svg'), 'style': 'height:16px;width:auto;display:inline-block;flex-shrink:0;' }),
+                E('normal', { 'style': 'margin-left:.5em;display:inline-block;white-space:nowrap;' }, [ formatDuration(json[1].conn_time_sec) || '-' ])
               ])
             );
           }
@@ -2061,16 +2072,16 @@ return view.extend({
           E('div', { 'class': 'ifacebox', 'style': 'margin:.25em;width:100%' }, [
             E('div', { 'class': 'ifacebox-head port-label', 'style': 'font-weight:bold;padding:8px' }, [ _('Connection') ]),
             E('div', { 'class': 'ifacebox-body', 'style': 'padding:8px' }, [
-              E('div', { 'style': 'display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px' }, [
+              E('div', { 'style': 'display:flex;justify-content:space-between;align-items:center;gap:.5em;margin-bottom:8px;font-size:12px' }, [
                 E('span', {}, _('Signal') + ':'),
-                E('span', { 'style': 'font-weight:500', 'id': signalId }, [ '-' ])
+                E('span', { 'style': 'font-weight:500;flex-shrink:0', 'id': signalId }, [ '-' ])
               ]),
-                E('div', { 'style': 'display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px' }, [
+                E('div', { 'style': 'display:flex;justify-content:space-between;align-items:center;gap:.5em;margin-bottom:8px;font-size:12px' }, [
                   E('span', {
-                    'style': 'min-width:0; max-width:70%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;'
+                    'style': 'min-width:0;'
                   }, _('Connection state') + ':'),
                   E('span', {
-                    'style': 'font-weight:500',
+                    'style': 'font-weight:500;flex-shrink:0',
                     'id': stateId
                   }, [ '-' ])
                 ]),
@@ -2087,11 +2098,11 @@ return view.extend({
                 E('span', { 'style': 'font-weight:500', 'id': modeId }, [ '-' ])
               ]),
               E('div', { 'style': 'text-align:left;font-size:11px;border-top:1px solid var(--border-color-medium);padding-top:8px' }, [
-                E('div', { 'style': 'display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px' }, [
+                E('div', { 'style': 'display:flex;justify-content:space-between;align-items:center;gap:.5em;margin-bottom:4px;font-size:12px' }, [
                   E('span', {
-                    'style': 'min-width:0; max-width:75%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;'
+                    'style': 'min-width:0;'
                   }, _('Connection time') + ':'),
-                  E('span', { 'style': 'font-weight:500', 'id': connstId }, [ '-' ])
+                  E('span', { 'style': 'font-weight:500;flex-shrink:0', 'id': connstId }, [ '-' ])
                 ]),
                 E('div', { 'style': 'display:flex;justify-content:space-between;margin-bottom:2px' }, [
                   E('span', '▲ ' + _('Sent') + ':'),
