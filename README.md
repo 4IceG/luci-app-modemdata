@@ -326,3 +326,11 @@ LuCI JS interface for [modemdata](https://github.com/obsy/modemdata) package. In
 ### <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_United_Kingdom.png" height="24"> Thanks to / <img src="https://raw.githubusercontent.com/4IceG/Personal_data/master/dooffy_design_icons_EU_flags_Poland.png" height="24"> Podziękowania dla
 - [obsy (Cezary Jackiewicz)](https://github.com/obsy)
 - [Users of the eko.one.pl forum](https://eko.one.pl/forum/viewtopic.php?id=20096)
+
+
+## NoobWRT Quectel backend reporting integration
+
+For the missing identity fields / incorrect NSA-label fixes, see the
+[companion backend patch and build instructions](patches/modemdata/README.md).
+This is a patch for the separate `obsy/modemdata` backend; installing the LuCI
+frontend alone does not apply it. NoobWRT custom feeds already include it.

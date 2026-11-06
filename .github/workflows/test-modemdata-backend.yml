@@ -1,0 +1,36 @@
+name: Companion modemdata backend tests
+
+on:
+  pull_request:
+    paths:
+      - 'patches/modemdata/**'
+      - 'scripts/**'
+      - '.github/workflows/test-modemdata-backend.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install BusyBox and ShellCheck
+        run: sudo apt-get update && sudo apt-get install -y busybox shellcheck
+      - name: Fetch tested backend source
+        env:
+          BACKEND_DIR: ${{ runner.temp }}/modemdata-upstream
+        run: |
+          git init "$BACKEND_DIR"
+          git -C "$BACKEND_DIR" remote add origin https://github.com/obsy/modemdata.git
+          git -C "$BACKEND_DIR" fetch --depth=1 origin fbdc0b6a720647642e99c6fc8db933a767c9ead0
+          git -C "$BACKEND_DIR" checkout --detach FETCH_HEAD
+      - name: Validate companion patch and regressions
+        env:
+          BACKEND_DIR: ${{ runner.temp }}/modemdata-upstream
+        run: |
+          shellcheck scripts/apply-modemdata-fixes.sh scripts/test-modemdata-backend.sh
+          scripts/test-modemdata-backend.sh "$BACKEND_DIR"
+          test -z "$(git -C "$BACKEND_DIR" status --porcelain)"
+          git diff --check

@@ -1,0 +1,247 @@
+diff --git a/modemdata/Makefile b/modemdata/Makefile
+index 3b1343c..41b8fed 100644
+--- a/modemdata/Makefile
++++ b/modemdata/Makefile
+@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=modemdata
+ PKG_VERSION:=20261017
+-PKG_RELEASE:=1
++PKG_RELEASE:=2
+ 
+ include $(INCLUDE_DIR)/package.mk
+ 
+@@ -12,7 +12,7 @@ define Package/modemdata
+ 	TITLE:=Detailed information about the cellular modem
+ 	MAINTAINER:=Cezary Jackiewicz <cezary@eko.one.pl>
+ 	PKGARCH:=all
+-	DEPENDS:=+@BUSYBOX_DEFAULT_AWK +comgt +jsonfilter +sms-tool
++	DEPENDS:=+@BUSYBOX_DEFAULT_AWK +comgt +flock +jsonfilter +sms-tool
+ endef
+ 
+ define Build/Compile
+diff --git a/modemdata/files/usr/share/modemdata/addon/usb/2c7c0800 b/modemdata/files/usr/share/modemdata/addon/usb/2c7c0800
+index ddeefa2..4e5f46e 100644
+--- a/modemdata/files/usr/share/modemdata/addon/usb/2c7c0800
++++ b/modemdata/files/usr/share/modemdata/addon/usb/2c7c0800
+@@ -6,19 +6,19 @@
+ # Quectel RM520N-GL
+ # Quectel RM551E-GL
+ 
+-O=$(sms_tool -d $DEVICE at "at+qtemp")
++O=$(md_at "$DEVICE" "at+qtemp")
+ 
+ T=$(echo "$O" | awk -F[,:] '/^\+QTEMP/ {print $3}' | sort -r | head -n1 | xargs)
+ [ -n "$T" ] && addon 10 "Temperature" "$T &deg;C"
+ 
+-O=$(sms_tool -d $DEVICE at "AT+QUIMSLOT?")
++O=$(md_at "$DEVICE" "AT+QUIMSLOT?")
+ 
+ T=$(echo "$O" | awk -F [:] '/^\+QUIMSLOT/{print $2}' | xargs)
+ [ -n "$T" ] && addon 11 "Slot" "$T"
+ 
+ if [ "$REGOK" = "0" ]; then
+ 	if [ "x$MODE_NUM" = "x11" ]; then
+-		O=$(sms_tool -d $DEVICE at "at+c5greg=2;+c5greg?")
++		O=$(md_at "$DEVICE" "at+c5greg=2;+c5greg?")
+ 
+ 		# C5GREG
+ 		T=""
+@@ -41,7 +41,7 @@ if [ "$REGOK" = "0" ]; then
+ 	fi
+ 
+ 	if [ "x$MODE_NUM" = "x7" ] || [ "x$MODE_NUM" = "x13" ]; then
+-		O=$(sms_tool -d $DEVICE at "at+cereg=2;+cereg?")
++		O=$(md_at "$DEVICE" "at+cereg=2;+cereg?")
+ 
+ 		# CEREG
+ 		T=""
+@@ -66,35 +66,64 @@ fi
+ 
+ if [ "$REGOK" = "1" ]; then
+ 
+-O=$(sms_tool -d $DEVICE at "at+qnwinfo;+qcainfo;+qeng=\"servingcell\";+qspn")
++O=$(md_at "$DEVICE" "at+qnwinfo;+qcainfo;+qeng=\"servingcell\";+qspn")
+ 
+ T=$(echo "$O" | awk -F[,:] '/^\+QSPN/ {print $2}' | xargs)
+ if [ -n "$T" ] && [ -z "$FORCE_PLMN" ]; then
+ 	COPS="$T"
+ fi
+ 
++# Registration AcT may remain LTE (7) while an NR secondary cell is active.
++# Only connected NR measurements count: firmware also emits placeholder rows.
++NR_QENG_BAND=""
+ case "$MODE_NUM" in
+-	7*)
++	7 | 13)
++		# NSA QCAINFO: role, ARFCN, bandwidth, band, PCI, RSRP, RSRQ.
++		# Drop invalid NR rows so they cannot add a bogus band or imply LTE CA.
++		O=$(echo "$O" | awk -F[,:] '
++			function uint(v) { return v ~ /^[0-9]+$/ }
++			/^\+QCAINFO:/ {
++				original = $0
++				band = $5; gsub(/[[:space:]"]/, "", band)
++				if (band ~ /^(NRN|NR5GBAND)/) {
++					for (i = 2; i <= NF; i++) gsub(/[[:space:]"]/, "", $i)
++					if (band !~ /^(NRN|NR5GBAND)[1-9][0-9]*$/ ||
++					    $0 ~ /-32768/ || !uint($3) || $3 + 0 <= 0 ||
++					    !uint($6) || $6 + 0 > 1007 ||
++					    $7 !~ /^-[0-9]+([.][0-9]+)?$/ || $7 + 0 < -156 || $7 + 0 > -31 ||
++					    $8 !~ /^-?[0-9]+([.][0-9]+)?$/) next
++				}
++				print original; next
++			}
++			{ print }
++		')
++		# QENG NSA: MCC, MNC, PCI, RSRP, SINR, RSRQ [, ARFCN, band, ...].
++		# Older firmware omits the trailing band; it can still prove NSA.
++		NR_QENG_BAND=$(echo "$O" | awk -F[,:] '
++			function uint(v) { return v ~ /^[0-9]+$/ }
++			/^\+QENG:/ {
++				for (i = 2; i <= NF; i++) gsub(/[[:space:]"\r]/, "", $i)
++				if ($2 != "NR5G-NSA" || $0 ~ /-32768/ || NF < 8) next
++				if (!uint($3) || $3 + 0 <= 0 || !uint($4) ||
++				    !uint($5) || $5 + 0 > 1007 ||
++				    $6 !~ /^-[0-9]+([.][0-9]+)?$/ || $6 + 0 < -156 || $6 + 0 > -31 ||
++				    $7 !~ /^-?[0-9]+([.][0-9]+)?$/ ||
++				    $8 !~ /^-?[0-9]+([.][0-9]+)?$/) next
++				if (NF >= 9 && (!uint($9) || $9 + 0 <= 0)) next
++				if (NF >= 10 && (!uint($10) || $10 + 0 <= 0 || $10 + 0 > 1024)) next
++				print (NF >= 10 ? $10 : 0); exit
++			}
++		')
+ 		MODE="LTE"
+-		echo "$O" | grep -q -i "+QCAINFO.*SCC" && MODE="LTE-A"
++		if [ -n "$NR_QENG_BAND" ] || echo "$O" | grep -q -i '^+QCAINFO:.*NR\(5G BAND\| N\)'; then
++			MODE="5G NSA"
++		elif echo "$O" | grep -q -i '^+QCAINFO:.*SCC.*LTE'; then
++			MODE="LTE-A"
++		fi
+ 		;;
+ 	11*)
+ 		MODE="5G SA"
+ 		;;
+-	13*)
+-		MODE="LTE"
+-		if echo "$O" | grep -q -i "+QCAINFO.*NR5G"; then
+-			MODE="5G NSA"
+-		elif echo "$O" | grep -q -i "+QCAINFO.*NR N"; then
+-			MODE="5G NSA"
+-		else
+-			if echo "$O" | grep -q -i "+QCAINFO.*PCC.*LTE"; then
+-				if echo "$O" | grep -q -i "+QCAINFO.*SCC"; then
+-					MODE="LTE-A"
+-				fi
+-			fi
+-		fi
+-		;;
+ esac
+ 
+ T=$(echo "$O" | awk -F[,:] '/^\+QCAINFO: "(pcc|PCC)"/{print $5}')
+@@ -152,6 +181,16 @@ else
+ 	esac
+ fi
+ 
++# If QCAINFO has no NR band, use the validated extended QENG NSA row.
++if [ -n "$NR_QENG_BAND" ] && [ "$NR_QENG_BAND" != "0" ] &&
++   ! echo "$O" | grep -q -i '^+QCAINFO:.*NR\(5G BAND\| N\)'; then
++	if [ "$MODE" = "5G NSA" ]; then
++		MODE="$MODE $(band5g "$NR_QENG_BAND")"
++	else
++		MODE="$MODE / $(band5g "$NR_QENG_BAND")"
++	fi
++fi
++
+ if [ "x$MODE_NUM" = "x7" ]; then
+ 	T=$(echo "$O" | awk -F[,:] '/^\+QENG:/ {print $4}' | xargs)
+ 	if [ "x$T" = "xLTE" ]; then
+diff --git a/modemdata/files/usr/share/modemdata/libs/at.sh b/modemdata/files/usr/share/modemdata/libs/at.sh
+new file mode 100644
+index 0000000..7a7c6fc
+--- /dev/null
++++ b/modemdata/files/usr/share/modemdata/libs/at.sh
+@@ -0,0 +1,54 @@
++# Shared AT transport for Modemdata and QModem. Source before calling md_at.
++md_at() (
++	port=$1
++	atcmd=$2
++	[ -n "$port" ] && [ -n "$atcmd" ] || exit 2
++	# Match QModem's per-port lock. Keep it in a subshell so the descriptor
++	# is released on every exit, including a failed command.
++	port_key=$(printf '%s' "$port" | tr -c 'A-Za-z0-9_' '_')
++	mkdir -p /var/lock || exit 1
++	exec 6>"/var/lock/qmodem-at-$port_key.lock" || exit 1
++	flock -x 6 || exit 1
++
++	# Never open a second reader on a port owned by the AT daemon. Failure
++	# to inspect/use that daemon must not trigger an unsafe direct retry.
++	daemon=""
++	if command -v ubus >/dev/null 2>&1; then
++		daemon=$(ubus list at-daemon 2>/dev/null) || exit 1
++	fi
++	if [ "$daemon" = "at-daemon" ]; then
++		# Route even previously-unopened ports through the daemon: checking
++		# its ownership list then opening directly has a check/open race.
++		command -v tom_modem >/dev/null 2>&1 || exit 1
++		tom_modem -u -d "$port" -o a -c "$atcmd"
++		exit $?
++	fi
++	if command -v tom_modem >/dev/null 2>&1; then
++		tom_modem -d "$port" -o a -c "$atcmd"
++	else
++		sms_tool -D -d "$port" at "$atcmd"
++	fi
++)
++
++# Quectel identity commands can return either plain or prefixed values.
++# Ignore echoes, terminal results and unrelated URCs rather than assigning
++# the next arbitrary line to a modem/SIM field (as the gcom collector does).
++md_identity() (
++	response=$(md_at "$DEVICE" "$1") || exit $?
++	printf '%s\n' "$response" | tr -d '\r' | awk -v prefix="$2" -v kind="${3:-text}" '
++		{ sub(/^[[:space:]]+/, ""); sub(/[[:space:]]+$/, "") }
++		!length || /^AT/ || /^(OK|ERROR|RDY|APP RDY|SMS Ready|Call Ready|PB DONE|RING|NO CARRIER|NO DIALTONE|BUSY|CONNECT)$/ { next }
++		index($0, prefix) == 1 { sub(/^[^:]*:[[:space:]]*/, "") }
++		/^[+^#]/ { next }
++		{
++			gsub(/"/, "")
++			# ICCIDs may have a trailing hexadecimal F padding nibble.
++			if (kind == "iccid" && $0 !~ /^[0-9]+[Ff]?$/) next
++			if (kind != "text" && kind != "iccid" && $0 !~ /^[0-9]+$/) next
++			if (kind == "imei" && (length < 15 || length > 16)) next
++			if (kind == "imsi" && (length < 5 || length > 15)) next
++			if (kind == "iccid" && (length < 18 || length > 22)) next
++			print; exit
++		}
++	'
++)
+diff --git a/modemdata/files/usr/share/modemdata/params.sh b/modemdata/files/usr/share/modemdata/params.sh
+index 0f28524..4664058 100755
+--- a/modemdata/files/usr/share/modemdata/params.sh
++++ b/modemdata/files/usr/share/modemdata/params.sh
+@@ -184,7 +184,9 @@ FORCE_PLMN=$2
+ 
+ RES="/usr/share/modemdata"
+ 
+-O=$(sms_tool -D -d $DEVICE at "AT+CSQ;+COPS=3,0;+COPS?;+COPS=3,2;+COPS?;+CREG=2;+CREG?;+CPIN?" | tr -d '\r')
++. "$RES/libs/at.sh"
++
++O=$(md_at "$DEVICE" "AT+CSQ;+COPS=3,0;+COPS?;+COPS=3,2;+COPS?;+CREG=2;+CREG?;+CPIN?" | tr -d '\r')
+ 
+ # CSQ
+ CSQ=$(echo "$O" | awk -F[,\ ] '/^\+(csq|CSQ)/ {print $2}')
+diff --git a/modemdata/files/usr/share/modemdata/vendorproduct/usb/2c7c0800 b/modemdata/files/usr/share/modemdata/vendorproduct/usb/2c7c0800
+new file mode 100644
+index 0000000..1dd0bed
+--- /dev/null
++++ b/modemdata/files/usr/share/modemdata/vendorproduct/usb/2c7c0800
+@@ -0,0 +1,9 @@
++# Quectel 5G USB family: use complete, serialized AT transactions instead
++# of the generic gcom reader, which races the QModem AT daemon.
++. "$RES/libs/at.sh"
++VENDOR=$(md_identity 'AT+CGMI' '+CGMI:')
++PRODUCT=$(md_identity 'AT+CGMM' '+CGMM:')
++REVISION=$(md_identity 'AT+CGMR' '+CGMR:')
++IMEI=$(md_identity 'AT+CGSN' '+CGSN:' imei)
++IMSI=$(md_identity 'AT+CIMI' '+CIMI:' imsi)
++ICCID=$(md_identity 'AT+QCCID' '+QCCID:' iccid)

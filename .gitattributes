@@ -1,0 +1,2 @@
+# Preserve patch bytes. Unified-diff context uses space-only lines and space+tab.
+patches/modemdata/*.patch -text whitespace=-blank-at-eol,-space-before-tab
